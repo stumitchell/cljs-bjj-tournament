@@ -1,6 +1,6 @@
 # cljs-bjj-tournament
 
-FIXME: Write a one-line description of your library/project.
+Tournament creation software written in clojurescript
 
 ## Overview
 
