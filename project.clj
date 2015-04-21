@@ -1,9 +1,11 @@
 (defproject cljs-bjj-tournament "0.1.0-SNAPSHOT"
-  :description "FIXME: write this!"
-  :url "http://example.com/FIXME"
+  :description "BJJ tournament planning as a single page app"
+  :url "https://github.com/stumitchell/cljs-bjj-tournament"
 
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-2755"]]
+  :dependencies [[org.clojure/clojure         "1.6.0"]
+                 [org.clojure/clojurescript   "0.0-3169"]
+                 [reagent                     "0.5.0"]
+                 [re-com "0.5.2"]]
 
   :node-dependencies [[source-map-support "0.2.8"]]
 

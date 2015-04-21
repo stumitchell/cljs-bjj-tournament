@@ -4,30 +4,13 @@ Tournament creation software written in clojurescript
 
 ## Overview
 
-FIXME: Write a paragraph about the library/project and highlight its goals.
+Hopefull create an example app in re-frame and re-com for bjj tournament planning
 
 ## Setup
-
-First-time Clojurescript developers, add the following to your bash .profile:
-
-    export LEIN_FAST_TRAMPOLINE=y
-    alias cljsbuild="lein trampoline cljsbuild $@"
-
-To avoid compiling ClojureScript for each build, AOT Clojurescript locally in your project with the following:
-
-    ./scripts/compile_cljsc
 
 Subsequent dev builds can use:
 
     lein cljsbuild auto dev
-
-To start a Node REPL (requires rlwrap):
-
-    ./scripts/repl
-
-To get source map support in the Node REPL:
-
-    lein npm install
 
 Clean project specific out:
 
