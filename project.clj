@@ -5,7 +5,9 @@
   :dependencies [[org.clojure/clojure         "1.6.0"]
                  [org.clojure/clojurescript   "0.0-3169"]
                  [reagent                     "0.5.0"]
-                 [re-com "0.5.2"]]
+                 [re-com "0.5.2"]
+                 [re-frame "0.3.1"]
+                 [alandipert/storage-atom "1.2.4"]]
 
   :node-dependencies [[source-map-support "0.2.8"]]
 
