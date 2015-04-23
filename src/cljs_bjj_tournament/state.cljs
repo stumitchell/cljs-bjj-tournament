@@ -12,9 +12,7 @@
      :competitors
      [(Competitor. "Stuart" "Mitchell" "Male" 1976 "Black")
       (Competitor. "Serge" "Morel" "Male" 1974 "Black")
-      (Competitor. "Leon" "Lockheart" "Male" 1978 "White")
-      (Competitor. "Stuart" "Mitchell" "Male" 1976 "Black")
-      (Competitor. "Stuart" "Mitchell" "Male" 1976 "Black")]})
+      (Competitor. "Leon" "Lockheart" "Male" 1978 "White")]})
 
 (def persistent-db (local-storage 
                      (atom {})
