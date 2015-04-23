@@ -1,0 +1,880 @@
+/*scoreMaster.css */
+/*(c) David Scott*/
+
+body {
+    font-family: "Roboto", "Arial", "Sans-serif";
+
+}
+#p1AdvL {
+    position: fixed;
+    top: 33px;
+    left: 110px;
+    color: grey;
+    /*background-color: white;*/
+    font-size: 20px;
+}
+
+#p1AdvCanvas {
+    position: fixed;
+    top: 48px;
+    left: 50px;
+    background-color:  green;
+}
+
+#p1PenCanvas {
+    position: fixed;
+    top: 48px;
+    left: 260px;
+    background-color:  red;
+}
+
+#p1PenL {
+    position: fixed;
+    top: 33px;
+    left: 215px;
+    color: grey;
+    /*background-color: white;*/
+    font-size: 20px;
+}
+
+#p1WinnerCanvas {
+    position: fixed;
+    top: 100px;
+    left: 55px;
+    z-index: 1000;
+}
+
+#p1CrownCanvas {
+    position: fixed;
+    top: 23px;
+    left: 135px;
+    z-index: 1001;
+}
+
+#p2CrownCanvas {
+    position: fixed;
+    top: 23px;
+    left: 1080px;
+    z-index: 1001;
+}
+
+#p1scoreCanvas {
+    background-color:  blue;
+    position: fixed;
+    top: 85px;
+    left: 50px;
+    border: 1px solid black;
+}
+
+#beltCanvas {
+    position: fixed;
+    top: 345px;
+    left: 55px;
+}
+
+#p2AdvL {
+    position: fixed;
+    top: 33px;
+    left: 1150px;
+    color: grey;
+    /*background-color: white;*/
+    font-size: 20px;
+}
+
+#p2PenL {
+    position: fixed;
+    top: 33px;
+    left: 1045px;
+    color: grey;
+    /*background-color: white;*/
+    font-size: 20px;
+}
+
+#p2PenCanvas {
+    position: fixed;
+    top: 48px;
+    left: 1000px;
+    background-color:  red;
+}
+
+#p2AdvCanvas {
+    position: fixed;
+    top: 48px;
+    left: 1195px;
+    background-color:  green;
+}
+
+#p2WinnerCanvas {
+    position: fixed;
+    top: 100px;
+    left: 1005px;
+    z-index: 1000;
+}
+
+#p2scoreCanvas {
+    background-color:  blue;
+    position: fixed;
+    top: 85px;
+    left: 1000px;
+    border: 1px solid black;
+}
+
+#timerCanvas {
+    position: fixed;
+    top: 100px;
+    left: 320px;
+    /*border: 1px solid black;*/
+}
+
+#statusCanvas {
+    position: fixed;
+    top: 315px;
+    left: 320px;
+    /*border: 1px solid black;*/
+}
+
+#brandingCanvas {
+    position: fixed;
+    top: 0px;
+    left: 350px;
+}
+
+#timerDisplay {
+    font-family: "Digital-7 Mono"; /*  Digital-7   */
+    font-weight: 400;
+    font-size: 240px;
+}
+
+#p1_2ptsCanvas {
+    position: fixed;
+    top: 462px;
+    left: 50px;
+    border: 1px solid black;
+}
+
+#p1_3ptsCanvas {
+    position: fixed;
+    top: 462px;
+    left: 165px;
+    border: 1px solid black;
+}
+
+#p1_4ptsCanvas {
+    position: fixed;
+    top: 462px;
+    left: 280px;
+    border: 1px solid black;
+}
+
+#p1_AdvCanvas {
+    position: fixed;
+    top: 557px;
+    left: 50px;
+    border: 1px solid black;
+}
+
+#p1_PenCanvas {
+    position: fixed;
+    top: 557px;
+    left: 165px;
+    border: 1px solid black;
+}
+
+#p1_DQCanvas {
+    position: fixed;
+    top: 557px;
+    left: 280px;
+    border: 1px solid black;
+}
+
+#p1_SubCanvas {
+    position: fixed;
+    top: 557px;
+    left: 395px;
+    border: 1px solid black;
+}
+
+#p1_SetWinnerCanvas {
+    position: fixed;
+    top: 462px;
+    left: 395px;
+    border: 1px solid black;
+}
+
+#p2_2ptsCanvas {
+    position: fixed;
+    top: 462px;
+    left: 1140px;
+    border: 1px solid black;
+}
+
+#p2_3ptsCanvas {
+    position: fixed;
+    top: 462px;
+    left: 1025px;
+    border: 1px solid black;
+}
+
+#p2_4ptsCanvas {
+    position: fixed;
+    top: 462px;
+    left: 910px;
+    border: 1px solid black;
+}
+
+#p2_AdvCanvas {
+    position: fixed;
+    top: 557px;
+    left: 1140px;
+    border: 1px solid black;
+}
+
+#p2_PenCanvas {
+    position: fixed;
+    top: 557px;
+    left: 1025px;
+    border: 1px solid black;
+}
+
+#p2_DQCanvas {
+    position: fixed;
+    top: 557px;
+    left: 910px;
+    border: 1px solid black;
+}
+
+#p2_SubCanvas {
+    position: fixed;
+    top: 557px;
+    left: 886px;
+    border: 1px solid black;
+}
+
+#p2_SetWinnerCanvas {
+    position: fixed;
+    top: 462px;
+    left: 886px;
+    border: 1px solid black;
+}
+
+#timeOutCanvas {
+    position: fixed;
+    top: 462px;
+    left: 450px;
+    border: 1px solid black;
+}
+
+#contRollCanvasBtn {
+    position: fixed;
+    top: 462px;
+    left: 565px;
+    border: 1px solid black;
+}
+
+#resetBtn {
+    position: fixed;
+    top: 556px;
+    left: 449px;
+    width: 76px;
+    height: 33px;
+}
+
+#recalcBtn {
+    position: fixed;
+    top: 556px;
+    left: 525px;
+    width: 76px;
+    height: 33px;
+}
+
+#settingsBtn {
+    position: fixed;
+    top: 556px;
+    left: 601px;
+    width: 76px;
+    height: 33px;
+}
+
+#historyTextArea {
+    position: fixed;
+    top: 461px;
+    left: 680px;
+    width: 170px;
+    height: 184px;
+    border: 1px solid black;
+    background-color: DarkGray;
+    color: black;
+    resize: none;
+    font-size: 10.5px;
+}
+
+#clockCanvas {
+    position: fixed;
+    top: 590px;
+    left: 450px;
+    color: #FFFFFF;
+    background-color: #1A1A1A;
+    border: 1px solid white;
+}
+
+#ibjjfRulesL {
+    position: fixed;
+    top: 10px;
+    left: 1130px;
+    font-size: 10px;
+    color: grey;
+    text-decoration: none;
+}
+
+#spacer1L {
+    position: fixed;
+    top: 0px;
+    left: 1202px;
+    font-size: 10px;
+    color: grey;
+}
+
+#aboutL {
+    position: fixed;
+    top: 10px;
+    left: 1220px;
+    font-size: 10px;
+    color: grey;
+    text-decoration: none;
+    z-index: 100;
+}
+
+#versionL {
+    position: fixed;
+    top: 642px;
+    right: 108px;
+    font-size: 10px;
+    color: grey;
+    z-index: 100;
+}
+
+#authorL {
+    position: fixed;
+    top: 652px;
+    left: 50px;
+    font-size: 10px;
+    color: grey;
+    z-index: 100;
+    text-decoration: none;
+
+}
+
+#tipsL {
+    position: fixed;
+    top: 642px;
+    left: 520px;
+    font-size: 10px;
+    color: grey;
+    z-index: 10000;
+}
+
+#p1_logoCanvas {
+    position: fixed;
+    top:382px;
+    left: 50px;
+    /*border: 1px solid black;*/
+}
+
+#p1_nameCanvas {
+    position: fixed;
+    top: 388px;
+    left: 125px;
+    /*border: 1px solid black;*/
+}
+
+#p1_teamCanvas {
+    position: fixed;
+    top: 430px;
+    left: 125px;
+    /*border: 1px solid black;*/
+}
+
+#p2_logoCanvas {
+    position: fixed;
+    top: 382px;
+    left: 1180px;
+    /*border: 1px solid black;*/
+}
+
+#p2_nameCanvas {
+    position: fixed;
+    top: 388px;
+    left: 725px;
+    /*border: 1px solid black;*/
+}
+
+#p2_teamCanvas {
+    position: fixed;
+    top: 430px;
+    left: 725px;
+    /*border: 1px solid black;*/
+}
+
+#popup {
+     visibility: hidden;
+     position: fixed;
+     left: 0px;
+     top: 0px;
+     width:100%;
+     height:100%;
+     text-align:center;
+     z-index: 99999;
+    background: rgba(0,0,0,0.8);
+}
+
+#popup div {
+    width: 1200px;
+    height: 550px;
+    position: absolute;
+    top:50px;
+    left:70px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    /*background: -moz-linear-gradient(#FFFFFF, #3366FF);
+    background: -webkit-linear-gradient(#FFFFFF, #3366FF);
+    background: -o-linear-gradient(#FFFFFF, #3366FF);*/
+    background: linear-gradient(#FFFFFF, #3366FF);
+}
+
+
+
+#settingsH1 {
+    position: absolute;
+    top: -15px;
+    left: 15px;
+    font-size: 30px;
+}
+
+#saveSettingsL {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    color: grey;
+}
+
+#settingsHelpBox {
+    position: absolute;
+    top: 60px;
+    left: 17px;
+    width: 212px;
+    height: 100px;
+    padding: 5px;
+    color: black;
+    background-color: #E6E6FF;
+    text-align: left;
+    font-size: 10px;
+    border: black 1px solid;
+}
+
+#themeGroup {
+    position: absolute;
+    top: 180px;
+    left: 15px;
+    width: 200px;
+    height: 40px;
+    text-align: left;
+}
+
+#penaltyGroup {
+    position: absolute;
+    top: 250px;
+    left: 15px;
+    width: 200px;
+    height: 60px;
+    text-align: left;
+}
+
+#durationGroup {
+    position: absolute;
+    top: 50px;
+    left: 250px;
+    width: 935px;
+    height: 260px;
+    text-align: left;
+}
+
+#juniorsL {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+}
+
+#durationOptions1 {
+    position: absolute;
+    top: 5px;
+    left: 140px;
+}
+
+#adultsL {
+    position: absolute;
+    top: 35px;
+    left: 10px;
+}
+
+#durationOptions2 {
+    position: absolute;
+    top: 35px;
+    left: 140px;
+}
+
+#metamorisL {
+    position: absolute;
+    top: 65px;
+    left: 10px;
+}
+
+#durationOptions3 {
+    position: absolute;
+    top: 65px;
+    left: 140px;
+}
+
+#p1Details {
+    position: absolute;
+    top: 340px;
+    left: 15px;
+    width: 565px;
+    height:200px;
+    text-align: left;
+}
+
+#p2Details {
+    position: absolute;
+    top: 340px;
+    left: 620px;
+    width: 565px;
+    height:200px;
+    text-align: left;
+}
+
+#p1NameF, #p1TeamF,
+#p1giColors, #p1teamSelect{
+    position: absolute;
+    left: 120px;
+}
+
+#p1LogoDim {
+    padding: 5px;
+    color: black;
+    background-color: #E6E6FF;
+    position: absolute;
+    top: 475px;
+    left: 425px;
+    text-align: left;
+    font-size: 10px;
+    border: black 1px solid;
+}
+
+#p2LogoDim {
+    padding: 5px;
+    color: black;
+    background-color: #E6E6FF;
+    position: absolute;
+    top: 475px;
+    left: 1025px;
+    text-align: left;
+    font-size: 10px;
+    border: black 1px solid;
+}
+
+#p1NameF, #p1TeamF,
+#p2NameF, #p2TeamF {
+    width: 250px;
+}
+
+#p2NameF, #p2TeamF,
+#p2teamSelect, #p2giColors {
+    position: absolute;
+    left: 120px;
+}
+
+#p1newLogoCanvas {
+    position: absolute;
+    top: 385px;
+    left: 470px;
+}
+
+#p2newLogoCanvas {
+    position: absolute;
+    top: 385px;
+    left: 1070px;
+}
+
+#table1 {
+    position: absolute;
+    top: 105px;
+    left: 10px;
+}
+
+#table2 {
+    position: absolute;
+    top: 105px;
+    left: 485px;
+}
+
+#table1, #table2 {
+    font-size: 10px;
+    width: 460px;
+}
+
+.colC {
+    text-align: center !important;
+}
+
+#tableKey {
+    position: absolute;
+    top: 130px;
+    left: 1000px;
+    width: 200px;
+    font-size: 10px;
+    z-index: 100;
+}
+
+
+
+#about {
+     visibility: hidden;
+     position: fixed;
+     left: 0px;
+     top: 0px;
+     width:100%;
+     height:100%;
+     text-align:center;
+     z-index: 99999;
+    background: rgba(0,0,0,0.8);
+}
+
+#aboutContainer {
+    width: 1200px;
+    height: 550px;
+    position: absolute;
+    top:50px;
+    left:70px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #fff;
+    /*background: -moz-linear-gradient(#FFFFFF, #3366FF);
+    background: -webkit-linear-gradient(#FFFFFF, #3366FF);
+    background: -o-linear-gradient(#FFFFFF, #3366FF);*/
+    background: linear-gradient(#FFFFFF, #3366FF);
+}
+
+#settingsContainer {
+    width: 1200px;
+    height: 550px;
+    position: absolute;
+    top:50px;
+    left:70px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #fff;
+    /*background: -moz-linear-gradient(#FFFFFF, #3366FF);
+    background: -webkit-linear-gradient(#FFFFFF, #3366FF);
+    background: -o-linear-gradient(#FFFFFF, #3366FF);*/
+    background: linear-gradient(#FFFFFF, #3366FF);
+}
+
+#aboutH1 {
+    position: absolute;
+    top: -25px;
+    left: 20px;
+    font-size: 30px;
+}
+
+#closeAboutL {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    color: grey;
+}
+
+div.ex {
+    position: absolute;
+    height: 500px;
+    width: 360px;
+    top: 60px;
+    text-align: left;
+    font-size: 12px;
+    /*border: solid 1px black;*/
+}
+
+#aboutCol1 {
+    position: absolute;
+    left: 20px;
+}
+#aboutCol2 {
+    position: absolute;
+    left: 435px;
+}
+
+#aboutCol3 {
+    position: absolute;
+    left: 850px;
+}
+
+#contRollPopUp {
+     visibility: hidden;
+     position: fixed;
+     left: 0px;
+     top: 0px;
+     width:100%;
+     height:100%;
+     text-align:center;
+     z-index: 99999;
+    background: rgba(0,0,0,0.8);
+}
+
+#contRollContainer {
+    width: 1200px;
+    height: 650px;
+    position: absolute;
+    top:50px;
+    left:70px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #fff;
+    /*background: -moz-linear-gradient(#FFFFFF, #3366FF);
+    background: -webkit-linear-gradient(#FFFFFF, #3366FF);
+    background: -o-linear-gradient(#FFFFFF, #3366FF);*/
+    background: linear-gradient(#FFFFFF, #3366FF);
+}
+
+#contRollH1 {
+    position: absolute;
+    top: -25px;
+    left: 20px;
+    font-size: 30px;
+}
+
+#contRollFullscreenL {
+    position: absolute;
+    top: -5px;
+    left: 560px;
+    font-size: 20px;
+}
+
+#contRollExitL {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    color: grey;
+}
+
+#rollingCanvas {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    border: solid 1px black;
+    z-index: 100;
+}
+
+#rollCountCanvas {
+    position: absolute;
+    top: 465px;
+    left: 68px;
+    z-index:  999999;
+    /*border: 1px solid black;*/
+}
+
+#rollStatusCanvas {
+    position: absolute;
+    top: 465px;
+    left: 295px;
+    z-index:  999999;
+    /*border: 1px solid black;*/
+}
+
+
+#restGroup {
+    position: absolute;
+    top: 565px; 
+    left: 102px;
+    width: 360px;
+    height: 50px;
+    text-align: left;
+}
+
+#restOptions {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+#rollDurationGroup {
+    position: absolute;
+    top: 565px; 
+    left: 492px;
+    width: 535px;
+    height: 50px;
+    text-align: left;
+}
+
+#rollDurationOptions {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+#singleUseL {
+    position: absolute;
+    top: 8px;
+    left: 15px;
+}
+
+#rollClockCanvas {
+    position: absolute;
+    top: 575px;
+    right: 18px;
+    color: #CDCFF8;
+    background-color: #0D137D;
+    border: 1px solid white;
+}
+
+#updateRollBtn {
+    position: absolute;
+    top: 573px;
+    left: 20px;
+    width:  80px;
+    height: 65px;
+}
+
+/*** pop-up div to cover entire area ***/
+#testModalL {
+    position: fixed;
+    top: 653px;
+    right: 424px;
+    z-index: 100;
+    font-size: 10px;
+    color: grey;
+    text-decoration: none;
+}
+
+.divModalDialog  {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    /*! important !*/
+    display:none;
+    /* last attribute set darkness on scale: 0...1.0 */
+    background-color:rgba(0,0,0,0.8);
+    text-align:center;
+    z-index:20000;
+}
+
+.divModalDialog:target  {
+    display:block;
+}
