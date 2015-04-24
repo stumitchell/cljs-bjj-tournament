@@ -12,7 +12,9 @@
      :competitors
      [(Competitor. "Stuart" "Mitchell" "Male" 1976 "Black")
       (Competitor. "Serge" "Morel" "Male" 1974 "Black")
-      (Competitor. "Leon" "Lockheart" "Male" 1978 "White")]})
+      (Competitor. "Leon" "Lockheart" "Male" 1978 "White")]
+  :matches
+  []})
 
 (def persistent-db (local-storage 
                      (atom {})
@@ -52,3 +54,6 @@
 
 (reg-sub-key
     :competitors)
+
+(reg-sub-key
+    :matches)

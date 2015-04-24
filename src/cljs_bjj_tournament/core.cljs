@@ -6,10 +6,12 @@
                                  v-box h-box
                                  line
                                  selection-list
-                                 hyperlink-href]]
+                                 hyperlink-href
+                                 button]]
             [re-frame.core :refer [subscribe
                                    dispatch]]
-            [cljs-bjj-tournament.state :refer [initialise]]))
+            [cljs-bjj-tournament.state :refer [initialise]]
+            [cljs-bjj-tournament.handlers]))
 
 ;; (repl/connect "http://localhost:9000/repl")
 
@@ -23,14 +25,31 @@
  
 (defn create-match
     []
-    (let [competitors (subscribe [:competitors])
+    (let [matches (subscribe [:matches])
+          competitors (subscribe [:competitors])
           choice1 (atom #{})
           choice2 (atom #{})
-          full-name #(str (:fname %) " " (:lname %))]
+          full-name #(str (:fname %) " " (:lname %))
+          match-link (fn
+                       [m]
+                       (let [p1Name (full-name (first m))
+                             p2Name (full-name (last m))]
+                         [hyperlink-href
+                          :label (str "Start Match -- " 
+                                      p1Name " Vs " p2Name)
+                          :href (str "/scoreMaster/?p1Name=" 
+                                     p1Name "&p2Name=" p2Name)
+                          :target "_blank"]))
+          empty-selection? #(nil? (first %))]
      (fn []
       [v-box
         :children 
         [[title 
+          :label "Matches"
+          :level :level3]
+         (for [m @matches] ^{:key m} (match-link m))
+         [line]
+         [title 
           :label "Create a match"
           :level :level3]
          [h-box
@@ -47,13 +66,14 @@
                   :on-change #(reset! choice2 %)
                   :choices @competitors
                   :label-fn full-name
-                  :multi-select? false]
-            (let [p1Name (full-name (first @choice1))
-                  p2Name (full-name (first @choice2))]
-          [hyperlink-href 
-           :label (str "Start Match -- " p1Name " Vs " p2Name)
-           :href (str "/scoreMaster/?p1Name=" p1Name 
-                      "&p2Name=" p2Name)])]]]])))
+                  :multi-select? false]              
+            [button
+             :label "Add match"
+             :disabled? (or (empty-selection? @choice1) 
+                            (empty-selection? @choice2))
+             :on-click #(dispatch [:add-match 
+                                   (first @choice1) 
+                                   (first @choice2)])]]]]])))
  
 (defn main
     []
