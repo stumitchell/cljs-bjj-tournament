@@ -2,6 +2,8 @@
 
 Tournament creation software written in clojurescript
 
+[live app](https://s3-ap-southeast-2.amazonaws.com/cljs-bjj-tournament/cljs-bjj-tournament/index.html)
+
 ## Overview
 
 Hopefull create an example app in re-frame and re-com for bjj tournament planning
