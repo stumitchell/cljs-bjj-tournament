@@ -7,7 +7,8 @@
                                  line
                                  selection-list
                                  hyperlink-href
-                                 button]]
+                                 button
+                                 gap]]
             [re-frame.core :refer [subscribe
                                    dispatch]]
             [cljs-bjj-tournament.state :refer [initialise]]
@@ -19,9 +20,24 @@
 
 (defn sidebar
     []
-    [title 
-     :label "sidebar"
-     :level :level2])
+    [v-box 
+     :children
+     [[gap :size "60px"]
+      [title 
+       :label "Create tournament"
+       :level :level3]
+      [title 
+       :label "Add competitiors"
+       :level :level3]
+      [title 
+       :label "Add divisions"
+       :level :level3]
+      [title 
+       :label "Add matches"
+       :level :level3]
+      [title 
+       :label "Show results"
+       :level :level3]]])
  
 (defn create-match
     []
@@ -29,11 +45,10 @@
           competitors (subscribe [:competitors])
           choice1 (atom #{})
           choice2 (atom #{})
-          full-name #(str (:fname %) " " (:lname %))
           match-link (fn
                        [m]
-                       (let [p1Name (full-name (first m))
-                             p2Name (full-name (last m))]
+                       (let [p1Name (.full-name (first m))
+                             p2Name (.full-name (last m))]
                          [hyperlink-href
                           :label (str "Start Match -- " 
                                       p1Name " Vs " p2Name)
@@ -46,12 +61,12 @@
         :children 
         [[title 
           :label "Matches"
-          :level :level3]
+          :level :level2]
          (for [m @matches] ^{:key m} (match-link m))
          [line]
          [title 
           :label "Create a match"
-          :level :level3]
+          :level :level2]
          [h-box
           :gap "10px"
           :children 
@@ -59,13 +74,13 @@
                   :model @choice1
                   :on-change #(reset! choice1 %)
                   :choices @competitors
-                  :label-fn full-name
+                  :label-fn .full-name
                   :multi-select? false]
             [selection-list
                   :model @choice2
                   :on-change #(reset! choice2 %)
                   :choices @competitors
-                  :label-fn full-name
+                  :label-fn .full-name
                   :multi-select? false]              
             [button
              :label "Add match"
