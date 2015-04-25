@@ -47,13 +47,15 @@
           choice2 (atom #{})
           match-link (fn
                        [m]
-                       (let [p1Name (.full-name (first m))
-                             p2Name (.full-name (last m))]
+                       (let [p1 (first m)
+                             p2 (last m)]
                          [hyperlink-href
                           :label (str "Start Match -- " 
-                                      p1Name " Vs " p2Name)
-                          :href (str "/scoreMaster/?p1Name=" 
-                                     p1Name "&p2Name=" p2Name)
+                                      (.full-name-club p1) " Vs " 
+                                      (.full-name-club p2))
+                          :href (str "scoreMaster/index.html?" 
+                                     (.url-string p1 "p1") 
+                                     (.url-string p2 "p2"))
                           :target "_blank"]))
           empty-selection? #(nil? (first %))]
      (fn []
@@ -74,13 +76,13 @@
                   :model @choice1
                   :on-change #(reset! choice1 %)
                   :choices @competitors
-                  :label-fn .full-name
+                  :label-fn #(.full-name-club %)
                   :multi-select? false]
             [selection-list
                   :model @choice2
                   :on-change #(reset! choice2 %)
                   :choices @competitors
-                  :label-fn .full-name
+                  :label-fn #(.full-name-club %)
                   :multi-select? false]              
             [button
              :label "Add match"
