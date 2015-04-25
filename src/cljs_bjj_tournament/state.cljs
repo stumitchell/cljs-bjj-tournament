@@ -1,6 +1,7 @@
 (ns cljs-bjj-tournament.state
     (:require-macros [reagent.ratom :refer [reaction]])  
-    (:require [cljs-bjj-tournament.model :refer [Competitor]]
+    (:require [cljs-bjj-tournament.model :refer [Competitor
+                                                 Club]]
               [re-frame.core :refer [register-sub
                                      register-handler
                                      path]]
@@ -8,11 +9,15 @@
               [alandipert.storage-atom :refer [local-storage]]))
 
 (def default-state
-    {:initialised true
-     :competitors
-     [(Competitor. "Stuart" "Mitchell" "Male" 1976 "Black")
-      (Competitor. "Serge" "Morel" "Male" 1974 "Black")
-      (Competitor. "Leon" "Lockheart" "Male" 1978 "White")]})
+    (let [abjj (Club. "ABJJ" "AucklandBjj.com" 
+                        "http://1.bp.blogspot.com/-F0suapvfqS0/VGE1FCmNEiI/AAAAAAAADFY/2s584eV3Zyw/s1600/Auckland_BJJ_logo.png")]
+        {:initialised true
+         :clubs [:abjj]
+         :competitors
+         [(Competitor. "Stuart" "Mitchell" "Male" 1976 "Black" abjj)
+          (Competitor. "Serge" "Morel" "Male" 1974 "Black" abjj)
+          (Competitor. "Leon" "Lockheart" "Male" 1978 "White" abjj )]
+         :matches []}))
 
 (def persistent-db (local-storage 
                      (atom {})
@@ -52,3 +57,6 @@
 
 (reg-sub-key
     :competitors)
+
+(reg-sub-key
+    :matches)

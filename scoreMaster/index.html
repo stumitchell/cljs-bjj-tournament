@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" >
+    <link rel="stylesheet" href="scoreMaster.css">
+    <script src="scoreMaster.js"></script>
+</head>
+<body onload="init()">
+
+    <div id="settingsModal" class="divModalDialog">
+       <div id="settingsContainer">
+           <h1 id="settingsH1"><span style="color:#666666; font-weight: bold;">my</span><span style="color:#007faf; font-weight: bold;">BJJ</span><span style="color:#666666; font-weight: normal;"> Score Master Settings</span></h1>
+
+           <a id="saveSettingsL" onclick='saveSettings()' href='#'><img src="resources/saveReturn.png"></a>
+
+           <form>
+               <span id="settingsHelpBox">
+                   <strong>Settings Guide</strong><br>The controls  on this page adjust the settings for scoring matches in the main window.<br><br>Settings for <em>Continuous Rolling Mode</em> can be edited directly from within its own pop-up window.
+               </span>
+               <fieldset id="themeGroup">
+                 <legend>1. Colour Theme:</legend>
+                 <span id="themeOptions">
+                     <input type="radio" name="theme" value="light" checked="checked">Light
+                     <input type="radio" name="theme" value="dark">Dark
+                 </span>
+             </fieldset>
+             <fieldset id="penaltyGroup">
+                 <legend>2. Penalty Mode:</legend>
+                 <span id="penaltyOptions">
+                     <input type="radio" name="penaltyMode" value="adult" checked="checked">16+ <small><em>(4 penalties)</em></small><br>
+                     <input type="radio" name="penaltyMode" value="under16">Under 16 <small><em>(6 penalties)</em></small>
+                 </span>
+             </fieldset>
+
+             <fieldset id="durationGroup">
+                 <legend>3. Match Duration:</legend>
+                 <strong id="juniorsL">Juniors</strong><br>
+                 <span id="durationOptions1">
+                   <input type="radio" name="matchDuration" value="120">2 mins
+                   <input type="radio" name="matchDuration" value="180">3 mins
+                   <input type="radio" name="matchDuration" value="240">4 mins<br>
+               </span><br>
+               <strong id="adultsL">Adults / Masters</strong><br>
+               <span id="durationOptions2">
+                <input type="radio" name="matchDuration" value="300" checked="checked">5 mins
+                <input type="radio" name="matchDuration" value="360">6 mins
+                <input type="radio" name="matchDuration" value="420">7 mins
+                <input type="radio" name="matchDuration" value="480">8 mins
+                <input type="radio" name="matchDuration" value="600">10 mins
+            </span>
+            <br>
+            <strong id="metamorisL">Metamoris</strong>
+            <span id="durationOptions3">
+             <input type="radio" name="matchDuration" value="1200">20 mins
+         </span>
+         <br>
+
+         <table id="table1">
+            <thead>
+                <tr>
+                    <th class="colC" style="width:70px">Age <small><i>(yrs)</i></small></th>
+                    <th class="colC" style="width:80px">Duration <small><i>(min)</i></small></th>
+                    <th>Division</th>
+                </tr>
+            </thead>
+            <tr  bgcolor="#E6E6FF">
+              <td class="colC">2 - 4</td>
+              <td class="colC">2</td>
+              <td>  Mighty Mites <span style="font-family: 'serif'">(I, II, &amp; III)</span></td>
+          </tr>
+          <tr bgcolor="#8080FF">
+              <td class="colC">7 - 9</td>
+              <td class="colC">3</td>
+              <td>  Pee Wees <span style="font-family: 'serif'">(I, II, &amp; III)</span></td>
+          </tr>
+          <tr bgcolor="#E6E6FF">
+              <td class="colC">10 - 12 </td>
+              <td class="colC">4</td>
+              <td>  Juniors <span style="font-family: 'serif'">(I, II, &amp; III)</span></td>
+          </tr>
+          <tr bgcolor="#8080FF">
+              <td class="colC">13 - 15</td>
+              <td class="colC">4</td>
+              <td>  Teens <span style="font-family: 'serif'">(I, II, &amp; III)</span></td>
+          </tr>
+          <tr bgcolor="#E6E6FF">
+              <td class="colC">16 &amp; 17</td>
+              <td class="colC">5</td>
+              <td>  Juveniles <span style="font-family: 'serif'">(I &amp; II)</span></td>
+          </tr>
+          <tr bgcolor="#8080FF">
+              <td class="colC">18+</td>
+              <td class="colC">5</td>
+              <td><span style="background-color:white; border: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  Adult </td>
+          </tr>
+          <tr bgcolor="#E6E6FF">
+              <td colspan="3"><strong>AGE</strong> = (Current - Birth) Year<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>REST TIME:</strong> up to Semis = <strong>M</strong>atch <strong>D</strong>uration &nbsp;&nbsp;|&nbsp;&nbsp; Finals = 2x MD&nbsp;</span></td>
+          </tr>
+      </table>
+
+      <table id="table2">
+        <thead>
+            <tr>
+                <th class="colC" style="width:70px">Age <small><i>(yrs)</i></small></th>
+                <th class="colC" style="width:80px">Duration <small><i>(min)</i></small></th>
+                <th>Division</th>
+            </tr>
+        </thead>
+        <tr bgcolor="#E6E6FF">
+          <td class="colC">18+</td>
+          <td class="colC">6</td>
+          <td><span style="background-color:blue; border: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  Adult</td>
+      </tr>
+      <tr bgcolor="#8080FF">
+          <td class="colC"></td>
+          <td class="colC">7</td>
+          <td><span style="background-color:purple; border: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  Adult</td>
+      </tr>
+      <tr bgcolor="#E6E6FF">
+          <td class="colC"></td>
+          <td class="colC">8</td>
+          <td><span style="background-color:#663300; border: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  Adult</td>
+      </tr>
+      <tr bgcolor="#8080FF">
+          <td class="colC"></td>
+          <td class="colC">10</td>
+          <td><span style="background-color:black; border: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  Adult</td>
+      </tr>
+      <tr bgcolor="#E6E6FF">
+          <td class="colC">30+</td>
+          <td class="colC">5</td>
+          <td><span style="background-color:white; border: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  <span style="background-color:blue; border: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  Master 1</td>
+      </tr>
+      <tr bgcolor="#8080FF">
+          <td class="colC"></td>
+          <td class="colC">6</td>
+          <td><span style="background-color:purple; border: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  <span style="background-color:#663300; border: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  <span style="background-color:black; border: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  Master 1</td>
+      </tr>
+      <tr bgcolor="#E6E6FF">
+          <td class="colC">36+</td>
+          <td class="colC">5</td>
+          <td>  Master 2 <span style="font-family: 'serif'">(+ III-41, IV-46, V-51, &amp; VI-56)</span></td>
+      </tr>
+  </table>
+</fieldset>
+
+<fieldset id="p1Details">
+    <legend>4. Competitor 1 Details:</legend>
+    <br>
+    <strong  style="font-size:16px;">Name:</strong>
+    <input id="p1NameF" style="font-size:16px;" type="text" name="p1NameE" placeholder="Player 1" maxlength="20"><br><br>
+    <strong  style="font-size:16px;">Team:</strong>
+    <input id="p1TeamF" style="font-size:16px;" type="text" name="p1TeamE" placeholder="myBJJ Team" maxlength="20"><br><br>
+    <strong  style="font-size:16px;">Team Logo:*</strong>
+    <span id="p1teamSelect">
+     <input type="file" id="p1newLogo" name="p1newLogo" accept="image/*">
+ </span>
+ <br><br>
+
+ <strong  style="font-size:16px;">Gi Colour:</strong>
+ <span id="p1giColors">
+     <input type="radio" name="p1giCol" value="white"> White
+     <input type="radio" name="p1giCol" value="blue" checked="checked"> Blue
+     <input type="radio" name="p1giCol" value="black"> Black
+ </span>
+</fieldset>
+
+<canvas id="p1newLogoCanvas" width="70" height="70">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<span id="p1LogoDim"><strong>*Source Image Requirements</strong><br><strong>Dimensions:</strong> equal width &amp; height<br><strong>Types:</strong> png, jpg, or gif<br><strong>Transparency:</strong> supported</span>
+
+<fieldset id="p2Details">
+    <legend>5. Competitor 2 Details:</legend>
+    <br>
+    <strong  style="font-size:16px;">Name:</strong>
+    <input id="p2NameF" style="font-size:16px;" type="text" name="p2NameE" placeholder="Player 2" maxlength="20"><br><br>
+    <strong  style="font-size:16px;">Team:</strong>
+    <input id="p2TeamF" style="font-size:16px;" type="text" name="p2TeamE" placeholder="myBJJ Team" maxlength="20"><br><br>
+    <strong  style="font-size:16px;">Team Logo:*</strong>
+    <span id="p2teamSelect">
+     <input type="file" id="p2newLogo" name="p2newLogo" accept="image/*">
+ </span>
+ <br><br>
+ <strong  style="font-size:16px;">Gi Colour:</strong>
+ <span id="p2giColors">
+     <input type="radio" name="p2giCol" value="white"> White
+     <input type="radio" name="p2giCol" value="blue" checked="checked"> Blue
+     <input type="radio" name="p2giCol" value="black"> Black
+ </span>
+</fieldset>
+<canvas id="p2newLogoCanvas" width="70" height="70">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+<span id="p2LogoDim"><strong>*Source Image Requirements</strong><br><strong>Dimensions:</strong> equal width &amp; height<br><strong>Types:</strong> png, jpg, or gif<br><strong>Transparency:</strong> supported</span>
+</form>
+</div>
+</div>
+
+<div id="aboutModal" class="divModalDialog">
+    <div id="aboutContainer">
+       <p id="aboutH1">About &amp; Licence</p>
+       <a id="closeAboutL" href='#'><img src="resources/return.png"></a>
+       <div id="aboutCol1" class="ex">
+
+        <span style="font-size:20px">About</span>
+        <br>
+        Score Master is a simple, open source scoring application for use with IBJJF competition rules.<br><br>
+        It has been ported from the original Python3 / Gtk3 version as a programming challenge and to make it truly cross-platform.<br><br>
+        This software was written for use on pcs with a screen resolution of <strong>1366x768</strong>.<br><br>
+        You can check my website for additional Jiu-Jitsu applications.
+        <a style="text-decoration: none;" href="http://www.slumbergod.com/" target="_blank">http://www.slumbergod.com</a><br><br>
+        <span style="font-<size></size>:20px">Licence</span>
+        <br>
+        This version of Score Master is provided on a <strong>free-to-use</strong> and <strong>free-to-modify licence</strong>. It is provided <strong>as-is</strong> and the author assumes no responsibility for any problems you encounter in its usage.<br><br>
+        If you make modifications you must leave the information on this <em>About &amp; Licence</em> page intact but you can add yourself to the <em>credits</em> column of this page.<br><br>You must release your modified version under the <strong>same licence</strong>.<br><br>
+        
+    </div>
+    <div id="aboutCol2" class="ex">
+
+        <span style="font-size:20px">Customisation</span>
+        <br>
+        This software was written for use within the organisation I train with. For this reason it is branded <strong>myBJJ</strong>.<br><br>You are welcome to rebrand it however you like, provided you <strong>satisfy the licence conditions.</strong>
+        <br><br>
+        Like most open source software projects, it just isn't feasible to provide free support. If you are unable to rebrand, customise, or extend the application yourself I can do it for you for a small fee.<br><br>If you find the software useful and want to ensure its future availability and development please consider making a donation.<br><br>Those who have contributed financially will have their version <strong>upgraded</strong> from the basic version to the development version which includes <em>additional features</em> and <em>improvements</em> as they are added.<br><br>
+        You can contact me from my website:
+        <a style="text-decoration: none;" href="http://www.slumbergod.com/" target="_blank">http://www.slumbergod.com</a><br><br><br><br><br>
+            <!--
+         <span style="font-size:20px">Usage</span>
+        <br>
+        This software is built using Html5, CSS, and Javascript technologies. It should run in any modern browser.<br>
+        - just drag and drop <strong>index.html</strong> into a new Firefox tab to run.<br>
+        - Chrome users will need to start their browser with:<br><strong>chromium-browser --allow-file-access-from-files</strong><br><br>
+        If it doesn't quite fit on your browser screen, try:<br>
+        - <strong>F11</strong> for full-screen mode, or;<br>
+        - <strong>Ctrl + [-, +, or 0]</strong> to scale the screen;<br><br>
+        If it should lock-up or you just want to reset the application, just press <strong>F5</strong> to refresh the page.<br><br> -->
+    </div>
+    <div id="aboutCol3" class="ex">
+        <span style="font-size:20px">Credit</span>
+        <br>
+        I would like to acknowledge the following people:<br><br>
+        Firstly, thanks to my professors:<br>
+        <strong>Mario Yokoyama</strong>; <strong>Stuart Marks</strong>; and particularly, <strong>Philip Lindsay</strong>, for his great suggestions for this application.<br><br>
+        And also to:<br>
+        <strong>Dr ABELL</strong> for his examples showing how to implement modal dialogs without javascript while we patiently wait for Mozilla to support the showModal() dialog method.<br>
+        <a style="text-decoration: none;" href="http://www.codeproject.com/Tips/170049/Pure-HTML-CSS-Modal-Dialog-Box-no-JavaScript" target="_blank">http://www.codeproject.com/Tips/170049/Pure-HTML-CSS-Modal-Dialog-Box-no-JavaScript</a>
+        <br><br>
+        <strong>James Edwards</strong> for his insights into making accurate timers in javascript.<br>
+        <a style="text-decoration: none;" href="http://www.sitepoint.com/creating-accurate-timers-in-javascript/" target="_blank">http://www.sitepoint.com/creating-accurate-timers-in-javascript</a>
+        <br><br>
+        The images used on the buttons are sourced from the <strong>IBJJF Rules</strong> document which is available from their website. I consider my usage of them as "fair use" since it is people from their organisation which will benefit from this freely available software.
+        <a style="text-decoration: none;" href="http://ibjjf.org/rules/" target="_blank">http://ibjjf.org/rules</a><br><br><br><br>
+        <!--<img style="display: block; margin: 0 auto;" src="resources/default_team_logo.png"> -->
+    </div>
+    </div>
+</div>
+
+<div id="contRollModal" class="divModalDialog">
+ <div id="contRollContainer">
+     <p id="contRollH1" <span style="color:#666666; font-weight: bold;">my</span><span style="color:#007faf; font-weight: bold;">BJJ</span><span style="color:#666666; ; font-weight: normal;"> Drilling &amp; Rolling Mode</span></p>
+     <p id="contRollFullscreenL">F11 - Go Full Screen!</p>
+     <a id="contRollExitL" href='#' onclick='exitContRoll()'><img src="resources/return.png"></a>
+
+     <canvas id="rollingCanvas" onclick="toggleRoll()"  width="1190" height="500">
+        <p>This example requires a browser that supports the
+            <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+            &lt;canvas&gt; feature.
+        </p>
+    </canvas>
+
+    <canvas id="rollCountCanvas" width="220" height="90">
+        <p>This example requires a browser that supports the
+            <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+            &lt;canvas&gt; feature.
+        </p>
+    </canvas>
+
+    <canvas id="rollStatusCanvas" width="640" height="90">
+        <p>This example requires a browser that supports the
+            <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+            &lt;canvas&gt; feature.
+        </p>
+    </canvas>
+    <button id='updateRollBtn' onclick='updateRollSettings()'>Update /<br>Reset</button>
+    <fieldset id="restGroup">
+        <legend>Rest Time: <em>(seconds)</em></legend>
+        <form name="restOptions">
+           <input type="radio" name="restTime" value="0"
+           >Disabled
+           <!-- <input type="radio" name="restTime" value="3"
+           checked="checked" >3-->
+           <input type="radio" name="restTime" value="10">10
+           <input type="radio"  name="restTime" value="20" checked="checked" >20
+           <input type="radio"  name="restTime" value="30">30
+           <input type="radio"  name="restTime" value="60">60
+           <input type="radio"  name="restTime" value="90">90
+           <input type="radio"  name="restTime" value="120">120
+       </form>
+   </fieldset>
+
+   <fieldset id="rollDurationGroup">
+    <legend>Drill / Roll Duration: <em>(minutes)</em></legend>
+    <form name="rollDurationOptions">
+        <!--<input type="radio" name="rollTime" value="10" >.2-->
+        <input type="radio" name="rollTime" value="60" checked="checked">1
+        <input type="radio" name="rollTime" value="90">1&#189; 
+        <input type="radio" name="rollTime" value="120">2
+        <input type="radio" name="rollTime" value="180">3
+        <input type="radio" name="rollTime" value="240">4
+        <input type="radio" name="rollTime" value="300">5
+        <input type="radio" name="rollTime" value="360">6
+        <input type="radio" name="rollTime" value="420">7
+        <input type="radio" name="rollTime" value="480">8
+        <input type="radio" name="rollTime" value="540">9
+        <input type="radio" name="rollTime" value="600">10
+        <input type="radio" name="rollTime" value="720">12
+        <input type="radio" name="rollTime" value="900">15
+        <input type="radio" name="rollTime" value="1200">20<br>
+        <p id="singleUseL"><small><strong>Single-Use Timer</strong> = disable rest to enable single use mode</small></p>
+    </form>
+</fieldset>
+<canvas id="rollClockCanvas" width="150" height="60">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+</div>
+</div>
+
+
+
+<p id="versionL">X</p>
+<a id="authorL" style="text-decoration: none;" href="http://www.myBJJScoreMaster.com" target="_blank">http://www.myBJJScoreMaster.com</a>
+<p id="tipsL">F11 Fullscreen&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;F5 Reload Page&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;Ctrl +/- Scale Page</p>
+<p id="p1AdvL">ADV</p>
+<p id="p1PenL">PEN</p>
+<p id="p2AdvL">ADV</p>
+<p id="p2PenL">PEN</p>
+
+<canvas id="p1AdvCanvas" width="55" height="35"  onclick="p1Advantaged(event)" oncontextmenu="p1Advantaged(event); return false;">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1PenCanvas" width="40" height="35"  onclick='p1Penalise(event)' oncontextmenu="p1Penalise(event); return false;">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1CrownCanvas" width="86" height="60">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2CrownCanvas" width="86" height="60">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1WinnerCanvas" width="240" height="40">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1scoreCanvas" onclick='p1OnePoint(event)' oncontextmenu="p1OnePoint(event); return false;" width="250" height="290">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="beltCanvas" width="240" height="25">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+
+
+<canvas id="p2AdvCanvas" width="55" height="35"  onclick='p2Advantaged(event)' oncontextmenu="p2Advantaged(event); return false;">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2PenCanvas" width="40" height="35"  onclick='p2Penalise(event)' oncontextmenu="p2Penalise(event); return false;">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2WinnerCanvas" width="240" height="40">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2scoreCanvas" width="250" height="290" onclick='p2OnePoint(event)' oncontextmenu="p2OnePoint(event); return false;">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="brandingCanvas" width="592" height="95">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="timerCanvas" onclick='toggleTimer()' width="650" height="210">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="statusCanvas" width="650" height="70">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<p><a id="ibjjfRulesL" href="file:resources/IBJJF_Rule_Book_v3(20140507).pdf" target="_tab">IBJJF Rules</a></p>
+<p id="spacer1L"> &#124;</p>
+<p><a id="aboutL" href='#aboutModal'>About</a></p>
+
+<canvas id="p1_logoCanvas" width="70" height="70">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1_nameCanvas" width="450" height="38">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1_teamCanvas" width="450" height="28">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2_logoCanvas" width="70" height="70">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2_nameCanvas" width="450" height="38">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2_teamCanvas" width="450" height="28">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1_2ptsCanvas" width="110" height="90"  onclick='p1TwoPoints(event)' oncontextmenu="p1TwoPoints(event); return false;" >
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1_3ptsCanvas" width="110" height="90"  onclick='p1ThreePoints(event)' oncontextmenu="p1ThreePoints(event); return false;" >
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1_4ptsCanvas" width="110" height="90"  onclick='p1FourPoints(event)' oncontextmenu="p1FourPoints(event); return false;" >
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1_AdvCanvas" width="110" height="90" onclick='p1Advantaged(event)' oncontextmenu="p1Advantaged(event); return false;">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1_PenCanvas" width="110" height="90" onclick='p1Penalise(event)' oncontextmenu="p1Penalise(event); return false;">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1_DQCanvas" width="110" height="90" onclick='p1MatchEnd("dq")'>
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1_SubCanvas" width="19" height="90" onclick='p1MatchEnd("sub")'>
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p1_SetWinnerCanvas" width="19" height="90" onclick='p1MatchEnd("win")'>
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2_2ptsCanvas" width="110" height="90" onclick='p2TwoPoints(event)' oncontextmenu="p2TwoPoints(event); return false;" >
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2_3ptsCanvas" width="110" height="90" onclick='p2ThreePoints(event)' oncontextmenu="p2ThreePoints(event); return false;" >
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2_4ptsCanvas" width="110" height="90" onclick='p2FourPoints(event)' oncontextmenu="p2FourPoints(event); return false;" >
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2_AdvCanvas" width="110" height="90"   onclick='p2Advantaged(event)' oncontextmenu="p2Advantaged(event); return false;">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2_PenCanvas" width="110" height="90" onclick='p2Penalise(event)' oncontextmenu="p2Penalise(event); return false;">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2_DQCanvas" width="110" height="90" onclick='p2MatchEnd("dq")'>
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2_SubCanvas" width="19" height="90" onclick='p2MatchEnd("sub")'>
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="p2_SetWinnerCanvas" width="19" height="90" onclick='p2MatchEnd("win")'>
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="timeOutCanvas" onclick='toggleTimer()' width="110" height="90">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<canvas id="contRollCanvasBtn" width="110" height="90" onclick="contRollDialog()">
+<!-- <canvas id="contRollCanvasBtn" width="110" height="90" onclick="location.href='#contRollModal';contRollDialog()"> -->
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<button id='resetBtn' onclick='resetTimer()'>Reset</button>
+<button id='recalcBtn' onclick='recalcWinner()'>Re-Calculate<br>Winner</button>
+<button id='settingsBtn' onclick="location.href='#settingsModal';fillSettingDefaults()">Settings</button>
+
+<textarea readonly id="historyTextArea" placeholder="Match History"></textarea>
+
+<canvas id="clockCanvas" width="225" height="57">
+    <p>This example requires a browser that supports the
+        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+        &lt;canvas&gt; feature.
+    </p>
+</canvas>
+
+<br><br>
+
+</body>
+</html>
