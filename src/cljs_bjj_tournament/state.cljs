@@ -12,6 +12,7 @@
     (let [abjj (Club. "ABJJ" "AucklandBjj.com" 
                         "http://1.bp.blogspot.com/-F0suapvfqS0/VGE1FCmNEiI/AAAAAAAADFY/2s584eV3Zyw/s1600/Auckland_BJJ_logo.png")]
         {:initialised true
+         :page :intro
          :clubs [:abjj]
          :competitors
          [(Competitor. "Stuart" "Mitchell" "Male" 1976 "Black" abjj)
@@ -55,8 +56,8 @@
 
 (reg-sub-key :initialised)
 
-(reg-sub-key
-    :competitors)
+(reg-sub-key :page)
 
-(reg-sub-key
-    :matches)
+(reg-sub-key :competitors)
+
+(reg-sub-key :matches)

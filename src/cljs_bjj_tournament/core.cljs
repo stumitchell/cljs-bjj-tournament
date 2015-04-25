@@ -8,7 +8,8 @@
                                  selection-list
                                  hyperlink-href
                                  button
-                                 gap]]
+                                 gap]
+             :refer-macros [handler-fn]]
             [re-frame.core :refer [subscribe
                                    dispatch]]
             [cljs-bjj-tournament.state :refer [initialise]]
@@ -18,28 +19,65 @@
 
 (enable-console-print!)
 
+(def tabs-definition
+  [{:id :intro           :level :major :label "Introduction"}
+   {:id :tournament      :level :major :label "Create Tournament"}
+   {:id :competitors     :level :major :label "Create Competititors"}
+   {:id :divisions       :level :major :label "Create Divisions"}
+   {:id :matches         :level :major :label "Create Matches"}
+   {:id :results         :level :major :label "Show Results"}
+   ])
+
+
+(defn nav-item
+  []
+  (let [mouse-over? (reagent/atom false)]
+    (fn [tab selected-tab-id]
+      (let [selected?   (= @selected-tab-id (:id tab))
+            is-major?  (= (:level tab) :major)]
+      [:div
+       {:style {:width            "150px"
+                :line-height      "1.3em"
+                :padding-left     (if is-major? "24px" "32px")
+                :padding-top      (when is-major? "6px")
+                :font-size        (when is-major? "15px")
+                :font-weight      (when is-major? "bold")
+                :color            (when selected? "#111")
+                :border-right     (when selected? "4px #d0d0d0 solid")
+                :background-color (if (or
+                                        (= @selected-tab-id (:id tab))
+                                        @mouse-over?) "#eaeaea")}
+
+        :on-mouse-over (handler-fn (reset! mouse-over? true))
+        :on-mouse-out  (handler-fn (reset! mouse-over? false))
+        :on-click      (handler-fn (dispatch [:page (:id tab)]))}
+       [:span
+        {:style {:cursor "default"}}    ;; removes the I-beam over the label
+        (:label tab)]]))))
+
+
+(defn left-side-nav-bar
+  [selected-tab-id]
+    [v-box
+     :class    "noselect"
+     :style    {:background-color "#fcfcfc"}
+     :size    "1 0 auto"
+     :children (for [tab tabs-definition]
+                 [nav-item tab selected-tab-id])])
 (defn sidebar
     []
+    (let [selected-tab-id (subscribe [:page])]
+      (fn []
     [v-box 
      :children
-     [[gap :size "60px"]
-      [title 
-       :label "Create tournament"
-       :level :level3]
-      [title 
-       :label "Add competitiors"
-       :level :level3]
-      [title 
-       :label "Add divisions"
-       :level :level3]
-      [title 
-       :label "Add matches"
-       :level :level3]
-      [title 
-       :label "Show results"
-       :level :level3]]])
+     [[gap :size "70px"]
+      [left-side-nav-bar selected-tab-id]]])))
  
-(defn create-match
+(defn intro 
+  []
+  [:div "Hi this is the intro page"])
+
+(defn matches
     []
     (let [matches (subscribe [:matches])
           competitors (subscribe [:competitors])
@@ -94,7 +132,8 @@
  
 (defn main
     []
-    (let [initialised (subscribe [:initialised])]
+    (let [initialised (subscribe [:initialised])
+          page (subscribe [:page])]
       (fn 
         []
         (when @initialised 
@@ -108,7 +147,10 @@
                 :label "Aucklandbjj.com tournament planner"
                 :level :level1]
               [line]
-              [create-match]]]]]))))
+              (case @page 
+                :intro [intro]
+                :matches [matches]
+                [intro])]]]]))))
 
 (defn ^:export mount-app
   []
