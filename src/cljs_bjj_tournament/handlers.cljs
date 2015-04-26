@@ -31,3 +31,17 @@
           (assoc i new)
           (assoc j org)))))
 
+(register-handler
+  :add-competitor
+  (path [:competitors])
+  (fn [competitors [_ competitor]]
+       (conj competitors competitor)))
+
+(register-handler
+  :delete-competitor
+  (path [:competitors])
+  (fn [competitors [_ id]]
+       (vec (concat  (subvec competitors 0 id) 
+                    (subvec competitors (inc id) (count competitors))))))
+
+

@@ -1,16 +1,21 @@
 (ns cljs-bjj-tournament.competitors
   (:require [re-com.core :refer [v-box
-                                  title
-                                  line
-                                  label
-                                  h-box
-                                  checkbox
-                                  row-button]
-             			  :refer-macros [handler-fn]]
+                                 title
+                                 line
+                                 label
+                                 h-box
+                                 checkbox
+                                 row-button
+                                 input-text
+                                 info-button
+                                 gap
+                                 button]
+             :refer-macros [handler-fn]]
             [re-com.util :refer [enumerate]]
             [re-frame.core :refer [subscribe
                                    dispatch]]
-            [reagent.core :as reagent]))
+            [reagent.core :as reagent]
+            [cljs-bjj-tournament.model :refer [Competitor]]))
 
 (defn data-row
   [id row first? last? col-widths mouse-over click-msg]
@@ -57,8 +62,7 @@
                              :md-icon-name    "md-delete"
                              :mouse-over-row? mouse-over-row?
                              :tooltip         "Delete this line"
-                             :on-click        #(reset! click-msg (str "delete row " (:id row)))]]]]]))
-
+                             :on-click        #(dispatch [:delete-competitor id])]]]]]))
 
 (defn data-table
   []
@@ -82,6 +86,52 @@
                               (for [[id row first? last?] (enumerate rows)]
                                 ^{:key id} [data-row id row first? last? col-widths mouse-over click-msg])]]]])))
 
+(defn field-label
+  ;takes the field label and a text or hiccup help text
+  ([text]
+   (field-label text nil))
+  ([text info]
+   [h-box 
+    :children (concat 
+                [[label 
+                  :label text
+                  :style {:font-variant "small-caps"}]]
+                (when info
+                  [[gap :size "5px"] 
+                   [info-button
+                    :info (if string? info 
+                            [:div info]
+                            info)]]))]))
+
+(defn competitor-field
+  [name field competitor]
+  [h-box
+   :gap "10px"
+   :children
+   [[field-label name]
+    [input-text 
+     :model (field @competitor)
+     :on-change #(swap! competitor assoc field %)]]])
+
+(defn add-competitor
+  []
+  (let [competitor (reagent/atom 
+                     (Competitor. "fname" "lname" 
+                                  "gender" "yob" "belt" 
+                                  "club"))]
+    (fn []
+      [v-box
+       :gap "5px"
+       :children
+       [[competitor-field "First Name" :fname competitor]
+        [competitor-field "Last Name" :lname competitor]
+        [competitor-field "Gender" :gender competitor]
+        [competitor-field "YOB" :yob competitor]
+        [competitor-field "Belt" :belt competitor]
+       [button
+        :label "Save"
+        :on-click #(dispatch [:add-competitor @competitor])]]])))
+
 (defn competitor-panel
   []
   (let [competitors (subscribe [:competitors])
@@ -96,4 +146,5 @@
         
         [line]
         [title
-         :label "Add competitors"]]])))
+         :label "Add competitor"]
+        [add-competitor]]])))
