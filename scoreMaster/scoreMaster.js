@@ -55,8 +55,8 @@ var p1Name = urlParams['p1Name'] || 'Player 1';
 var p1Team = urlParams['p1Team'] || 'myBJJ Team';
 var p2Name = urlParams['p2Name'] || 'Player 2';
 var p2Team = urlParams['p2Team'] || 'myBJJ Team';
-var p1DefaultLogoPath = 'resources/default_team_logo.png';
-var p2DefaultLogoPath = 'resources/default_team_logo.png';
+var p1DefaultLogoPath = urlParams['p1DefaultLogoPath'] || 'resources/default_team_logo.png';
+var p2DefaultLogoPath = urlParams['p2DefaultLogoPath'] || 'resources/default_team_logo.png';
 var p1LogoIm = new Image();
 var p2LogoIm = new Image();
 var p1newLogoIM = new Image();
@@ -86,7 +86,7 @@ function init() {
 	updateP2Name(p2Name);
 	updateP2Team(p2Team);
 	drawP1Logo(p1DefaultLogoPath);
-	drawP2Logo(p1DefaultLogoPath);
+	drawP2Logo(p2DefaultLogoPath);
 	updateVersionNum();
 
 	// document.addEventListener('DOMContentLoaded', function() {

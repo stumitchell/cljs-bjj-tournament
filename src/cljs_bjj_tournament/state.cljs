@@ -10,7 +10,7 @@
 
 (def default-state
     (let [abjj (Club. "ABJJ" "AucklandBjj.com" 
-                        "http://1.bp.blogspot.com/-F0suapvfqS0/VGE1FCmNEiI/AAAAAAAADFY/2s584eV3Zyw/s1600/Auckland_BJJ_logo.png")]
+                        "../resources/auckland-bjj.png")]
         {:initialised true
          :page :intro
          :clubs [:abjj]
