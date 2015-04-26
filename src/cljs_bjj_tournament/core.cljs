@@ -1,7 +1,8 @@
 (ns cljs-bjj-tournament.core
   (:require [reagent.core :as reagent]
             [reagent.ratom :refer [atom]]
-            [re-com.util :refer [get-element-by-id]]
+            [re-com.util :refer [get-element-by-id
+                                 enumerate]]
             [re-com.core :refer [title 
                                  v-box h-box
                                  line
@@ -13,7 +14,8 @@
             [re-frame.core :refer [subscribe
                                    dispatch]]
             [cljs-bjj-tournament.state :refer [initialise]]
-            [cljs-bjj-tournament.handlers]))
+            [cljs-bjj-tournament.handlers]
+            [cljs-bjj-tournament.competitors :refer [competitor-panel]]))
 
 ;; (repl/connect "http://localhost:9000/repl")
 
@@ -102,7 +104,8 @@
         [[title 
           :label "Matches"
           :level :level2]
-         (for [m @matches] ^{:key m} (match-link m))
+         (for [[id m first? last?] (enumerate @matches)] 
+           ^{:key id} [match-link m])
          [line]
          [title 
           :label "Create a match"
@@ -113,7 +116,7 @@
           [[selection-list
                   :model @choice1
                   :on-change #(reset! choice1 %)
-                  :choices @competitors
+                  :choices  @competitors
                   :label-fn #(.full-name-club %)
                   :multi-select? false]
             [selection-list
@@ -149,10 +152,12 @@
               [line]
               (case @page 
                 :intro [intro]
+                :competitors [competitor-panel]
                 :matches [matches]
                 [intro])]]]]))))
 
 (defn ^:export mount-app
   []
   (dispatch [:initialise])
+  #_(dispatch [:page :competitors])
   (reagent/render [main] (get-element-by-id "app")))

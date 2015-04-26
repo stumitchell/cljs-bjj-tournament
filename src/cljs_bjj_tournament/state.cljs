@@ -10,15 +10,16 @@
 
 (def default-state
     (let [abjj (Club. "ABJJ" "AucklandBjj.com" 
-                        "../resources/auckland-bjj.png")]
+                        "../resources/auckland-bjj.png")
+          stu (Competitor. "Stuart" "Mitchell" "Male" 1976 "Black" abjj)]
         {:initialised true
          :page :intro
          :clubs [:abjj]
          :competitors
-         [(Competitor. "Stuart" "Mitchell" "Male" 1976 "Black" abjj)
+         [stu
           (Competitor. "Serge" "Morel" "Male" 1974 "Black" abjj)
-          (Competitor. "Leon" "Lockheart" "Male" 1978 "White" abjj )]
-         :matches []}))
+          (Competitor. "Leon" "Lockheart" "Male" 1978 "White" abjj)]
+         :matches [[stu stu]]}))
 
 (def persistent-db (local-storage 
                      (atom {})
