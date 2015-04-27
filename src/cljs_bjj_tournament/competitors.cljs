@@ -34,11 +34,6 @@
                  :width    (:actions col-widths)
                  :align    :center
                  :children [[row-button
-                             :md-icon-name    "md-content-copy"
-                             :mouse-over-row? mouse-over-row?
-                             :tooltip         "Copy this line"
-                             :on-click        #(reset! click-msg (str "copy row " (:id row)))]
-                            [row-button
                              :md-icon-name    "md-mode-edit"
                              :mouse-over-row? mouse-over-row?
                              :tooltip         "Edit this line"
@@ -103,28 +98,34 @@
   (let [edit-competitor (subscribe [:edit-competitor])
         competitors (subscribe [:competitors])
         new-competitor (reagent/atom 
-                     (make-competitor "fname" "lname" 
-                                  "gender" "yob" "belt" 
-                                  "club"))]
+                         (make-competitor "fname" "lname" 
+                                          "gender" "yob" "belt" 
+                                          "club"))]
     (fn []
       (let [competitor (if-not (nil? @edit-competitor)
                          (reagent/atom (@competitors @edit-competitor))
                          new-competitor)]
-      [v-box
-       :gap "5px"
-       :children
-       [[title
-         :label (if @edit-competitor 
-                  "Edit Competitor" 
-                  "Add competitor ")]
-        [competitor-field "First Name" :fname competitor]
-        [competitor-field "Last Name" :lname competitor]
-        [competitor-field "Gender" :gender competitor]
-        [competitor-field "YOB" :yob competitor]
-        [competitor-field "Belt" :belt competitor]
-       [button
-        :label "Save"
-        :on-click #(dispatch [:add-competitor @competitor])]]]))))
+        [v-box
+         :gap "5px"
+         :children
+         [[title
+           :label (if @edit-competitor 
+                    "Edit Competitor" 
+                    "Add competitor ")]
+          [competitor-field "First Name" :fname competitor]
+          [competitor-field "Last Name" :lname competitor]
+          [competitor-field "Gender" :gender competitor]
+          [competitor-field "YOB" :yob competitor]
+          [competitor-field "Belt" :belt competitor]
+          [button
+           :label "Save"
+           :on-click (fn []
+                       (dispatch [:add-competitor @competitor])
+                       (dispatch [:edit-competitor nil])
+                       (reset! new-competitor 
+                               (make-competitor "fname" "lname" 
+                                                "gender" "yob" "belt" 
+                                                "club")))]]]))))
 
 (defn competitor-panel
   []
