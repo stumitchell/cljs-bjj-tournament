@@ -15,7 +15,8 @@
                                    dispatch]]
             [cljs-bjj-tournament.state :refer [initialise]]
             [cljs-bjj-tournament.handlers]
-            [cljs-bjj-tournament.competitors :refer [competitor-panel]]))
+            [cljs-bjj-tournament.competitors :refer [competitor-panel]]
+            [cljs-bjj-tournament.matches :refer [match-panel]]))
 
 ;; (repl/connect "http://localhost:9000/repl")
 
@@ -78,60 +79,6 @@
 (defn intro 
   []
   [:div "Hi this is the intro page"])
-
-(defn matches
-    []
-    (let [matches (subscribe [:matches])
-          competitors (subscribe [:competitors])
-          choice1 (atom #{})
-          choice2 (atom #{})
-          match-link (fn
-                       [m]
-                       (let [p1 (first m)
-                             p2 (last m)]
-                         [hyperlink-href
-                          :label (str "Start Match -- " 
-                                      (.full-name-club p1) " Vs " 
-                                      (.full-name-club p2))
-                          :href (str "scoreMaster/index.html?" 
-                                     (.url-string p1 "p1") 
-                                     (.url-string p2 "p2"))
-                          :target "_blank"]))
-          empty-selection? #(nil? (first %))]
-     (fn []
-      [v-box
-        :children 
-        [[title 
-          :label "Matches"
-          :level :level2]
-         (for [[id m first? last?] (enumerate @matches)] 
-           ^{:key id} [match-link m])
-         [line]
-         [title 
-          :label "Create a match"
-          :level :level2]
-         [h-box
-          :gap "10px"
-          :children 
-          [[selection-list
-                  :model @choice1
-                  :on-change #(reset! choice1 %)
-                  :choices  @competitors
-                  :label-fn #(.full-name-club %)
-                  :multi-select? false]
-            [selection-list
-                  :model @choice2
-                  :on-change #(reset! choice2 %)
-                  :choices @competitors
-                  :label-fn #(.full-name-club %)
-                  :multi-select? false]              
-            [button
-             :label "Add match"
-             :disabled? (or (empty-selection? @choice1) 
-                            (empty-selection? @choice2))
-             :on-click #(dispatch [:add-match 
-                                   (first @choice1) 
-                                   (first @choice2)])]]]]])))
  
 (defn main
     []
@@ -153,11 +100,11 @@
               (case @page 
                 :intro [intro]
                 :competitors [competitor-panel]
-                :matches [matches]
+                :matches [match-panel]
                 [intro])]]]]))))
 
 (defn ^:export mount-app
   []
   (dispatch [:initialise])
-  #_(dispatch [:page :competitors])
+  (dispatch [:page :competitors])
   (reagent/render [main] (get-element-by-id "app")))

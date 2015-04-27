@@ -31,3 +31,16 @@
           (assoc i new)
           (assoc j org)))))
 
+(register-handler
+  :add-competitor
+  (path [:competitors])
+  (fn [competitors [_ competitor]]
+       (assoc competitors (:guid competitor) competitor)))
+
+(register-handler
+  :delete-competitor
+  (path [:competitors])
+  (fn [competitors [_ id]]
+       (dissoc competitors id)))
+
+
