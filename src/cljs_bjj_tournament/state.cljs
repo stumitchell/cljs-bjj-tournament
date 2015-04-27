@@ -1,25 +1,30 @@
 (ns cljs-bjj-tournament.state
-    (:require-macros [reagent.ratom :refer [reaction]])  
-    (:require [cljs-bjj-tournament.model :refer [Competitor
-                                                 Club]]
-              [re-frame.core :refer [register-sub
-                                     register-handler
-                                     path]]
-              [re-frame.db :refer [app-db]]
-              [alandipert.storage-atom :refer [local-storage]]))
+  (:require-macros [reagent.ratom :refer [reaction]])  
+  (:require [cljs-bjj-tournament.model :refer [make-competitor
+                                               Club]]
+            [re-frame.core :refer [register-sub
+                                   register-handler
+                                   path]]
+            [re-frame.db :refer [app-db]]
+            [alandipert.storage-atom :refer [local-storage]]))
+
+(enable-console-print!)
 
 (def default-state
-    (let [abjj (Club. "ABJJ" "AucklandBjj.com" 
-                        "../resources/auckland-bjj.png")
-          stu (Competitor. "Stuart" "Mitchell" "Male" 1976 "Black" abjj)]
-        {:initialised true
-         :page :intro
-         :clubs [:abjj]
-         :competitors
-         [stu
-          (Competitor. "Serge" "Morel" "Male" 1974 "Black" abjj)
-          (Competitor. "Leon" "Lockheart" "Male" 1978 "White" abjj)]
-         :matches [[stu stu]]}))
+  (let [abjj (Club. "ABJJ" "AucklandBjj.com" 
+                    "../resources/auckland-bjj.png")
+        stu (make-competitor "Stuart" "Mitchell" "Male" "1976" "Black" abjj)]
+    {:initialised true
+     :page :intro
+     :clubs [:abjj]
+     :competitors (into {} 
+                        (for [c 
+                              [stu
+                               (make-competitor "Serge" "Morel" "Male" "1974" "Black" abjj)
+                               (make-competitor "Leon" "Lockheart" "Male" "1978" "White" abjj)]]
+                          [(:guid c) c]))
+     
+     :matches [[(:guid stu) (:guid stu)]]}))
 
 (def persistent-db (local-storage 
                      (atom {})
@@ -62,3 +67,5 @@
 (reg-sub-key :competitors)
 
 (reg-sub-key :matches)
+
+(reg-sub-key :edit-competitor)
