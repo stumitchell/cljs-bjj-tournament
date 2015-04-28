@@ -11,7 +11,8 @@
                                  gap
                                  button]
              :refer-macros [handler-fn]]
-            [re-com.util :refer [enumerate]]
+            [re-com.util :refer [get-element-by-id 
+                                 enumerate]]
             [re-frame.core :refer [subscribe
                                    dispatch]]
             [reagent.core :as reagent]
@@ -126,6 +127,47 @@
                                (make-competitor "fname" "lname" 
                                                 "gender" "yob" "belt" 
                                                 "club")))]]]))))
+(defn make-competitor-from-map
+  [attrs]
+  (let [fname (first (clojure.string/split (attrs "Name") #" "))
+        lname (last (clojure.string/split (attrs "Name") #" "))
+        gender "Male"
+        yob (attrs "YOB")
+        belt (attrs "Belt")
+        club (attrs "Club")]
+    (print attrs club)
+    (make-competitor fname lname gender yob belt club)))
+
+(defn read-csv 
+  [input]
+  (let [data (map 
+               #(clojure.string/split % #",") 
+               (clojure.string/split-lines input))
+        headers (first data)
+        data (rest data)]
+    (into [] 
+          (for [line data]
+            (make-competitor-from-map 
+              (into {} 
+                    (for [[k v] 
+                          (map list headers line)]
+                      [k (clojure.string/trim v)])))))))
+
+(defn- load-file-handler
+  []
+  (let [file (aget (.-files (get-element-by-id "csv-file-open")) 0)
+        reader (js/FileReader.)]
+    (set!
+      (.-onload reader)
+      (fn [_] (dispatch [:add-competitors (read-csv (.-result reader))])))
+    (.readAsText reader file "UTF8")))
+
+(defn load-csv-file
+  []
+  [:input {:id        "csv-file-open"
+           :type      "file"
+           :accept    ".csv"
+           :on-change #(load-file-handler)}])
 
 (defn competitor-panel
   []
@@ -140,4 +182,5 @@
         [data-table (vals @competitors) col-widths]
         
         [line]
-        [add-competitor]]])))
+        [add-competitor]
+        [load-csv-file]]])))

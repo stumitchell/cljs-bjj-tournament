@@ -38,6 +38,14 @@
        (assoc competitors (:guid competitor) competitor)))
 
 (register-handler
+  :add-competitors
+  (path [:competitors])
+  (fn [old_competitors [_ competitors]]
+    (into {}
+          (for [c competitors]
+            [(:guid c) c]))))
+
+(register-handler
   :delete-competitor
   (path [:competitors])
   (fn [competitors [_ id]]
