@@ -59,12 +59,15 @@
 
 (register-handler
   :add-competitors
-  (path [:competitors])
-  (fn [old_competitors [_ competitors]]
-    (let [competitors (map make-competitor-from-map competitors)]
-      (into {}
-            (for [c competitors]
-              [(:guid c) c])))))
+  (fn [db [_ competitors]]
+    (let [competitors (map make-competitor-from-map competitors)
+          competitors-map (into {}
+                                (for [c competitors]
+                                  [(:guid c) c]))]
+      ;add the competitors and delete the matches
+      (-> db
+          (assoc :competitors competitors-map)
+          (assoc :matches [])))))
 
 (register-handler
   :delete-competitor
