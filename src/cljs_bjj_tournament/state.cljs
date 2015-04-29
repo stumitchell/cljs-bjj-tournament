@@ -16,7 +16,7 @@
         stu (make-competitor "Stuart" "Mitchell" "Male" "1976" "Black" abjj)]
     {:initialised true
      :page :intro
-     :clubs [:abjj]
+     :clubs {"ABJJ" abjj}
      :competitors (into {} 
                         (for [c 
                               [stu
@@ -67,5 +67,7 @@
 (reg-sub-key :competitors)
 
 (reg-sub-key :matches)
+
+(reg-sub-key :clubs)
 
 (reg-sub-key :edit-competitor)

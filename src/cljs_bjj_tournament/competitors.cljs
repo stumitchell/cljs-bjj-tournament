@@ -127,16 +127,6 @@
                                (make-competitor "fname" "lname" 
                                                 "gender" "yob" "belt" 
                                                 "club")))]]]))))
-(defn make-competitor-from-map
-  [attrs]
-  (let [fname (first (clojure.string/split (attrs "Name") #" "))
-        lname (last (clojure.string/split (attrs "Name") #" "))
-        gender "Male"
-        yob (attrs "YOB")
-        belt (attrs "Belt")
-        club (attrs "Club")]
-    (print attrs club)
-    (make-competitor fname lname gender yob belt club)))
 
 (defn read-csv 
   [input]
@@ -147,11 +137,10 @@
         data (rest data)]
     (into [] 
           (for [line data]
-            (make-competitor-from-map 
               (into {} 
                     (for [[k v] 
                           (map list headers line)]
-                      [k (clojure.string/trim v)])))))))
+                      [k (clojure.string/trim v)]))))))
 
 (defn- load-file-handler
   []
@@ -172,7 +161,7 @@
 (defn competitor-panel
   []
   (let [competitors (subscribe [:competitors])
-        col-widths {:sort "2.6em" :name "7.5em" :gender "4em" :club "4em" :yob "4em" :belt "4.5em" :actions "4.5em"}]
+        col-widths {:name "15em" :gender "4em" :club "15em" :yob "4em" :belt "4.5em" :actions "4.5em"}]
     (fn []
       [v-box 
        :gap "10px"
