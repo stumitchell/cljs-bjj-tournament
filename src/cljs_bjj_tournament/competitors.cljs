@@ -48,7 +48,31 @@
 (defn data-table
   []
   (let [mouse-over (reagent/atom nil)
-        click-msg  (reagent/atom "")]
+        click-msg  (reagent/atom "")
+        sort-key   (reagent/atom :fname)
+        label-fn   (fn [label-str label-key col-widths]
+                     [h-box 
+                      :gap "2px"
+                      :width (label-key col-widths)
+                      :children 
+                      [[label 
+                        :label label-str]
+                       [row-button
+                        :md-icon-name "md-sort"
+                        :tooltip (str "sort on " label-str)
+                        :on-click #(reset! sort-key label-key)]]])
+        sort-fn    (fn [key]
+                     (case key
+                       :name #(.full-name %)
+                       :belt #(case (:belt %)
+                                "White"  1
+                                "Blue"   2
+                                "Purple" 3
+                                "Brown"  4
+                                "Black"  5
+                                6)
+                       :club #(:name (:club %))
+                       key))]
     (fn [rows col-widths]
       [v-box
        :align    :start
@@ -58,13 +82,16 @@
                    :children [^{:key "0"}
                               [h-box
                                :class    "rc-div-table-header"
-                               :children [[label :label "Name" :width (:name col-widths)]
-                                          [label :label "Gender" :width (:gender col-widths)]
-                                          [label :label "Club" :width (:club col-widths)]
-                                          [label :label "YOB" :width (:yob col-widths)]
-                                          [label :label "Belt" :width (:belt col-widths)]
-                                          [label :label "Actions" :width (:actions col-widths)]]]
-                              (for [[id row first? last?] (enumerate rows)]
+                               :children [[label-fn "Name" :name col-widths]
+                                          [label-fn "Gender" :gender col-widths]
+                                          [label-fn "Club" :club col-widths]
+                                          [label-fn "YOB" :yob col-widths]
+                                          [label-fn "Belt" :belt col-widths]
+                                          [label-fn "Actions" :actions col-widths]]]
+                              (for [[id row first? last?] (enumerate 
+                                                            (sort-by 
+                                                              (sort-fn @sort-key) 
+                                                              rows))]
                                 ^{:key id} [data-row (:guid row) row first? last? col-widths mouse-over click-msg])]]]])))
 
 (defn field-label
@@ -137,10 +164,10 @@
         data (rest data)]
     (into [] 
           (for [line data]
-              (into {} 
-                    (for [[k v] 
-                          (map list headers line)]
-                      [k (clojure.string/trim v)]))))))
+            (into {} 
+                  (for [[k v] 
+                        (map list headers line)]
+                    [k (clojure.string/trim v)]))))))
 
 (defn- load-file-handler
   []
@@ -161,7 +188,7 @@
 (defn competitor-panel
   []
   (let [competitors (subscribe [:competitors])
-        col-widths {:name "15em" :gender "4em" :club "15em" :yob "4em" :belt "4.5em" :actions "4.5em"}]
+        col-widths {:name "15em" :gender "6em" :club "15em" :yob "4em" :belt "4.5em" :actions "4.5em"}]
     (fn []
       [v-box 
        :gap "10px"
