@@ -47,13 +47,13 @@
           [[selection-list
                   :model @choice1
                   :on-change #(reset! choice1 %)
-                  :choices  (vals @competitors)
+                  :choices  (sort-by #(.full-name %) (vals @competitors))
                   :label-fn #(.full-name-club %)
                   :multi-select? false]
             [selection-list
                   :model @choice2
                   :on-change #(reset! choice2 %)
-                  :choices (vals @competitors)
+                  :choices (sort-by #(.full-name %) (vals @competitors))
                   :label-fn #(.full-name-club %)
                   :multi-select? false]              
             [button

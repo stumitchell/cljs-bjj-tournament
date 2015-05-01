@@ -12,11 +12,18 @@
 
 (def default-state
   (let [abjj (Club. "ABJJ" "AucklandBjj.com" 
-                    "../resources/auckland-bjj.png")
+                    "resources/club_logos/auckland-bjj.png")
+        tukaha (Club. "Tukaha" "Tukaha Brazilian Jiu Jitsu"
+                      "resources/club_logos/tukaha-bjj.png")
+        oliver-mma (Club. "Oliver MMA" "Oliver MMA"
+                          "resources/club_logos/oliver-mma.png")
+        
         stu (make-competitor "Stuart" "Mitchell" "Male" "1976" "Black" abjj)]
     {:initialised true
      :page :intro
-     :clubs {"ABJJ" abjj}
+     :clubs {"ABJJ" abjj
+             "Tukaha" tukaha
+             "Oliver MMA" oliver-mma}
      :competitors (into {} 
                         (for [c 
                               [stu
