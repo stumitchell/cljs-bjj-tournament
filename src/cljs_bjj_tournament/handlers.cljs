@@ -3,7 +3,9 @@
                                    path]]
             [re-frame.db :refer [app-db]]
             [cljs-bjj-tournament.model :refer [make-competitor
-                                               make-club]]))
+                                               make-club
+                                               make-competitor-from-map
+                                               link-competitors-with-clubs]]))
 
 (register-handler
   :add-match
@@ -40,33 +42,19 @@
   (fn [competitors [_ competitor]]
     (assoc competitors (:guid competitor) competitor)))
 
-(defn make-competitor-from-map
-  [attrs]
-  (let [clubs (:clubs @app-db)
-        fname (first (clojure.string/split (attrs "Name") #" "))
-        lname (last (clojure.string/split (attrs "Name") #" "))
-        gender "Male"
-        yob (attrs "YOB")
-        belt (attrs "Belt")
-        club-name (attrs "Club")
-        club (if (contains? clubs club-name)
-               (clubs club-name)
-               (let 
-                 [club (make-club club-name)]
-                 (swap! app-db assoc club club-name)
-                 club))]
-    (make-competitor fname lname gender yob belt club)))
-
 (register-handler
   :add-competitors
   (fn [db [_ competitors]]
     (let [competitors (map make-competitor-from-map competitors)
+          [competitors clubs] (link-competitors-with-clubs 
+                                    competitors (:clubs db))
           competitors-map (into {}
                                 (for [c competitors]
                                   [(:guid c) c]))]
       ;add the competitors and delete the matches
       (-> db
           (assoc :competitors competitors-map)
+          (assoc :clubs clubs)
           (assoc :matches [])))))
 
 (register-handler

@@ -106,5 +106,4 @@
 (defn ^:export mount-app
   []
   (dispatch [:initialise])
-  (dispatch [:page :competitors])
   (reagent/render [main] (get-element-by-id "app")))

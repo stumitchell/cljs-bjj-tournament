@@ -1,37 +1,52 @@
 (ns cljs-bjj-tournament.state
   (:require-macros [reagent.ratom :refer [reaction]])  
   (:require [cljs-bjj-tournament.model :refer [make-competitor
-                                               Club]]
+                                               make-division
+                                               Club
+                                               make-competitor-from-map
+                                               link-competitors-with-clubs]]
             [re-frame.core :refer [register-sub
                                    register-handler
                                    path]]
             [re-frame.db :refer [app-db]]
-            [alandipert.storage-atom :refer [local-storage]]))
+            [alandipert.storage-atom :refer [local-storage]]
+            [cljs-bjj-tournament.competitors-csv :refer [competitors]]))
 
 (enable-console-print!)
 
-(def default-state
+(def test-state
   (let [abjj (Club. "ABJJ" "AucklandBjj.com" 
                     "resources/club_logos/auckland-bjj.png")
         tukaha (Club. "Tukaha" "Tukaha Brazilian Jiu Jitsu"
                       "resources/club_logos/tukaha-bjj.png")
         oliver-mma (Club. "Oliver MMA" "Oliver MMA"
                           "resources/club_logos/oliver-mma.png")
-        
-        stu (make-competitor "Stuart" "Mitchell" "Male" "1976" "Black" abjj)]
-    {:initialised true
-     :page :intro
-     :clubs {"ABJJ" abjj
+        clubs {"ABJJ" abjj
              "Tukaha" tukaha
              "Oliver MMA" oliver-mma}
-     :competitors (into {} 
-                        (for [c 
-                              [stu
-                               (make-competitor "Serge" "Morel" "Male" "1974" "Black" abjj)
-                               (make-competitor "Leon" "Lockheart" "Male" "1978" "White" abjj)]]
-                          [(:guid c) c]))
-     
-     :matches [[(:guid stu) (:guid stu)]]}))
+        stu (make-competitor "Stuart" "Mitchell" "Male" "1976" "Black" abjj)
+        competitors (map make-competitor-from-map competitors)
+        [competitors clubs] (link-competitors-with-clubs competitors clubs)
+        competitors-map (into {}
+                                (for [c competitors]
+                                  [(:guid c) c]))
+        divisions {"ALL" (make-division "ALL" true)
+                   "White" (make-division "White Belt" #(= (:belt %) "White"))
+                  "Blue" (make-division "Blue Belt" #(= (:belt %) "Blue"))}]
+    {:initialised true
+     :page :matches
+     :clubs clubs
+     :competitors competitors-map
+     :divisions divisions
+     :matches []}))
+
+(def default-state
+  {:initialised true
+   :page :intro
+   :clubs {}
+   :competitors {}
+   :divisions {}
+   :matches []})
 
 (def persistent-db (local-storage 
                      (atom {})
@@ -40,7 +55,7 @@
 (defn initialise 
   [db]
   (let [db (-> db
-               (merge default-state)
+               (merge test-state)
                (merge @persistent-db))]
     ;space for other initialisation
     db))

@@ -16,7 +16,8 @@
             [re-frame.core :refer [subscribe
                                    dispatch]]
             [reagent.core :as reagent]
-            [cljs-bjj-tournament.model :refer [make-competitor]]))
+            [cljs-bjj-tournament.model :refer [make-competitor
+                                               read-csv]]))
 
 (defn data-row
   [id row first? last? col-widths mouse-over click-msg]
@@ -154,20 +155,6 @@
                                (make-competitor "fname" "lname" 
                                                 "gender" "yob" "belt" 
                                                 "club")))]]]))))
-
-(defn read-csv 
-  [input]
-  (let [data (map 
-               #(clojure.string/split % #",") 
-               (clojure.string/split-lines input))
-        headers (first data)
-        data (rest data)]
-    (into [] 
-          (for [line data]
-            (into {} 
-                  (for [[k v] 
-                        (map list headers line)]
-                    [k (clojure.string/trim v)]))))))
 
 (defn- load-file-handler
   []

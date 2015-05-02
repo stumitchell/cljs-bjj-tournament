@@ -16,6 +16,7 @@
           competitors (subscribe [:competitors])
           choice1 (atom #{})
           choice2 (atom #{})
+          filter-fn  #(= 1 1) #_(= (:belt %) "White")
           match-link (fn
                        [m]
                        (let [p1 (@competitors (first m))
@@ -47,13 +48,17 @@
           [[selection-list
                   :model @choice1
                   :on-change #(reset! choice1 %)
-                  :choices  (sort-by #(.full-name %) (vals @competitors))
+                  :choices  (sort-by #(.full-name %) 
+                                     (filter filter-fn 
+                                             (vals @competitors)))
                   :label-fn #(.full-name-club %)
                   :multi-select? false]
             [selection-list
                   :model @choice2
                   :on-change #(reset! choice2 %)
-                  :choices (sort-by #(.full-name %) (vals @competitors))
+                  :choices (sort-by #(.full-name %) 
+                                    (filter filter-fn 
+                                            (vals @competitors)))
                   :label-fn #(.full-name-club %)
                   :multi-select? false]              
             [button
