@@ -20,6 +20,16 @@
   ([club-name full-name image-url]
    (Club. club-name full-name image-url)))
 
+(defn age-division
+  [c]
+  (let [age (- 2014 (float (:yob c)))]
+    (cond 
+      (< age 35) "M1"
+      (< age 40) "M2"
+      (< age 45) "M3"
+      (< age 50) "M4"
+      :else "M5")))
+
 (defrecord Competitor
   [guid fname lname gender yob belt club]
   Object
@@ -29,7 +39,8 @@
   (url-string [this p] (str p "Name=" (.full-name this) "&" 
                             p "Team=" (:full-name club) "&"
                             p "DefaultLogoPath=" (:image-url club) "&"
-                            p "DefaultLogoPath=" (:image-url club) "&")))
+                            p "DefaultLogoPath=" (:image-url club) "&"))
+  (age-div [this] (age-division this)))
 
 (defn make-competitor
   [fname lname gender yob belt club]
