@@ -55,7 +55,7 @@
         [h-box
          :gap "10px"
          :children 
-         (let [filter-fn (if (empty? @division)
+         (let [filter-fn (if (nil? (first @division))
                            (constantly true)
                            (:filter-fn (first @division)))]
            [[selection-list
