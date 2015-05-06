@@ -7,9 +7,11 @@
                                  selection-list
                                  h-box
                                  title
+                                 label
                                  line
                                  v-box
-                                 hyperlink-href]]))
+                                 hyperlink-href
+                                 radio-button]]))
 (defn match-panel
   []
   (let [matches (subscribe [:matches])
@@ -18,6 +20,7 @@
         choice1 (atom #{})
         choice2 (atom #{})
         division (atom #{(first (vals @divisions))})
+        sort-button (atom :name)
         match-link (fn
                      [m]
                      (let [p1 (@competitors (first m))
@@ -53,15 +56,42 @@
          :label "Create a match"
          :level :level2]
         [h-box
+         :gap "5px"
+         :children
+         [[title
+           :label "Sort by:"
+           :level :level3]
+          [radio-button
+           :model @sort-button
+           :value :name
+           :on-change #(reset! sort-button :name)]
+          [label 
+           :label "Name"]
+          [radio-button
+           :model @sort-button
+           :value :yob
+           :on-change #(reset! sort-button :yob)]
+          [label 
+           :label "Age"]
+          [radio-button
+           :model @sort-button
+           :value :weight
+           :on-change #(reset! sort-button :weight)]
+          [label 
+           :label "Weight"]]]
+        [h-box
          :gap "10px"
          :children 
          (let [filter-fn (if (nil? (first @division))
                            (constantly true)
-                           (:filter-fn (first @division)))]
+                           (:filter-fn (first @division)))
+               sort-fn (case @sort-button
+                         :name #(.full-name %)
+                         #(- (float (@sort-button %))))]
            [[selection-list
              :model @choice1
              :on-change #(reset! choice1 %)
-             :choices  (sort-by #(.full-name %) 
+             :choices  (sort-by sort-fn 
                                 (filter filter-fn 
                                         (vals @competitors)))
              :label-fn #(.full-name-club %)
@@ -69,7 +99,7 @@
             [selection-list
              :model @choice2
              :on-change #(reset! choice2 %)
-             :choices (sort-by #(.full-name %) 
+             :choices (sort-by sort-fn 
                                (filter filter-fn 
                                        (vals @competitors)))
              :label-fn #(.full-name-club %)
