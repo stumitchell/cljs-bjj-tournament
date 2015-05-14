@@ -4,6 +4,7 @@
             [re-frame.db :refer [app-db]]
             [cljs-bjj-tournament.model :refer [make-competitor
                                                make-club
+                                               make-match
                                                make-competitor-from-map
                                                link-competitors-with-clubs]]))
 
@@ -11,8 +12,8 @@
   :add-match
   ;adds a match to the db
   (path [:matches])
-  (fn [matches [_ c1 c2]]
-    (conj matches [c1 c2])))
+  (fn [matches [_ division p1 p2]]
+    (conj matches (make-match division p1 p2))))
 
 (register-handler 
   :move-competitor-up 

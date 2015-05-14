@@ -2,6 +2,13 @@
   (:require [cljs-uuid-utils.core :as uuid]
             [re-frame.db :refer [app-db]]))
 
+(defrecord Match
+  [guid division p1 p2])
+
+(defn make-match 
+  [division p1 p2]
+  (Match. (uuid/make-random-uuid) division p1 p2))
+
 (defrecord Division
   [guid name filter-fn])
 

@@ -2,6 +2,7 @@
   (:require-macros [reagent.ratom :refer [reaction]])  
   (:require [cljs-bjj-tournament.model :refer [make-competitor
                                                make-division
+                                               make-match
                                                Club
                                                make-competitor-from-map
                                                link-competitors-with-clubs]]
@@ -78,7 +79,8 @@
      :clubs clubs
      :competitors competitors-map
      :divisions divisions
-     :matches []}))
+     :matches [(make-match "ALL" (:guid (first (vals competitors-map))) 
+                              (:guid (last (vals competitors-map))))]}))
 
 (def default-state
   {:initialised true

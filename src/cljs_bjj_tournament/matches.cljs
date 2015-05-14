@@ -23,8 +23,8 @@
         sort-button (atom :weight)
         match-link (fn
                      [m]
-                     (let [p1 (@competitors (first m))
-                           p2 (@competitors (last m))]
+                     (let [p1 (@competitors (:p1 m))
+                           p2 (@competitors (:p2 m))]
                        [hyperlink-href
                         :label (str "Start Match -- " 
                                     (.full-name-club p1) " Vs " 
@@ -40,7 +40,9 @@
        [[title 
          :label "Matches"
          :level :level2]
-        (for [[id m first? last?] (enumerate @matches)] 
+        (for [[id m first? last?] (enumerate (filter #(= (:division %)
+                                                         (:name (first @division))) 
+                                                     @matches))] 
           ^{:key id} [match-link m])
         [line]
         [title 
@@ -109,5 +111,6 @@
              :disabled? (or (empty-selection? @choice1) 
                             (empty-selection? @choice2))
              :on-click #(dispatch [:add-match 
+                                   (:name (first @division))
                                    (:guid (first @choice1)) 
                                    (:guid (first @choice2))])]])]]])))
