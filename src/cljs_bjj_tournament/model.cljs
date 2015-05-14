@@ -22,7 +22,7 @@
 
 (defn age-division
   [c]
-  (let [age (- 2014 (float (:yob c)))]
+  (let [age (- 2014 (:yob c))]
     (cond 
       (< age 35) "M1"
       (< age 40) "M2"
@@ -46,7 +46,7 @@
 
 (defn make-competitor
   [fname lname gender yob belt club weight]
-  (Competitor. (uuid/make-random-uuid) fname lname gender yob belt club weight))
+  (Competitor. (uuid/make-random-uuid) fname lname gender (float yob) belt club (float weight)))
 
 (defn make-competitor-from-map
   [attrs]

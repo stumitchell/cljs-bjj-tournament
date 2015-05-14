@@ -24,37 +24,55 @@
         clubs {"ABJJ" abjj
                "Tukaha" tukaha
                "Oliver MMA" oliver-mma}
-        stu (make-competitor "Stuart" "Mitchell" "Male" "1976" "Black" abjj)
         competitors (map make-competitor-from-map competitors)
         [competitors clubs] (link-competitors-with-clubs competitors clubs)
         competitors-map (into {}
                               (for [c competitors]
                                 [(:guid c) c]))
-        divisions {"ALL" (make-division "ALL" (constantly true))
-                   "WhiteM1" (make-division "White Belt M1" 
-                                            #(and (= (:belt %) "White")
-                                                  (= (.age-div %) "M1")))
-                   "WhiteM2" (make-division "White Belt M2" 
-                                            #(and (= (:belt %) "White")
-                                                  (= (.age-div %) "M2")))
-                   "WhiteM3M4" (make-division "White Belt M3 M4" 
-                                              #(and (= (:belt %) "White")
-                                                    (or 
-                                                      (= (.age-div %) "M3")
-                                                      (= (.age-div %) "M4"))))
-                   "BlueM1M2" (make-division "Blue Belt M1 M2" 
-                                              #(and (= (:belt %) "Blue")
-                                                    (or 
-                                                      (= (.age-div %) "M1")
-                                                      (= (.age-div %) "M2"))))
-                   "BlueM3M4" (make-division "Blue Belt M3 M4" 
-                                              #(and (= (:belt %) "Blue")
-                                                    (or 
-                                                      (= (.age-div %) "M3")
-                                                      (= (.age-div %) "M4"))))
-                   "BlueM5" (make-division "Blue Belt M5" 
-                                         #(and (= (:belt %) "Blue")
-                                               (= (.age-div %) "M5")))}]
+        divisions [(make-division "ALL" (constantly true))
+                   (make-division "White Belt M1 M2 - Light" 
+                                  #(and (= (:belt %) "White")
+                                        (#{"M1" "M2"} (.age-div %))
+                                        (> 74 (:weight %))))
+                   (make-division "White Belt M2 M2 - Medium" 
+                                  #(and (= (:belt %) "White")
+                                        (#{"M1" "M2"} (.age-div %))
+                                        (> 85 (:weight %))
+                                        (< 74 (:weight %))))
+                   (make-division "White Belt M2 M2 - Heavy" 
+                                  #(and (= (:belt %) "White")
+                                        (#{"M1" "M2"} (.age-div %))
+                                        (< 85 (:weight %))))
+                   (make-division "White Belt M3 M4 - Light" 
+                                  #(and (= (:belt %) "White")
+                                        (or 
+                                          (= (.age-div %) "M3")
+                                          (= (.age-div %) "M4"))))
+                   (make-division "Blue Belt M1 M2 - Light" 
+                                  #(and (= (:belt %) "Blue") 
+                                        (#{"M1" "M2" "M3" "M4"} (.age-div %))
+                                        (> 95 (:weight %))))
+                   (make-division "Blue Belt M1 M2 - Heavy" 
+                                  #(and (= (:belt %) "Blue")
+                                        (#{"M1" "M2"} (.age-div %))
+                                        (< 95 (:weight %))))
+                   (make-division "Blue Belt M3 M4 - Light" 
+                                  #(and (= (:belt %) "Blue")
+                                        (or 
+                                          (= (.age-div %) "M3")
+                                          (= (.age-div %) "M4"))
+                                        (> 90 (:weight %))))
+                   (make-division "Blue Belt M3 M4 - Heavy" 
+                                  #(and (= (:belt %) "Blue")
+                                        (or 
+                                          (= (.age-div %) "M3")
+                                          (= (.age-div %) "M4"))
+                                        (< 90 (:weight %))))
+                   (make-division "Blue Belt M5" 
+                                  #(and (= (:belt %) "Blue")
+                                        (= (.age-div %) "M5")))]
+        divisions (into (sorted-map) (for [d divisions]
+                                       [(:name d) d]))]
     {:initialised true
      :page :matches
      :clubs clubs

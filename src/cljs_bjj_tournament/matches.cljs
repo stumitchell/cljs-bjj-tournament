@@ -20,7 +20,7 @@
         choice1 (atom #{})
         choice2 (atom #{})
         division (atom #{(first (vals @divisions))})
-        sort-button (atom :name)
+        sort-button (atom :weight)
         match-link (fn
                      [m]
                      (let [p1 (@competitors (first m))

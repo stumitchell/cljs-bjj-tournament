@@ -129,7 +129,7 @@
         new-competitor (reagent/atom 
                          (make-competitor "fname" "lname" 
                                           "gender" "yob" "belt" 
-                                          "club"))]
+                                          "club" 0))]
     (fn []
       (let [competitor (if-not (nil? @edit-competitor)
                          (reagent/atom (@competitors @edit-competitor))
@@ -154,7 +154,7 @@
                        (reset! new-competitor 
                                (make-competitor "fname" "lname" 
                                                 "gender" "yob" "belt" 
-                                                "club")))]]]))))
+                                                "club" 0)))]]]))))
 
 (defn- load-file-handler
   []
