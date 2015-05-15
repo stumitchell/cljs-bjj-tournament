@@ -8,6 +8,13 @@ Tournament creation software written in clojurescript
 
 Hopefull create an example app in re-frame and re-com for bjj tournament planning
 
+## TODO's
+
+ * CRUD operations for Divisions
+ * CRUD operations for Clubs
+ * Local storage
+ * firebase integration
+ 
 ## Setup
 
 Subsequent dev builds can use:

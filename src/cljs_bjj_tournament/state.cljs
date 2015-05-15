@@ -24,7 +24,17 @@
                           "resources/club_logos/oliver-mma.png")
         clubs {"ABJJ" abjj
                "Tukaha" tukaha
-               "Oliver MMA" oliver-mma}
+               "Oliver MMA" oliver-mma
+               "DS Team" (Club. "DS Team" "DS Team" 
+                               "resources/club_logos/DS-team.png")
+               "UJC" (Club. "UJC" "University Judo Club"
+                            "resources/club_logos/UJC.png")
+               "City BJJ" (Club. "City BJJ" "City BJJ"
+                                 "resources/club_logos/city-bjj.png")
+               "Zero Gravity" (Club. "Zero Gravity" "Zero Gravity BJJ"
+                                     "resources/club_logos/zero-gravity.png")
+               "Clinch" (Club. "Clinch" "Clinch BJJ" 
+                               "resources/club_logos/clinch.png")}
         competitors (map make-competitor-from-map competitors)
         [competitors clubs] (link-competitors-with-clubs competitors clubs)
         competitors-map (into {}
