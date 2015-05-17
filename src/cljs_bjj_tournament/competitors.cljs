@@ -28,7 +28,7 @@
                 :on-mouse-out  (handler-fn (reset! mouse-over nil))}
      :children [[label :label (.full-name row) :width (:name col-widths)]
                 [label :label (:gender row) :width (:gender col-widths)]
-                [label :label (:name (:club row)) :width (:club col-widths)]
+                [label :label (:club-name row) :width (:club-name col-widths)]
                 [label :label (:yob   row) :width (:yob   col-widths)]
                 [label :label (:belt   row) :width (:belt   col-widths)]
                 [h-box
@@ -72,7 +72,6 @@
                                 "Brown"  4
                                 "Black"  5
                                 6)
-                       :club #(:name (:club %))
                        key))]
     (fn [rows col-widths]
       [v-box
@@ -85,7 +84,7 @@
                                :class    "rc-div-table-header"
                                :children [[label-fn "Name" :name col-widths]
                                           [label-fn "Gender" :gender col-widths]
-                                          [label-fn "Club" :club col-widths]
+                                          [label-fn "Club" :club-name col-widths]
                                           [label-fn "YOB" :yob col-widths]
                                           [label-fn "Belt" :belt col-widths]
                                           [label-fn "Actions" :actions col-widths]]]
@@ -129,7 +128,7 @@
         new-competitor (reagent/atom 
                          (make-competitor "fname" "lname" 
                                           "gender" "yob" "belt" 
-                                          "club" 0))]
+                                          "club-name" 0))]
     (fn []
       (let [competitor (if-not (nil? @edit-competitor)
                          (reagent/atom (@competitors @edit-competitor))
@@ -154,7 +153,7 @@
                        (reset! new-competitor 
                                (make-competitor "fname" "lname" 
                                                 "gender" "yob" "belt" 
-                                                "club" 0)))]]]))))
+                                                "club-name" 0)))]]]))))
 
 (defn- load-file-handler
   []
@@ -175,7 +174,7 @@
 (defn competitor-panel
   []
   (let [competitors (subscribe [:competitors])
-        col-widths {:name "15em" :gender "6em" :club "15em" :yob "4em" :belt "4.5em" :actions "4.5em"}]
+        col-widths {:name "15em" :gender "6em" :club-name "15em" :yob "4em" :belt "4.5em" :actions "4.5em"}]
     (fn []
       [v-box 
        :gap "10px"

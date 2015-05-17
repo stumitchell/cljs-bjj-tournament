@@ -38,22 +38,23 @@
       :else "M5")))
 
 (defrecord Competitor
-  [guid fname lname gender yob belt club weight]
+  [guid fname lname gender yob belt club-name weight]
   Object
+  (get-club [_] (get-in @app-db [:clubs club-name]))
   (full-name [_] (str fname " " lname))
   (full-name-club [this] (str (.full-name this) 
-                              " (" (:name club) ")"
+                              " (" (:name (.get-club this)) ")"
                               " " yob
                               " -- " weight "kg"))
   (url-string [this p] (str p "Name=" (.full-name this) "&" 
-                            p "Team=" (:full-name club) "&"
-                            p "DefaultLogoPath=" (:image-url club) "&"
-                            p "DefaultLogoPath=" (:image-url club) "&"))
+                            p "Team=" (:full-name (.get-club this)) "&"
+                            p "DefaultLogoPath=" (:image-url (.get-club this)) "&"
+                            p "DefaultLogoPath=" (:image-url (.get-club this)) "&"))
   (age-div [this] (age-division this)))
 
 (defn make-competitor
-  [fname lname gender yob belt club weight]
-  (Competitor. (uuid/make-random-uuid) fname lname gender (float yob) belt club (float weight)))
+  [fname lname gender yob belt club-name weight]
+  (Competitor. (uuid/make-random-uuid) fname lname gender (float yob) belt club-name (float weight)))
 
 (defn make-competitor-from-map
   [attrs]
@@ -72,10 +73,11 @@
   (let [;find all clubs that are mentioned
         ;find the new ones
         new-clubs (filter (complement #(contains? clubs %)) 
-                          (map :club competitors))
+                          (map :club-name competitors))
         clubs (into clubs (for [c (map make-club new-clubs)]
                             [(:name c) c]))
-        competitors (map #(assoc % :club (clubs (:club %))) competitors)]
+        ; competitors (map #(assoc % :club (clubs (:club %))) competitors)
+        ]
     [competitors clubs]))
 
 (defn read-csv 
