@@ -87,10 +87,11 @@
     {:initialised true
      :page :matches
      :clubs clubs
-     :competitors competitors-map
+     ; :competitors competitors-map
      :divisions divisions
-     :matches [(make-match "ALL" (:guid (first (vals competitors-map))) 
-                              (:guid (last (vals competitors-map))))]}))
+     ; :matches [(make-match "ALL" (:guid (first (vals competitors-map))) 
+     ;                          (:guid (last (vals competitors-map))))]
+     }))
 
 (def default-state
   {:initialised true
@@ -138,12 +139,37 @@
 
 (reg-sub-key :page)
 
-(reg-sub-key :competitors)
-
-(reg-sub-key :matches)
-
-(reg-sub-key :clubs)
-
 (reg-sub-key :edit-competitor)
 
 (reg-sub-key :divisions)
+
+(defn persistent-path
+  "This middleware will persist the changes in the handler into
+  local-storage"
+  [p]
+  (fn middleware
+    [handler]
+    ((path p)
+      (fn new-handler
+        [db v]
+        (let [result (handler db v)]
+          (swap! persistent-db assoc-in p result)
+          result)))))
+
+(defn register-persistent-sub-key
+  [key]
+  (register-sub
+    key
+    (fn [db [_]]
+      (reaction (key @db))))
+  (register-handler
+    key
+    (persistent-path [key])
+    (fn [_ [_ value]]
+      value)))
+
+(register-persistent-sub-key :matches)
+
+(register-persistent-sub-key :competitors)
+
+(register-persistent-sub-key :clubs)
