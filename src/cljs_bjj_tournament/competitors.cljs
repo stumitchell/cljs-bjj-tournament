@@ -146,6 +146,7 @@
           [competitor-field "Gender" :gender competitor]
           [competitor-field "YOB" :yob competitor]
           [competitor-field "Belt" :belt competitor]
+          [competitor-field "Club" :club-name competitor]
           [button
            :label "Save"
            :on-click (fn []
