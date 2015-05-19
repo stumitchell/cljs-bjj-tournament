@@ -6,13 +6,14 @@ Tournament creation software written in clojurescript
 
 ## Overview
 
-Hopefull create an example app in re-frame and re-com for bjj tournament planning
+This tool's aim is to provide database, draws and timekeeping for a Brazilian Jiu-Jitsu Tournament.
+
+At the moment draws are not provided but timekeeping, competitor, club and division information are
 
 ## TODO's
 
  * CRUD operations for Divisions
  * CRUD operations for Clubs
- * Local storage
  * firebase integration
  
 ## Setup
@@ -33,6 +34,6 @@ For more info on Cljs compilation, read [Waitin'](http://swannodette.github.io/2
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright © 2014 Stuart Mitchell and David Scott
 
 Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.

@@ -10,8 +10,7 @@
                                    register-handler
                                    path]]
             [re-frame.db :refer [app-db]]
-            [alandipert.storage-atom :refer [local-storage]]
-            [cljs-bjj-tournament.competitors-csv :refer [competitors]]))
+            [alandipert.storage-atom :refer [local-storage]]))
 
 (enable-console-print!)
 
@@ -35,11 +34,6 @@
                                      "resources/club_logos/zero-gravity.png")
                "Clinch" (Club. "Clinch" "Clinch BJJ" 
                                "resources/club_logos/clinch.png")}
-        competitors (map make-competitor-from-map competitors)
-        [competitors clubs] (link-competitors-with-clubs competitors clubs)
-        competitors-map (into {}
-                              (for [c competitors]
-                                [(:guid c) c]))
         divisions [(make-division "ALL" (constantly true))
                    (make-division "White Belt M1 M2 - Light" 
                                   #(and (= (:belt %) "White")
@@ -85,7 +79,7 @@
         divisions (into (sorted-map) (for [d divisions]
                                        [(:name d) d]))]
     {:initialised true
-     :page :matches
+     :page :intro
      :clubs clubs
      ; :competitors competitors-map
      :divisions divisions

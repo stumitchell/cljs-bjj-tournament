@@ -9,7 +9,8 @@
                                  input-text
                                  info-button
                                  gap
-                                 button]
+                                 button
+                                 hyperlink-href]
              :refer-macros [handler-fn]]
             [re-com.util :refer [get-element-by-id 
                                  enumerate]]
@@ -179,10 +180,20 @@
       [v-box 
        :gap "10px"
        :children 
-       [[title 
+       [[:div "This panel allows you to add, delete and edit competitor
+              information in the tool"]
+        [:div "To begin it is advised to load competitor information in 
+              from a csv file similar to the one found "
+              [hyperlink-href 
+               :label "here"
+               :target "_blank"
+               :href "../resources/sample-competitors.csv"]]
+        [line]
+        [load-csv-file]
+        [line]
+        [title 
          :label "Current competitors"]
         [data-table (vals @competitors) col-widths]
         
         [line]
-        [add-competitor]
-        [load-csv-file]]])))
+        [add-competitor]]])))

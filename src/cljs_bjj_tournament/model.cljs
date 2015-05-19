@@ -74,7 +74,7 @@
   (let [clubs (:clubs @app-db)
         fname (first (clojure.string/split (attrs "Name") #" "))
         lname (last (clojure.string/split (attrs "Name") #" "))
-        gender "Male"
+        gender (attrs "Gender") 
         yob (attrs "YOB")
         belt (attrs "Belt")
         club (attrs "Club")
