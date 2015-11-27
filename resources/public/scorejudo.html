@@ -1,0 +1,2744 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>ScoreJudo-HTML - Judo Scoreboard in a webpage Ver 3_0</title>
+<meta charset="UTF-8">
+<style type="text/css">
+body {
+font-size: 15px;
+background-color: #000000;
+padding: 0px;
+margin: 0px;
+}
+
+table {
+border-collapse:collapse;
+border:0px;
+}
+
+.radii {
+border-radius: 6px;
+border:1px solid #000000;
+}
+
+input.banner {
+font-size: 250%;
+font-weight: bold;
+color: #006600;
+background-color: #dddddd;
+text-align: center;
+border: 0px solid #ff0000;
+}
+
+table.infotable {
+border-bottom: 0px solid #000000;
+}
+
+.greyinfo {
+text-decoration: none;
+font-size: 240%;
+font-weight: bold;
+color: #006600;
+}
+
+div {
+border:0px solid #000000;
+display:block;
+text-align:center;
+}
+
+td {
+text-align:center;
+}
+
+div.bluelabel {
+text-decoration: none;
+font-size: 150%;
+font-weight: bold;
+color: #000000;
+}
+
+div.whitelabel {
+text-decoration: none;
+font-size: 150%;
+font-weight: bold;
+color: #000000;
+}
+
+div.bluescore {
+cursor: hand;
+cursor: pointer;
+text-decoration: none;
+font-size: 1000%;
+font-weight: bold;
+color: #000000;
+}
+
+div.whitescore {
+cursor: hand;
+cursor: pointer;
+text-decoration: none;
+font-size: 1000%;
+font-weight: bold;
+color: #000000;
+}
+
+div.bluepenalty {
+cursor: hand;
+cursor: pointer;
+text-decoration: none;
+font-size: 600%;
+font-weight: bold;
+color: #ff0000;
+border: 3px solid #ff4400;
+background-color: #ffff00;
+margin: 20px;
+margin-top: 6px;
+-moz-border-radius: 12px;
+-webkit-border-radius: 12px;
+-khtml-border-radius: 12px;
+border-radius: 12px;
+}
+
+a.bluelink {
+font-size: 15px;
+font-weight: bold;
+color: #ddddff;
+text-decoration: underline;
+padding-left: 6px;
+padding-right: 6px;
+}
+
+a.bluelink:hover {
+background-color: #1111dd;
+}
+
+a.bluelinkbare {
+font-size: 15px;
+font-weight: bold;
+color: #ddddff;
+text-decoration: none;
+padding-left: 6px;
+padding-right: 6px;
+}
+
+a.bluelinkbare:hover {
+background-color: #1111dd;
+}
+
+a.whitelink {
+font-size: 15px;
+font-weight: bold;
+color: #777777;
+text-decoration: underline;
+padding-left: 6px;
+padding-right: 6px;
+}
+
+a.whitelink:hover {
+background-color: #dddddd;
+}
+
+a.whitelinkbare {
+font-size: 15px;
+font-weight: bold;
+color: #777777;
+text-decoration: none;
+padding-left: 6px;
+padding-right: 6px;
+}
+
+a.whitelinkbare:hover {
+background-color: #dddddd;
+}
+
+a.greenlink {
+font-size: 15px;
+font-weight: bold;
+color: #00dd00;
+text-decoration: underline;
+padding-left: 6px;
+padding-right: 6px;
+}
+
+a.greenlink:hover {
+background-color: #003800;
+}
+
+a.resetall {
+font-size: 18px;
+font-weight: bold;
+}
+
+a.greylink {
+font-size: 15px;
+font-weight: bold;
+color: #555555;
+text-decoration: underline;
+padding-left: 2px;
+padding-right: 2px;
+}
+
+a.greylink:hover {
+background-color: #ffffff;
+}
+
+.blueplayer {
+font-size: 300%;
+font-weight: bold;
+color: #ffffff;
+background-color: #3377ff;
+border: 0px solid #0000ff;
+}
+
+.whiteplayer {
+font-size: 300%;
+font-weight: bold;
+color: #000000;
+background-color: #ffffff;
+border: 0px solid #aaaaaa;
+}
+
+div.globalosaekomi {
+cursor: hand;
+cursor: pointer;
+font-size: 700%;
+font-weight: bold;
+color: #44ff44;
+margin-top:-20px;
+border:0px solid #ffff00;
+}
+
+div.osaekomiblue {
+cursor: hand;
+cursor: pointer;
+font-size: 700%;
+font-weight: bold;
+color: #44ff44;
+}
+
+div.osaekomiwhite {
+cursor: hand;
+cursor: pointer;
+font-size: 700%;
+font-weight: bold;
+color: #00bb00;
+}
+
+div.globalosaekomiwhichplayerwrap {
+clear:both;
+width:70%;
+height:22px;
+text-align:center;
+margin-top:12px;
+margin-left:auto;
+margin-right:auto;
+font-size: 15px !important;
+}
+
+div.globalosaekomitoriwhite {
+cursor: hand;
+cursor: pointer;
+width:15%;
+height:20px;
+background-color: #ffffff;
+float:left;
+font-weight: bold;
+}
+
+div.globalosaekomitoriblue {
+cursor: hand;
+cursor: pointer;
+width:15%;
+height:20px;
+background-color: #3377ff;
+float:right;
+color:#ffffff;
+font-weight: bold;
+}
+
+div.globalosaekomitoriprompt {
+width:69%;
+height:20px;
+color: #00dd00;
+font-weight:bold;
+text-align:center;
+float:left;
+}
+
+div.mainclock {
+font-size: 800%;
+font-weight: bold;
+color: #ffff00;
+}
+
+div.globalosaekomi {
+cursor: hand;
+cursor: pointer;
+font-size: 600%;
+font-weight: bold;
+color: #ffff00;
+}
+
+div.goldenscore {
+font-size: 300%;
+color: #ffff00;
+}
+
+div.hajime {
+text-decoration: underline;
+cursor: hand;
+cursor: pointer;
+font-size: 160%;
+color: #ffff00;
+margin: 12px;
+padding: 12px;
+border: 1px solid #006000;
+-moz-border-radius: 12px;
+-webkit-border-radius: 12px;
+-khtml-border-radius: 12px;
+border-radius: 12px;
+}
+
+div.hajime:hover {
+background-color: #003800;
+}
+
+div.sonomama {
+font-size: 120%;
+margin-bottom: 10px;
+}
+
+div.smallfry {
+font-size: 15px;
+}
+
+.goldenscore_GS {
+font-size: 400%;
+padding: 0px;
+color: #ffaa00;
+font-weight: bold;
+}
+
+</style>
+<script type="text/javascript">
+lastelement = 'blueippon';
+currentfontsize = '15';
+mainClockRunning = 0;
+globalOsaekomiClockRunning = 0;
+var centralClockRunning = false;
+var osaeClockRunning = false;
+mainSeconds = 0;
+mainMinutes = 5;
+globalOsaeSeconds = 0;
+defaultmatch = '5:00';
+defaultMainSeconds = 0;
+defaultMainMinutes = 5;
+isGoldenScore = false;
+bell_enabled = true;
+
+
+
+//mc = null;
+//gc = null;
+var mac = null;
+
+//globalOsaekomiClockRunning = 0;
+
+
+
+var localdb = false;
+
+
+var preferred_bell = 0;
+
+var traditional = false;  /// let the scripting change this - not you !
+
+
+
+
+
+
+function is_explorer(){
+var s = navigator.appVersion;
+var pattern = /MSIE/i;
+var b = pattern.test(s);
+return b;
+}
+
+var urlParams;
+(window.onpopstate = function () {
+    var match,
+        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+        search = /([^&=]+)=?([^&]*)/g,
+        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+        query  = window.location.search.substring(1);
+
+    urlParams = {};
+    while (match = search.exec(query))
+       urlParams[decode(match[1])] = decode(match[2]);
+})();
+
+
+
+
+
+
+
+
+
+////////////////// general match play functions //////////////////////////////////////////////////////////////////////
+
+
+
+
+function hajime_matte(){
+
+if (document.getElementById('hajimeswitch').innerHTML == 'Hajime'){
+// hajime was pressed
+
+centralClockRunning = true;
+document.getElementById('hajimeswitch').innerHTML = 'Matte';
+bell_enabled = true;
+
+if (document.getElementById('goldenscore').innerHTML != 'Gs'){
+document.getElementById('goldenscore').innerHTML = '&nbsp;';
+}
+
+
+// special case for sonomama
+
+if ((document.getElementById('globalfreezeswitch').innerHTML == 'Yoshi') && (document.getElementById('globalholddownswitch').innerHTML == 'Toketa')){
+// hold down in progress - yoshi SHOULD have been pressed but hajime was pressed instead
+document.getElementById('globalfreezeswitch').innerHTML = 'Sonomama';
+osaeClockRunning = true;
+}
+// end special case
+
+
+if (document.getElementById('globalholddownswitch').innerHTML == 'Toketa'){
+document.getElementById('globalfreezeswitch').innerHTML = 'Sonomama';
+}
+
+document.getElementById('globalfreezeswitch').innerHTML = 'Sonomama';
+
+
+
+} else {
+// matte was pressed
+
+bell_enabled = false;
+centralClockRunning = false;
+document.getElementById('hajimeswitch').innerHTML = 'Hajime';
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+function parse_seconds (s){
+var a = s.split(":");
+var count = a.length;
+var minutes = 0;
+var seconds = 0;
+var answer = 0;
+
+if (count > 1){
+minutes = parseInt(a[0]);
+seconds = parseInt(a[1]);
+} else {
+seconds = parseInt(s);
+}
+
+answer = (minutes * 60) + seconds;
+return answer;
+}
+
+
+
+
+
+function paint_mainclock(secs){
+
+var tmins = 0;
+var tsecs = 0;
+var tsecsStr = '';
+var bldstr = '';
+
+if (secs > 59){
+tmins = Math.floor(secs / 60);
+tsecs = secs % 60;
+} else {
+tmins = 0;
+tsecs = secs;
+}
+
+//if (tmins < 1){tmins = 0; }
+
+if (tsecs < 10){tsecsStr = '0' + tsecs.toString(); } else {tsecsStr = tsecs.toString(); }
+
+bldstr = tmins.toString() + ':' + tsecsStr;
+
+document.getElementById('mainclock').innerHTML = bldstr;
+
+}
+
+
+
+
+
+
+function masterstopwatch() {
+
+var clockreading = document.getElementById('mainclock').innerHTML;
+var osaereading = document.getElementById('globalosaekomi').innerHTML
+var centralClockSeconds = parse_seconds(clockreading.toString());
+var osaeClockSeconds = parse_seconds(osaereading);
+var tempMinutes = 0;
+var tempSeconds = centralClockSeconds;
+
+// first the central clock
+
+if (centralClockRunning){
+
+if (!isGoldenScore){
+centralClockSeconds--;
+} else {
+centralClockSeconds++;
+}
+
+if (centralClockSeconds < 1){
+centralClockSeconds = 0;
+}
+
+if (centralClockSeconds > 3599){   //7200 = 2 hrs 21600 = 24 hrs
+centralClockSeconds = 3600;
+}
+
+paint_mainclock(centralClockSeconds);
+
+if (centralClockSeconds < 1){
+document.getElementById('goldenscore').innerHTML = '!';
+if (!osaeClockRunning){
+ring_bell();
+}
+}
+
+
+}   /// end central clock
+
+
+
+
+
+// same for osaeclock
+if ((osaeClockRunning) && (centralClockRunning)){
+osaeClockSeconds++;
+
+if (osaeClockSeconds < 1){
+osaeClockSeconds = 0;
+}
+
+if (osaeClockSeconds > 20){   //7200 = 2 hrs 21600 = 24 hrs
+osaeClockSeconds = 20;
+ring_bell();
+centralClockRunning = false;
+osaeClockRunning = false;
+document.getElementById('goldenscore').innerHTML = '!';
+hajime_matte();
+}
+
+// paint the osae clock
+document.getElementById('globalosaekomi').innerHTML = osaeClockSeconds.toString();
+
+}
+
+
+mac = window.setTimeout(masterstopwatch, 1000);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function resetOsae(whichcolour){
+
+osaeClockRunning = false;
+document.getElementById('globalholddownswitch').innerHTML = 'Osaekomi';
+document.getElementById('globalosaekomi').innerHTML = '0';
+
+resettoriprompt();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+function globalholddown(){
+var defaultstartvalue = 0;
+
+if (document.getElementById('globalholddownswitch').innerHTML == 'Osaekomi'){
+// Osaekomi was pressed
+//globalOsaeSeconds = defaultstartvalue;
+
+document.getElementById('globalosaekomi').innerHTML = '0';
+
+document.getElementById('globalholddownswitch').innerHTML = 'Toketa';
+//document.getElementById('globalfreezeswitch').innerHTML = 'SonoMama';
+osaeClockRunning = true;
+
+
+} else {
+/// toketa was pressed
+
+document.getElementById('globalholddownswitch').innerHTML = 'Osaekomi';
+osaeClockRunning = false;
+}
+
+
+}
+
+
+
+
+
+
+
+function globalfreeze(){
+
+
+if (document.getElementById('globalfreezeswitch').innerHTML == 'Sonomama'){
+/// sononmama was pressed
+document.getElementById('globalfreezeswitch').innerHTML = 'Yoshi';
+document.getElementById('hajimeswitch').innerHTML = 'Hajime';
+//window.clearTimeout(gc);
+
+centralClockRunning = false;
+osaeClockRunning = false;
+
+} else {
+// yoshi was pressed
+
+centralClockRunning = true;
+
+document.getElementById('globalfreezeswitch').innerHTML = 'Sonomama';
+document.getElementById('hajimeswitch').innerHTML = 'Matte';
+
+if (document.getElementById('globalholddownswitch').innerHTML == 'Toketa'){
+// a hold down was in progress - therefore . . .
+osaeClockRunning = true;
+}
+
+
+
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function nominateosaetori(whichplayer){
+
+document.getElementById('globalosaekomitoriprompt').style.display = 'none';
+
+if (whichplayer == 0){
+
+document.getElementById('globalosaekomitoriblue').style.width = '15%';
+document.getElementById('globalosaekomitoriwhite').style.width = '84%';
+
+document.getElementById('globalosaekomitoriblue').innerHTML = '';
+document.getElementById('globalosaekomitoriwhite').innerHTML = 'Tori';
+
+
+}
+
+if (whichplayer == 1){
+document.getElementById('globalosaekomitoriwhite').style.width = '15%';
+document.getElementById('globalosaekomitoriblue').style.width = '84%';
+
+document.getElementById('globalosaekomitoriblue').innerHTML = 'Tori';
+document.getElementById('globalosaekomitoriwhite').innerHTML = '';
+
+
+}
+
+
+}
+
+
+
+function resettoriprompt(){
+
+document.getElementById('globalosaekomitoriblue').style.width = '15%';
+document.getElementById('globalosaekomitoriwhite').style.width = '15%';
+
+document.getElementById('globalosaekomitoriblue').innerHTML = '';
+document.getElementById('globalosaekomitoriwhite').innerHTML = '';
+
+document.getElementById('globalosaekomitoriprompt').style.display = 'block';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function changescore(divid, updown) {
+var currentscore;
+currentscore = Number(document.getElementById(divid).innerHTML);
+if (updown == 1){currentscore++; } else {currentscore--; }
+if (currentscore<0){currentscore=0; }
+document.getElementById(divid).innerHTML = currentscore;
+lastelement = divid;
+
+// better stop the show if this is golden score
+if ((document.getElementById('goldenscore').innerHTML == 'Gs') && (centralClockRunning) && (updown == 1)){
+
+hajime_matte();
+}
+
+
+// better also stop the show if it was in ippon and not golden score
+if (centralClockRunning){
+if ((((divid == 'blueippon') || (divid == 'whiteippon')) && (document.getElementById('goldenscore').innerHTML != 'Gs')) && (updown == 1)){
+document.getElementById('goldenscore').innerHTML = '!';
+//ring_bell();
+hajime_matte();
+}
+}
+
+}
+
+
+
+function changepenalty(divid, updown) {
+var oldpenalty;
+var newpenalty;
+oldpenalty = Number(document.getElementById(divid).innerHTML);
+newpenalty = oldpenalty;
+if (updown == 1){newpenalty++; } else {newpenalty--; }
+if (newpenalty < 0){newpenalty = 0; }
+if (newpenalty > 4){newpenalty = 4; }
+document.getElementById(divid).innerHTML = newpenalty;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function resetGoldScore(){
+isGoldenScore = true;
+var tempmatchstr = "0:00";
+//var tempsecs = defaultMainSeconds;
+
+centralClockRunning = false;
+osaeClockRunning = false;
+
+
+
+document.getElementById('goldenscore').innerHTML = 'Gs';
+document.getElementById('mainclock').innerHTML = tempmatchstr;
+document.getElementById('hajimeswitch').innerHTML = 'Hajime';
+document.getElementById('globalholddownswitch').innerHTML = 'Osaekomi';
+//document.getElementById('globalfreezeswitch').innerHTML = '';
+document.getElementById('globalosaekomi').innerHTML = '0';
+
+resettoriprompt();
+
+bell_enabled = true;
+
+}
+
+
+
+
+function setdefaultmatch(clocklabel, mins, secs){
+var j = 0;
+defaultMainMinutes = mins;
+defaultMainSeconds = secs;
+defaultmatch = clocklabel;
+for (j = 1; j <= 5; j++){
+document.getElementById('min_' + String(j)).style.background.color = "#004400";
+}
+document.getElementById('min_' + String(mins)).style.background.color = "#003300";
+
+resetAll();
+}
+
+function resetAll()
+{
+
+centralClockRunning = false;
+osaeClockRunning = false;
+
+
+isGoldenScore = false;
+
+document.getElementById('goldenscore').innerHTML = '&nbsp;';
+document.getElementById('mainclock').innerHTML = defaultmatch;
+document.getElementById('hajimeswitch').innerHTML = 'Hajime';
+document.getElementById('globalholddownswitch').innerHTML = 'Osaekomi';
+
+document.getElementById('globalosaekomi').innerHTML = '0';
+
+document.getElementById('blueippon').innerHTML = '0';
+document.getElementById('bluewazari').innerHTML = '0';
+document.getElementById('blueyuko').innerHTML = '0';
+
+document.getElementById('whiteippon').innerHTML = '0';
+document.getElementById('whitewazari').innerHTML = '0';
+document.getElementById('whiteyuko').innerHTML = '0';
+
+document.getElementById('bluepenalty').innerHTML = '0';
+document.getElementById('whitepenalty').innerHTML = '0';
+
+
+changematch(1);
+
+adjustscreen();
+bell_enabled = true;
+disableSpacekey();
+
+resettoriprompt();
+
+}
+
+
+
+
+
+
+
+function changemat(updown){
+var s = document.getElementById('matnum').innerHTML;
+s = s.substr(4);
+var i = Number(s);
+if (updown == 1){
+i++;
+} else {
+i--;
+}
+if (i < 1){
+i = 1;
+}
+if (i > 12){
+i = 12;
+}
+
+document.getElementById('matnum').innerHTML = "Mat " + String(i);
+
+}
+
+
+
+
+
+
+function changematch(updown){
+var s = document.getElementById('matchnum').innerHTML;
+s = s.substr(5);
+var i = Number(s);
+if (updown == 1){
+i++;
+} else {
+i--;
+}
+if (i < 1){
+i = 1;
+}
+if (i > 900){
+i = 900;
+}
+
+document.getElementById('matchnum').innerHTML = "Bout " + String(i);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////// various non-critical utilities /////////////////////////////////////////////////////
+
+
+function toggle_to_blue(){
+document.getElementById('bluebandcontainer').style.backgroundColor = '#3377ff';
+//document.getElementById('bluebandosaecontainer').style.backgroundColor = '#3377ff';
+document.getElementById('globalosaekomitoriblue').style.backgroundColor = '#3377ff';
+document.getElementById('blueplayername').style.backgroundColor = '#3377ff';
+
+if (traditional){
+var table = document.getElementById('pagetop');
+var firstRow = table.rows[1];
+var secondRow = table.rows[2];
+firstRow.parentNode.insertBefore (secondRow, firstRow);
+}
+
+traditional = false;
+
+}
+
+
+function toggle_to_red(){
+document.getElementById('bluebandcontainer').style.backgroundColor = '#ff0000';
+//document.getElementById('bluebandosaecontainer').style.backgroundColor = '#ff0000';
+document.getElementById('globalosaekomitoriblue').style.backgroundColor = '#ff0000';
+document.getElementById('blueplayername').style.backgroundColor = '#ff0000';
+
+
+if (!traditional){
+var table = document.getElementById('pagetop');
+var firstRow = table.rows[1];
+var secondRow = table.rows[2];
+firstRow.parentNode.insertBefore (secondRow, firstRow);
+}
+traditional = true;
+}
+
+
+function update_welcome(){
+document.getElementById('welcome_msg').innerHTML = document.getElementById('welcome_input').value;
+window.location = '#pagetop';
+disableSpacekey();
+}
+
+
+function change_msg_colour(newcolour){
+document.getElementById('welcome_table').style.backgroundColor = newcolour;
+}
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+function fontsize(updown) {
+var currentsize = Number(currentfontsize);
+//if (updown == 1){currentsize = currentsize + Math.round(currentsize * 0.05); }
+//if (updown == 0){currentsize = currentsize - Math.round(currentsize * 0.05); }
+if (updown == 1){currentsize = currentsize + 1; }
+if (updown == 0){currentsize = currentsize - 1; }
+
+
+if ((updown != 1) && (updown != 0)){currentsize = updown; }
+if (currentsize < 4){currentsize = 4; }
+if (currentsize > 200){currentsize = 200; }
+currentfontsize = Number(currentsize);
+document.getElementById('scorebody').style.fontSize = String(currentsize) + 'px';
+}
+
+
+
+
+
+
+
+function fontinfo(){
+alert(currentfontsize);
+}
+
+
+
+
+
+
+
+
+
+
+
+function ring_bell(){
+if (bell_enabled){
+if (preferred_bell == 0){
+document.getElementById('audiotagbell').play();
+}
+
+if (preferred_bell == 1){
+document.getElementById('audiotagbuzzer').play();
+}
+
+if (preferred_bell == 2){
+document.getElementById('audiotagsiren').play();
+}
+
+if (preferred_bell == 3){
+document.getElementById('audiotagchime').play();
+}
+
+
+bell_enabled = false;
+}
+}
+
+
+
+
+function force_bell(){
+var old_state = bell_enabled;
+ring_bell();
+bell_enabled = old_state;
+}
+
+
+function testbell(whichbell){
+var old_enabled = bell_enabled;
+var old_preferred = preferred_bell;
+
+preferred_bell = whichbell;
+bell_enabled = true;
+ring_bell();
+preferred_bell = old_preferred;
+bell_enabled = old_enabled;
+}
+
+
+
+
+
+
+
+
+function selectbell(whichbell){
+preferred_bell = whichbell;
+var divid = 'bar0';
+for (j = 0; j < 4; j++){
+divid = 'bar' + j.toString();
+document.getElementById(divid).style.backgroundColor = '#888888';
+}
+divid = 'bar' + whichbell.toString();
+document.getElementById(divid).style.backgroundColor = '#ffff00';
+}
+
+
+
+
+
+
+
+
+function force_main_clock(el1, el2){
+var s = '';
+s = document.getElementById(el1).value + ':' + document.getElementById(el2).value;
+document.getElementById('mainclock').innerHTML = s;
+}
+
+
+function force_osae_clock(el1){
+var s = '';
+s = document.getElementById(el1).value;
+document.getElementById('globalosaekomi').innerHTML = s;
+}
+
+
+
+
+function adjustscreen(){
+var maxresize = 128;
+var fcounter = 0;
+var tableheight = document.getElementById('pagetop').clientHeight;
+t = document.getElementsByTagName('html');
+var windowheight = t[0].clientHeight;
+
+
+//fontsize(15);
+//currentfontsize = Number(15);
+
+// downsize
+while ((tableheight > (windowheight - 30)) && (fcounter < maxresize)){
+fcounter++;
+fontsize(0);
+tableheight = document.getElementById('pagetop').clientHeight;
+//t = document.getElementsByTagName('html');
+windowheight = t[0].clientHeight;
+}
+
+fcounter = 0;
+
+//upsize
+while ((tableheight < windowheight - 20) && (fcounter < maxresize)){
+fcounter++;
+fontsize(1);
+tableheight = document.getElementById('pagetop').clientHeight;
+//t = document.getElementsByTagName('html');
+windowheight = t[0].clientHeight;
+}
+fcounter = 0;
+
+}
+
+
+
+var spacekeyDisabled = true;
+
+
+
+
+
+
+function enableSpacekey(){
+spacekeyDisabled = false;
+}
+
+function disableSpacekey(){
+spacekeyDisabled = true;
+}
+
+
+document.onkeydown = function(evt) {
+    evt = evt || window.event;
+  if (spacekeyDisabled){
+//   alert(evt.keyCode);
+    if (evt.keyCode == 32) {
+	hajime_matte();
+    return false;
+    }
+
+}
+
+};
+
+
+
+function check_for_traditional(){
+alert('traditional is false');
+}
+
+
+
+
+/// database ////////////////////////////////////////////
+
+
+function trimstr (str) {
+var s = str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+s = s.replace('\r', '');
+s = s.replace('\n', '');
+return s;
+}
+
+
+
+//db = openDatabase("MyContacts", "0.1", "My Personal Contacts", 100000);
+function html5_storage_support() {
+  try {
+    return 'localStorage' in window && window['localStorage'] !== null;
+  } catch (e) {
+    return false;
+  }
+}
+
+
+function dbinit(){
+if (!html5_storage_support) {
+localdb = false;
+} else {
+localdb = true;
+var rawnames = localStorage.getItem('allplayers');
+//if (rawnames.length < 6){
+rawnames = urlParams['p1Name'].concat('\n', urlParams['p2Name']);
+//}
+console.log(rawnames);
+if (rawnames.length < 6){
+rawnames = 'Player 1<br>Player 2';
+}
+
+//document.getElementById('playersnames').innerHTML = rawnames;
+document.getElementById('playersnames').value = rawnames;
+
+
+updateplayers();
+
+}
+
+adjustscreen();
+
+
+
+
+}
+
+
+
+function capitalize (str) {
+return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
+
+function mysort(arrayname){
+var newarray = [];
+var s = '';
+for (j = 0; j < arrayname.length; j++){
+s = trimstr(arrayname[j]);
+if (s.length > 2){
+//alert(s.length.toString());
+s = s.toLowerCase();
+s = capitalize(s);
+newarray.push(s);
+}
+}
+newarray.sort();
+
+return newarray;
+}
+
+
+
+
+
+
+function updateplayers(){
+//playersnames whiteplayername  blueplayername
+var data = document.getElementById('playersnames').value;
+
+
+//namess = namess.replace(/P/gi, '');
+//namess = namess.replace(/P/gi, '');
+
+
+
+var namess = data.split("\n");
+
+
+
+var names = mysort(namess);
+
+
+//var selects_w = '<select id=\"whiteplayername\" name=\"wplayer\" class=\"blueplayer\">\n';
+//var selects_b = '<select id=\"blueplayername\" name=\"bplayer\" class=\"blueplayer\">\n';
+
+var selects_w = '';
+var selects_b = '';
+
+
+var rawnames = '';
+var clickables_w = '';
+var clickables_b = '';
+
+/*
+for (j = 0; j < names.length; j++){
+if (names[j].length > 2){
+selects_w = selects_w + '<option>' + names[j] + '</option>\n';
+selects_b = selects_b + '<option>' + names[j] + '</option>\n';
+}
+}
+*/
+
+
+//selects_w = selects_w + '</select>\n';
+//selects_b = selects_b + '</select>\n';
+
+
+selects_w = '';
+selects_b = '';
+
+
+//////////// rawnames build
+for (j = 0; j < names.length; j++){
+if (names[j].length > 2){
+rawnames = rawnames + names[j];
+if (j < names.length - 1){
+rawnames = rawnames + '\r\n';
+}
+}
+}
+
+
+
+
+// remove whites options ////////////////////////////
+var elementw = document.getElementById('whiteplayername');
+while (elementw.firstChild) {
+  elementw.removeChild(elementw.firstChild);
+}
+
+//document.getElementById('whiteplayername').innerHTML = '';
+
+
+
+
+// add the new white options
+
+var selectw = document.getElementById('whiteplayername');
+var optionsw = selectw.options;
+for (j = 0; j < names.length; j++){
+optionsw[j] = new Option(names[j]);
+}
+
+
+
+// remove blues options //////////////////////////////
+elementb = document.getElementById('blueplayername');
+while (elementb.firstChild) {
+  elementb.removeChild(elementb.firstChild);
+}
+
+//document.getElementById('blueplayername').innerHTML = '';
+
+
+// add the new blue options
+var selectb = document.getElementById('blueplayername');
+var optionsb = selectb.options;
+for (j = 0; j < names.length; j++){
+optionsb[j] = new Option(names[j], names[j]);
+}
+
+
+
+var editTextarea = document.getElementById('playersnames');
+editTextarea.value = rawnames;
+
+
+
+
+//alert(rawnames);
+
+if (localdb){
+// store in html5 storage
+//alert(rawnames);
+localStorage.setItem('allplayers',rawnames);
+
+}
+
+
+}
+
+
+
+
+
+
+
+
+///////////////// end database //////////////////////////////////
+
+
+
+
+
+
+// masterstopwatch started by small script at END of html closure tag
+
+
+//document.onload = function (){masterstopwatch(); }
+
+//window.onload = masterstopwatch(0);
+
+window.onresize = adjustscreen;</script>
+</head>
+<body style="font-size: 15px;" id="scorebody" onload="dbinit()"><table id="pagetop" title="&nbsp;" style="width:100%;">
+<tbody><tr>
+<td style="background-color: #dddddd">
+<table title="&nbsp;" id="welcome_table" style="width:100%;" class="infotable">
+<tbody><tr>
+<td style="width:20px;padding-left: 6px; font-size: 15px">
+<a class="greylink" style="text-decoration: none" href="#" onclick="changemat(1)" title="Increase"><span style="font-size:130%;font-weight:bold;">+</span></a><br><br>
+<a class="greylink" style="text-decoration: none" href="#" onclick="changemat(0)" title="Decrease"><span style="font-size:180%;font-weight:bold;">-</span></a>
+</td>
+<td>
+<div class="greyinfo" id="matnum">
+Mat 1</div></td>
+<td class="greyinfo" id="welcome_msg" style="text-align:center;">
+Auckland University Judo Masters</td>
+<td style="text-align:right;vertical-align:middle;">
+<div class="greyinfo" id="matchnum">
+Bout 1</div></td>
+<td style="padding-left: 6px; padding-right: 2px; font-size: 15px">
+<a class="greylink" style="text-decoration: none" href="#" onclick="changematch(1)" title="Increase"><span style="font-size:130%;font-weight:bold;">+</span></a><br><br>
+<a class="greylink" style="text-decoration: none" href="#" onclick="changematch(0)" title="Decrease"><span style="font-size:180%;font-weight:bold;">-</span></a>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr id="white__panel">
+<td style="background-color: #ffffff">
+<table title="&nbsp;" style="width:100%;">
+<tbody><tr>
+<td style="text-align:left;width:25%;font-size:15px">
+<div id="whitenamewrapper"><select id="whiteplayername" name="wplayer" class="whiteplayer"><option selected="selected">Player 1</option><option>Player 2</option></select></div></td>
+<td>
+<div class="whitelabel">
+<a class="whitelinkbare" title="Subtract 1 Ippon" href="#" onclick="changescore('whiteippon',0)"><span style="font-size:180%;font-weight:bold;">-</span></a>Ippon
+<a class="whitelinkbare" title="Add an Ippon" href="#" onclick="changescore('whiteippon',1)"><span style="font-size:130%;font-weight:bold;">+</span></a></div>
+<div class="whitescore" title="Click for Ippon " id="whiteippon" onclick="changescore('whiteippon',1)">
+0</div>
+</td>
+<td>
+<div class="whitelabel">
+<a class="whitelinkbare" title="Subtract 1 Wazari" href="#" onclick="changescore('whitewazari',0)"><span style="font-size:180%;font-weight:bold;">-</span></a>Wazari
+<a class="whitelinkbare" title="Add 1 Wazari" href="#" onclick="changescore('whitewazari',1)"><span style="font-size:130%;font-weight:bold;">+</span></a></div>
+<div class="whitescore" title="Click for Wazari" id="whitewazari" onclick="changescore('whitewazari',1)">
+0</div>
+</td>
+<td>
+<div class="whitelabel">
+<a class="whitelinkbare" title="Subtract 1 Yuko" href="#" onclick="changescore('whiteyuko',0)"><span style="font-size:180%;font-weight:bold;">-</span></a>Yuko
+<a class="whitelinkbare" title="Add 1 Yuko" href="#" onclick="changescore('whiteyuko',1)"><span style="font-size:130%;font-weight:bold;">+</span></a></div>
+<div class="whitescore" title="Click for Yuko" id="whiteyuko" onclick="changescore('whiteyuko',1)">
+0</div>
+</td>
+<td style="text-align:center;width:10%;">
+<a class="whitelinkbare" href="#" onclick="changepenalty('whitepenalty',0)" title="Subtract 1 Shido">&nbsp;<span style="font-size:180%;font-weight:bold;">-</span>&nbsp;</a>
+<a class="whitelinkbare" href="#" onclick="changepenalty('whitepenalty',1)" title="Add 1 Shido">&nbsp;<span style="font-size:130%;font-weight:bold;">+</span>&nbsp;</a>
+<div class="bluepenalty" id="whitepenalty" onclick="changepenalty('whitepenalty',1)" title="Shido">
+0</div>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr id="blue__panel">
+<td id="bluebandcontainer" style="text-align:center;background-color: #3377ff">
+<table title="&nbsp;" style="width:100%;">
+<tbody><tr>
+<td style="text-align:left;width:25%;font-size:15px">
+<div id="bluenamewrapper"><select id="blueplayername" name="bplayer" class="blueplayer"><option selected="selected" value="Player 1">Player 1</option><option value="Player 2">Player 2</option></select></div></td>
+<td>
+<div class="bluelabel">
+<a class="bluelinkbare" title="Subtract 1 Ippon" href="#" onclick="changescore('blueippon',0)"><span style="font-size:180%;font-weight:bold;">-</span></a>Ippon<a class="bluelinkbare" title="Add 1 Ippon" href="#" onclick="changescore('blueippon',1)"><span style="font-size:130%;font-weight:bold;">+</span></a></div>
+<div class="bluescore" title="Click for Ippon" id="blueippon" onclick="changescore('blueippon',1)">1</div>
+</td>
+<td>
+<div class="bluelabel">
+<a class="bluelinkbare" title="Subtract 1 Wazari" href="#" onclick="changescore('bluewazari',0)"><span style="font-size:180%;font-weight:bold;">-</span></a>Wazari<a class="bluelinkbare" title="Add 1 Wazari" href="#" onclick="changescore('bluewazari',1)"><span style="font-size:130%;font-weight:bold;">+</span></a></div>
+<div class="bluescore" title="Click for Wazari" id="bluewazari" onclick="changescore('bluewazari',1)">
+0</div>
+</td>
+<td>
+<div class="bluelabel">
+<a class="bluelinkbare" title="Subtract 1 Yuko" href="#" onclick="changescore('blueyuko',0)"><span style="font-size:180%;font-weight:bold;">-</span></a>Yuko
+<a class="bluelinkbare" title="Add 1 Yuko" href="#" onclick="changescore('blueyuko',1)"><span style="font-size:130%;font-weight:bold;">+</span></a></div>
+<div class="bluescore" title="Click for Yuko" id="blueyuko" onclick="changescore('blueyuko',1)">
+0</div>
+</td>
+<td style="text-align:center;width:10%;">
+<a class="bluelinkbare" href="#" onclick="changepenalty('bluepenalty',0)" title="Subtract 1 Shido">&nbsp;<span style="font-size:180%;font-weight:bold;">-</span>&nbsp;</a>
+<a class="bluelinkbare" href="#" onclick="changepenalty('bluepenalty',1)" title="Add 1 Shido">&nbsp;<span style="font-size:130%;font-weight:bold;">+</span>&nbsp;</a>
+<div class="bluepenalty" id="bluepenalty" onclick="changepenalty('bluepenalty',1)" title="Shido">
+0</div>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td style="background-color: #004400">
+<table title="&nbsp;" style="width:100%;">
+<tbody><tr>
+<td style="text-align:left;width:25% !important;padding-left: 4px; font-size: 15px" rowspan="2">
+<p><a class="greenlink resetall" href="#" onclick="resetAll()" title="Reset clock &amp; scores">Reset ALL</a>
+&nbsp; &nbsp; &nbsp; </p><p><a class="greenlink" id="setgold" href="#" onclick="resetGoldScore(1)" title="Reset clock only, for golden score.">Reset for Golden Score</a>
+</p><p><a class="greenlink" href="#" onclick="fontsize(0)" title="Smaller font size"><span style="font-size:80%;">A</span></a>
+<a class="greenlink" href="#" onclick="fontsize(15)" title="Default font size">A</a>
+<a class="greenlink" href="#" onclick="fontsize(1)" title="Bigger font size"><span style="font-size:125%;">A</span></a>
+<a class="greenlink" title="Jump to Help and config" href="#help">?</a>
+<a class="greenlink" href="#" onclick="force_bell()" title="Manually ring bell for any reason at any time">Bell</a>
+<span title="I.J.F." style="background-color:#3355ff;cursor:pointer;" onclick="toggle_to_blue()">&nbsp;&nbsp;&nbsp;</span><span title="Traditional" style="background-color:#ff0000;cursor:pointer;" onclick="toggle_to_red()">&nbsp;&nbsp;&nbsp;</span>
+</p><p><span style="color: #00ff00">Minutes&nbsp;</span><a class="greenlink" id="min_1" href="#" onclick="setdefaultmatch('1:00',1,0)" title="Set default Match duration to 1 minute">1</a>
+<a class="greenlink" id="min_2" href="#" onclick="setdefaultmatch('2:00',2,0)" title="Set default Match duration to 2 minutes">2</a>
+<a class="greenlink" id="min_3" href="#" onclick="setdefaultmatch('3:00',3,0)" title="Set default Match duration to 3 minutes">3</a>
+<a class="greenlink" id="min_4" href="#" onclick="setdefaultmatch('4:00',4,0)" title="Set default Match duration to 4 minutes">4</a>
+<a class="greenlink" id="min_5" href="#" onclick="setdefaultmatch('5:00',5,0)" title="Set default Match duration to 5 minutes">5</a>
+</p></td>
+<td style="text-align:center;" rowspan="2">
+<div class="goldenscore_GS" id="goldenscore">&nbsp;</div></td>
+<td style="text-align:center;width:33%;" rowspan="2">
+<div class="mainclock" id="mainclock">5:00</div></td>
+<td style="text-align:center;" rowspan="2">
+&nbsp;</td>
+<td style="text-align:center;width:20%" rowspan="2">
+<a class="greenlink" href="#" onclick="globalholddown()" id="globalholddownswitch">Osaekomi</a>
+<a class="greenlink" href="#" onclick="resetOsae(3)" id="resetswitch">Reset</a>
+<div class="globalosaekomiwhichplayerwrap" id="globalosaekomiwhichplayerwrap" onclick="nominateosaetori()"><div title="click to flag WHITE as Tori" class="globalosaekomitoriwhite" id="globalosaekomitoriwhite" onclick="nominateosaetori(0)"></div>
+<div class="globalosaekomitoriprompt" id="globalosaekomitoriprompt" onclick="resettoriprompt()">«« Tori ? »»</div>
+<div title="click to flag BLUE (red) asTori" class="globalosaekomitoriblue" id="globalosaekomitoriblue" onclick="nominateosaetori(1)"></div>
+</div>
+<div title="click to Start-Stop" class="globalosaekomi" id="globalosaekomi" onclick="globalholddown()">0</div>
+</td>
+<td style="text-align:center;" rowspan="2">
+&nbsp;</td>
+<td style="text-align:center;width:25%;">
+<div class="hajime" id="hajimeswitch" onclick="hajime_matte()" title="Start-Stop (use Space Bar)">Hajime</div><div style="clear:both;height:4px;"></div><div class="hajime sonomama" style="" id="globalfreezeswitch" onclick="globalfreeze()" title="Toggle Sonomama - Yoshi">Sonomama</div></td>
+</tr>
+<tr>
+<td style="padding:0px;">
+<div style="clear:both;height:10px;"></div><iframe style="border:0px;width:98%;height:3em;" src="scorejudo_files/branding.htm"></iframe></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+<table id="bottommarker" title="&nbsp;" style="width:100%;">
+<tbody><tr>
+<td style="font-size: 15px">
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p id="help">&nbsp;</p>
+<span style="color: #ffffff;">Enter text for the top welcome banner here then click OK</span>
+<form name="updatewelcome">
+<label for="welcome_input">&nbsp;</label>
+<input id="welcome_input" name="welcometext" size="56" value="Enter welcome message here." onfocus="enableSpacekey()" onblur="disableSpacekey()" type="text">
+<input name="sendwelcome" value="Ok" onclick="update_welcome(); return false;" type="submit">
+</form>
+<p>&nbsp;</p>
+<span style="color: #ffffff;">Click on a colour patch to set Welcome Message background colour</span><table title="&nbsp;" style="width:60%;margin: auto">
+<tbody><tr>
+<td style="text-align:center;border:1px solid #000000;font-weight: bold; height: 50px; background-color: #dddddd;">
+<a style="text-decoration: none; color: #222222; padding: 10px" href="#pagetop" onclick="change_msg_colour('#dddddd')">Silver (default)</a>
+</td>
+<td style="text-align:center;border:1px solid #000000;font-weight: bold; height: 50px; background-color: #cccccc;">
+<a style="text-decoration: none; color: #222222; padding: 10px" href="#pagetop" onclick="change_msg_colour('#cccccc')">Grey</a>
+</td>
+<td style="text-align:center;border:1px solid #000000;font-weight: bold; height: 50px; background-color: #ffff00;">
+<a style="text-decoration: none; color: #222222; padding: 10px" href="#pagetop" onclick="change_msg_colour('#ffff00')">Yellow</a>
+</td>
+<td style="text-align:center;border:1px solid #000000;font-weight: bold; height: 50px; background-color: #ffcc00;">
+<a style="text-decoration: none; color: #222222; padding: 10px" href="#pagetop" onclick="change_msg_colour('#ffcc00')">Orange</a>
+</td>
+<td style="text-align:center;border:1px solid #000000;font-weight: bold; height: 50px; background-color: #ff9999;">
+<a style="text-decoration: none; color: #222222; padding: 10px" href="#pagetop" onclick="change_msg_colour('#ff9999')">Pink</a>
+</td>
+<td style="text-align:center;border:1px solid #000000;font-weight: bold; height: 50px; background-color: #aaffaa;">
+<a style="text-decoration: none; color: #222222; padding: 10px" href="#pagetop" onclick="change_msg_colour('#aaffaa')">Green</a>
+</td>
+<td style="text-align:center;border:1px solid #000000;font-weight: bold; height: 50px; background-color: #ccccff;">
+<a style="text-decoration: none; color: #222222; padding: 10px" href="#pagetop" onclick="change_msg_colour('#ccccff')">Aqua</a>
+</td>
+</tr></tbody></table>
+<p>&nbsp;</p>
+</td>
+</tr>
+<tr>
+<td style="height:100px;background-color:#888888;">
+<table style="border-collapse: separate;border-spacing:14px;" border="0">
+<tbody><tr><td>Preferred<br>Bell Sound</td><td><button type="button" onclick="selectbell(0)">Select Bell</button>
+<button type="button" onclick="testbell(0)">Test</button>
+<div id="bar0" style="height:6px;background-color:#ffff00;clear:both;"></div>
+</td><td><button type="button" onclick="selectbell(1)">Select Buzzer</button>
+<button type="button" onclick="testbell(1)">Test</button>
+<div id="bar1" style="height:6px;background-color:#888888;clear:both;"></div>
+</td><td><button type="button" onclick="selectbell(2)">Select Siren</button>
+<button type="button" onclick="testbell(2)">Test</button>
+<div id="bar2" style="height:6px;background-color:#888888;clear:both;"></div>
+</td><td><button type="button" onclick="selectbell(3)">Select Chime</button>
+<button type="button" onclick="testbell(3)">Test</button>
+<div id="bar3" style="height:6px;background-color:#888888;clear:both;"></div>
+</td></tr></tbody></table>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-size:120%;padding: 26px; background-color: #aaaaaa; xfont-size: 15px">
+<h3>Force Main Clock</h3>
+Select desired minutes and seconds: <select id="forceclockmins">
+<option selected="selected" value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+</select>
+ <span style="font-weight:bold;font-size:120%;">:</span> <select id="forceclocksecs">
+<option selected="selected" value="00">00</option>
+<option value="01">01</option>
+<option value="02">02</option>
+<option value="03">03</option>
+<option value="04">04</option>
+<option value="05">05</option>
+<option value="06">06</option>
+<option value="07">07</option>
+<option value="08">08</option>
+<option value="09">09</option>
+<option value=" 10">10</option>
+<option value=" 11">11</option>
+<option value=" 12">12</option>
+<option value=" 13">13</option>
+<option value=" 14">14</option>
+<option value=" 15">15</option>
+<option value=" 16">16</option>
+<option value=" 17">17</option>
+<option value=" 18">18</option>
+<option value=" 19">19</option>
+<option value=" 20">20</option>
+<option value=" 21">21</option>
+<option value=" 22">22</option>
+<option value=" 23">23</option>
+<option value=" 24">24</option>
+<option value=" 25">25</option>
+<option value=" 26">26</option>
+<option value=" 27">27</option>
+<option value=" 28">28</option>
+<option value=" 29">29</option>
+<option value=" 30">30</option>
+<option value=" 31">31</option>
+<option value=" 32">32</option>
+<option value=" 33">33</option>
+<option value=" 34">34</option>
+<option value=" 35">35</option>
+<option value=" 36">36</option>
+<option value=" 37">37</option>
+<option value=" 38">38</option>
+<option value=" 39">39</option>
+<option value=" 40">40</option>
+<option value=" 41">41</option>
+<option value=" 42">42</option>
+<option value=" 43">43</option>
+<option value=" 44">44</option>
+<option value=" 45">45</option>
+<option value=" 46">46</option>
+<option value=" 47">47</option>
+<option value=" 48">48</option>
+<option value=" 49">49</option>
+<option value=" 50">50</option>
+<option value=" 51">51</option>
+<option value=" 52">52</option>
+<option value=" 53">53</option>
+<option value=" 54">54</option>
+<option value=" 55">55</option>
+<option value=" 56">56</option>
+<option value=" 57">57</option>
+<option value=" 58">58</option>
+<option value=" 59">59</option>
+</select>
+&nbsp; &nbsp; &nbsp; &nbsp;  - then click the update button - <button onclick="force_main_clock('forceclockmins', 'forceclocksecs')">UPDATE Main Clock</button></td>
+</tr>
+<tr>
+<td style="text-align:left;font-size:120%;padding: 26px; background-color: #aaaaaa; xfont-size: 15px">
+<h3>Force Osaekomi Clock</h3>
+Select desired seconds: <select id="forceosaeclocksecs">
+<option selected="selected" value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+</select>
+&nbsp; &nbsp; &nbsp; &nbsp;  - then click the update button - <button onclick="force_osae_clock('forceosaeclocksecs')">UPDATE Osaekomi Clock</button></td>
+</tr>
+<tr>
+<td style="text-align:left;padding: 26px; background-color: #888888; font-size: 15px">
+<h3>Keyboard Shortcuts</h3>
+<div style="float:left;width:50%;margin-right:30px;text-align:left;">The <b>space bar</b> by default has been re-assigned to act as a toggle for the <b>Hajime - Matte</b>
+ switch. If you enter into either the banner text edit box or the player
+ names edit box this feature is temporally disabled  so as to allow use
+of the space bar as a normally functioning space bar - until you exit
+out of the boxes.  <br>However you can force either of these conditions anytime by use of these buttons. </div>
+<button type="button" onclick="disableSpacekey()">Make Space Bar the Matte Hajime toggle (ScoreJudo default)</button>
+<br>
+<br>
+<button type="button" onclick="enableSpacekey()">Disable Spacebar as a toggle - restore it to a real space bar</button>
+</td></tr><tr>
+</tr><tr>
+<td style="text-align:left;padding: 26px; background-color: #aaaaaa; font-size: 15px">
+<table><tbody><tr>
+<td style="padding:10px;vertical-align:top;th:310px;"><textarea id="playersnames" rows="24" style="width:300px;padding-left:3px;text-align:left;background-color:#ffffff;" onfocus="enableSpacekey()" onblur="disableSpacekey()">Player 1
+Player 2</textarea>
+<p><a href="#" class="radii" style="padding:10px;background-color:#eeeeee;" onclick="updateplayers()">Update players list</a></p></td><td style="padding:10px;text-align:left;vertical-align:top;xwidth:55%;"><h2>Players database</h2>
+This HTML5 persistent database storage facility may not work with some versions of Microsoft Internet Explorer
+ due to reported bug #Q276228 described on Microsofts site at<br> <a href="http://support.microsoft.com/kb/276228" target="_blank">support.microsoft.com/kb/276228</a>
+<p>We suggest you use <a href="http://www.mozilla.org/en-US/firefox/new" target="_blank">Firefox</a> (any version) or Safari
+ or <a href="http://www.google.com/chrome" target="_blank">Google Chrome</a> or any standards compliant browser.</p>
+<h2>How to . . .</h2>
+<p>Add, edit or delete players from this simple list, or PASTE a block
+of names from a simple TEXT file (e.g. a NOTEPAD file) - one player per
+line,
+ in any order and in any cASE. &nbsp; Click the <b>Update Players List</b> button and the list
+ will automatically be sorted alphabetically and be adjusted for correct upper-lower case. </p>
+<p>The dropdown player selection lists in the white and blue
+ sections of the scoreboard will also be automatically updated.</p>
+<p>If you want to transport these names to another computer you must
+select ALL, Copy then paste into a text file and transport that text
+file.  Storage of names on this computer will only be preserved across
+numerous sessions on this particular computer.
+They do not get stored in some central location for use on another
+computer</p>
+</td></tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td id="playerpicker" style="min-height:80px;text-align:left;padding: 6px; background-color: #cccccc; font-size: 15px">
+<p>&nbsp;</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding: 16px; background-color: #ffffff; font-size: 15px">
+<table title="&nbsp;" style="width:100%;border-collapse: collapse" border="1"><tbody><tr><td><a style="font-weight: bold" href="#pagetop">Jump back to the Scoreboard</a>
+</td><td style="text-align:right;">Read the full story at: &nbsp; <a style="font-weight: bold" href="http://www.scorejudo.com/" target="_blank">www.ScoreJudo.com</a>   (new window)
+</td>
+</tr></tbody></table><div style="text-align:left;padding:40px"><h1>ScoreJudo-HTML . . . a judo score board in a webpage.</h1> &nbsp;
+<h2>Now it doesn`t matter whether you use Mac, Linux or Windows. &nbsp; Carry it
+on a memory stick - use it from your smartphone.</h2>
+<br>
+<br>
+Copyright (C) 2010 - 2013 &nbsp; Campbell Dunstan
+<br>
+<br>
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ any later version.
+<br>
+<br>
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. &nbsp; See the
+ GNU General Public License for more details.
+<br>
+<br>
+ You should have received a copy of the GNU General Public License
+ along with this program. &nbsp; If not, see http://www.gnu.org/licenses.
+<br>
+<br>
+
+<br>
+<br>
+
+This webpage is an online or webpage version of ScoreJudo version 5. &nbsp; It is
+not as comprehensive or powerful as the executable version since the entire
+page is written in HTML and Javascript which is really a client side
+scripting language rather than a full-blown high level language.
+Nevertheless it is a stop gap solution for local judo tournaments where a
+windows PC or laptop may not be available. &nbsp; Since this online version is
+nothing more than a webpage it should run on any device capable of running
+a browser. &nbsp; It has been tested on FireFox and Chrome and validates to W3C
+standards with zero errors or warnings, which means it should run on just
+about anything, including big screen smartphones and tablets. &nbsp; To make it
+truly portable, simply save the webpage as scorejudo.html (file menu, SAVE
+AS) and carry this single 65 kilobyte file around on a memory stick,
+smartphone, iPad, netbook or similar device and you have scorejudo in your
+pocket. &nbsp;
+<br>
+<br>
+<h2>How to operate.</h2> &nbsp;
+It is <b>strongly recommended</b> that you use a proper mouse with this
+app. &nbsp;
+<br>
+<br>
+Open the page (scorejudo.html) in your browser, maximise the window, and
+using the FONT size links in the bottom left corner (the three "A"s),
+adjust the image to JUST fill the screen and no more - that is to say,
+adjust so that the green clock band reaches to the bottom of the screen (or
+almost). &nbsp;
+<br>
+<br>
+Click on the default match times (bottom right corner) and set the default
+match duration - startup default is 5 minutes but you can choose 1, 2, 3
+and 4 minute match times. &nbsp;
+<br>
+<br>
+If you wish to use the player database and your browser supports it, enter
+the names of all the players (one player per line) and click UPDATE PLAYER
+LIST. &nbsp;
+<br>
+<br>
+When the ref shouts Hajime, click the Hajime link; the timer will start. &nbsp;
+<br>
+<br>
+When the ref shouts Matte, click the same link which will now bear the
+caption "Matte" and the clock will stop.
+<br>
+<br>
+If the blue player achieves a holddown and the ref declares "Osaekomi",
+click the Osaekomi link within the blue band. &nbsp; The Osaekomi timer will
+begin. &nbsp; Toketa will stop the Osaekomi clock. &nbsp; Alternatively, just clicking
+the osaekomi clock numeral itself will do the same thing and is a bigger
+target for a wayward mouse. &nbsp; Sonomama will stop both the Osaekomi clock AND
+the main clock. &nbsp; Likewise for the White player`s hold down clock. &nbsp; If you
+click the wrong Osaekomi clock by mistake <b>simply click the correct
+clock</b> and the other will stop and its accumulated time will transfer to
+the correct clock. &nbsp; Practice this manouvre a little to understand what it
+does, when you make a mistake in the middle of a match there is no time to
+figure it out! &nbsp;  To get rid of the incorrect reading click "reset". &nbsp; To
+remove a time from the Osaekomi clock after the referee and everyone else
+with an interest has read it and the match has moved on, click "reset". &nbsp;
+<br>
+<br>
+Individual scores can be progressed by clicking on the numbers directly,
+and such can be back-tracked by clicking on the "undo" link just above each
+Ippon, Wazari and Yuko score numeral. &nbsp;
+<br>
+<br>
+Penalties - click a player`s "yellow card" to penalise that player.
+Clicking the little arrows above the yellow card adds or subtracts one
+Shido at a time. &nbsp; Issuing shido no longer upgrqades the other players score
+- popular demand has caused this feature to be scrapped in favour of the
+referee actively signalling these increases in scores.
+<br>
+<br>
+
+For a golden score situation, click the "Reset for golden Score" link which
+will reset the clock but will not reset the player names or scores or
+penalties. &nbsp; Note that the clock now runs FORWARDS for ever with the advent
+of the new rule which removes the time limitation from Golden Score - the
+match runs until one player scores, however long that may take - hence the
+clock is reset to ZERO and counts upwards. &nbsp;  &nbsp;
+<br>
+<br>
+
+At full time, the clock will pause at zero and an exclamation mark will
+flash, prompting the timekeeper to ring a shopkeepers bell or sound effect
+(if a hold-down is not in progress of course). &nbsp; In some countries the
+timekeeper does not ring a bell but tosses a small bean bag onto the mat
+near the referee`s feet, which makes for less noise confusion and chaos at
+a large crowded venue. &nbsp;
+<br>
+<br>
+If resetting the board results in an incorrect match time, click the
+appropriate "default match time" then re-click the Reset link - there is no
+way to manually manipulate the clock to precise times. &nbsp;  Resetting the
+board advances the bout count by one but you can manually move that number
+up or down with the little arrows next to it - same for the MAT Number. &nbsp;
+<br>
+<br>
+Players names - upgraded - players names are now chosen simply from the
+dropdown selectors which are populated by the players database of names.
+<br>
+<br>
+Second Monitor - if your laptop, PC, iPad, netbook or other device is able,
+connect a second large monitor or TV set configured to DUPLICATE the device
+screen and use that as the public display, facing the mat and referee.
+Unlike the executable version of ScoreJudo with its second slave window and
+other goodies, this screen should NOT be configured so as to extend your
+desktop onto it - it should be a straight duplication of your device
+screen.
+<br>
+<br>
+WARNING - Avoid hitting the RELOAD (refresh) button or the BACK or FORWARD
+buttons on your browser while a match is in progress - if you do, the page
+will reload and all your settings and font sizes will be lost, the clocks
+will stop and reset, the players names will zero out and you`ll have to
+start again. There is no reason to click these buttons, every scoreboard
+function and HELP is available through clickable links on the screen. &nbsp;
+<br>
+<br>
+Need more draw sheets? - click HELP or scroll down to the PRINT SCORE SHEET
+link. &nbsp; Set your browser to NOT print headers or footers and DO print
+background colours - print it! &nbsp; Make sure popups are not blocked in your
+browser preferences. &nbsp;
+<br>
+<br>
+<h2>What`s missing?</h2>
+The online version does not have sound - it is up to the table officials to
+ring a bell or similar when the time is up. &nbsp; I made the decision that if it
+could not be done in pure Javascript and in one single webpage file it was
+simply not going to get done. &nbsp; I know that web page sound is possible
+through a variety of means including Flash, but I had to decide on some
+cut-off point and simplicity won the day - time keeping and score tracking
+is the major role of this scoreboard. &nbsp;
+<br>
+<br>
+The clock does not stop on scoring of an ippon, meaning that for those
+matches that allow more than two wazari or more than one ippon (e.g.
+MONster or tiny tot rules), the scoreboard is by default ready for such.
+But for normal matches this simply means the timekeeper needs to manually
+click Matte to stop the clock in the event of an Ippon. &nbsp; This behaviour
+also makes it eminently suitable for Special Needs matches for which it is
+common practice to allow for several (nominal) wazari and Ippons where the
+aim might be more to give the players a "full match" experience rather than
+a "quick win". &nbsp;
+<br>
+<br>
+<h2>Overview</h2>
+ScoreJudo Online is in no way intended to be a proper replacement for the
+downloadable Windows XP-Vista-7 &nbsp; application which is being used in more
+than 20 countries and has been adopted as the offical scoreboard by several
+State and National bodies around the globe and has many more features than
+this very basic, extremely simple "emergency" solution. &nbsp;
+<br>
+<br>
+Nevertheless, with version 1.8 and its additional features, there is less
+need for the Windows executable version now and it may well be discontinued
+as the webpage HTML version becomes increasingly popular because of its
+ability to run on anything. &nbsp;
+<br>
+<br>
+The page was written entirely in Javascript and all scripts and styles are
+included in the actual page coding. &nbsp; This means that with this single file
+(scorejudo.html) saved on your device or on a memory stick you are good to
+go - no separate style sheets, script files, pictures, flash movies or
+other plugins of any kind are required. &nbsp; This also means that you are free
+to play with the coding yourself if you so wish and are prepared to leave
+the original copyright notice in the file. &nbsp;  &nbsp; Since I am a self confessed
+Javascript mug-newbie I make no pretence at the excellence of the code.
+Javascript is not a language I use professionally. &nbsp; To be entirely
+accurate, &nbsp; for the interest of those who care, it was actually written in
+PHP which in turn generates the single HTML file from disparate style,
+script, text files. &nbsp; If however Javascript is your game feel free to email
+me with suggestions and cleaned up code and I shall include you in the
+contributers list. &nbsp;
+<br>
+<br>
+
+Staate and National parent bodies wishing to distribute a copy of this
+software with their logo on it are most welcome to contact me with such
+requests - simply forward a reasonably good quality JPG or PNG file of your
+logo and we shall endeavour to accommodate it on the scoreboard somewhere.
+<br>
+<br>
+
+<br>
+<br>
+Log of changes:-
+<br>
+<br>
+2010 - First public version: Ver 1.2
+<br>
+<br>
+March 2011 - Ver 1.3 - Addition of Ippon Wazari yuko labels above scores.
+<br>
+<br>
+Change to Osaekomi clocks - if the table operator makes a mistake and
+clicks the wrong Osaekomi clock, he or she can quickly transfer the score
+to the correct Osaekomi clock by simply clicking on the the correct clock
+while the wrong clock is STILL RUNNING. &nbsp; This will not work unless the
+wrong clock is actually running. &nbsp;  Since it is not normal practice to click
+on one clock while the other is running, Scorejudo interprets this as a
+MISTAKE CORRECTION and behaves accordingly. &nbsp;
+<br>
+<br>
+Removal of the "undo" labels in favour of small back arrows. &nbsp; The undo
+labels were confusing to some, hence this change. &nbsp;
+<br>
+<br>
+Provision of a RED version (scorejudo_red.html) &nbsp;  &nbsp; Many juniors, veterans
+and special needs matches are run under traditional rules where expectation
+of a blue gi is not practical. &nbsp; With red sashes, a traditional red
+scoreboard is preferred by some. &nbsp; There is nothing to prevent running both
+the blue and the red version in separate browser windows, facilitiating a
+quick change to either, each with their own preferences set and ready to
+go. &nbsp;
+<br>
+<br>
+
+March 2013 - version 1.7 - Scrapping of red version due to lack of demand.
+Incorporation of the IJF 2013 rule changes, including no automatic
+Yuko-Wazari etc for Shidos - golden score to run indefinitely, thus the
+clock counts forwards not "down" when golden score is in play. &nbsp; Osaekomi
+clocks stop at 20 seconds, not 25 seconds.
+<br>
+<br>
+
+March 2013 - version 1.8 trial of persistent player name database using
+HTML5 ability to store data locally without dependence on cookies. &nbsp;
+<br>
+<br>
+2014 - Reconstituted ability to run a red version from within the blue
+version.
+<br>
+<br>
+
+March 2015 - version 2.2 &nbsp;  Keyboard shortcuts enabled. &nbsp;  Initial shortcut
+restricted to SPACE BAR for Hajime-Matte toggle. &nbsp;
+<br>
+<br>
+October 2015 - version 3.0 &nbsp; Major revamp of internals, Osaekomi clock for
+each player removed and replaced with one global clock. &nbsp; Added ability to
+set clocks to specific times. &nbsp; Ability to change to traditional format
+improved by putting red player on top. Ability to ring bell manually for
+any reason any time. &nbsp;  &nbsp;
+ &nbsp; Ability to "brand" your edition by editing the branding.html file with
+any valid html markup.
+ &nbsp;
+<br>
+<br>
+
+Enjoy! &nbsp;  &nbsp; Campbell Dunstan, &nbsp; 2010 - 2015 &nbsp;  &nbsp;  &nbsp; Australia &nbsp;  &nbsp;
+www.scorejudo.com</div>
+<br>
+<br>
+<div style="border: 0px solid #000000; padding: 20px">&nbsp;<div style="float: left"><a style="font-weight: bold" href="#pagetop">Jump back to the Scoreboard</a>
+</div><div style="float: right">Read the full story at: &nbsp; <a style="font-weight: bold" href="http://www.scorejudo.com/" target="_blank">www.ScoreJudo.com (new window)</a>
+</div>
+</div><br>
+<br>
+<br>
+<div style="text-align:left;padding:40px">
+<h1>GNU General Public License</h1>
+
+<h3>Preamble</h3>
+
+<p>The GNU General Public License is a free, copyleft license for
+software and other kinds of works.</p>
+
+<p>The licenses for most software and other practical works are designed
+to take away your freedom to share and change the works.  By contrast,
+the GNU General Public License is intended to guarantee your freedom to
+share and change all versions of a program--to make sure it remains free
+software for all its users.  We, the Free Software Foundation, use the
+GNU General Public License for most of our software; it applies also to
+any other work released this way by its authors.  You can apply it to
+your programs, too.</p>
+
+<p>When we speak of free software, we are referring to freedom, not
+price.  Our General Public Licenses are designed to make sure that you
+have the freedom to distribute copies of free software (and charge for
+them if you wish), that you receive source code or can get it if you
+want it, that you can change the software or use pieces of it in new
+free programs, and that you know you can do these things.</p>
+
+<p>To protect your rights, we need to prevent others from denying you
+these rights or asking you to surrender the rights.  Therefore, you have
+certain responsibilities if you distribute copies of the software, or if
+you modify it: responsibilities to respect the freedom of others.</p>
+
+<p>For example, if you distribute copies of such a program, whether
+gratis or for a fee, you must pass on to the recipients the same
+freedoms that you received.  You must make sure that they, too, receive
+or can get the source code.  And you must show them these terms so they
+know their rights.</p>
+
+<p>Developers that use the GNU GPL protect your rights with two steps:
+(1) assert copyright on the software, and (2) offer you this License
+giving you legal permission to copy, distribute and/or modify it.</p>
+
+<p>For the developers' and authors' protection, the GPL clearly explains
+that there is no warranty for this free software.  For both users' and
+authors' sake, the GPL requires that modified versions be marked as
+changed, so that their problems will not be attributed erroneously to
+authors of previous versions.</p>
+
+<p>Some devices are designed to deny users access to install or run
+modified versions of the software inside them, although the manufacturer
+can do so.  This is fundamentally incompatible with the aim of
+protecting users' freedom to change the software.  The systematic
+pattern of such abuse occurs in the area of products for individuals to
+use, which is precisely where it is most unacceptable.  Therefore, we
+have designed this version of the GPL to prohibit the practice for those
+products.  If such problems arise substantially in other domains, we
+stand ready to extend this provision to those domains in future versions
+of the GPL, as needed to protect the freedom of users.</p>
+
+<p>Finally, every program is threatened constantly by software patents.
+States should not allow patents to restrict development and use of
+software on general-purpose computers, but in those that do, we wish to
+avoid the special danger that patents applied to a free program could
+make it effectively proprietary.  To prevent this, the GPL assures that
+patents cannot be used to render the program non-free.</p>
+
+<p>The precise terms and conditions for copying, distribution and
+modification follow.</p>
+
+<p><a style="font-weight: bold" href="#pagetop">Jump back to the Scoreboard</a></p>
+
+
+<h3>TERMS AND CONDITIONS</h3>
+
+<h4>0. Definitions.</h4>
+
+<p>“This License” refers to version 3 of the GNU General Public License.</p>
+
+<p>“Copyright” also means copyright-like laws that apply to other kinds of
+works, such as semiconductor masks.</p>
+
+<p>“The Program” refers to any copyrightable work licensed under this
+License.  Each licensee is addressed as “you”.  “Licensees” and
+“recipients” may be individuals or organizations.</p>
+
+<p>To “modify” a work means to copy from or adapt all or part of the work
+in a fashion requiring copyright permission, other than the making of an
+exact copy.  The resulting work is called a “modified version” of the
+earlier work or a work “based on” the earlier work.</p>
+
+<p>A “covered work” means either the unmodified Program or a work based
+on the Program.</p>
+
+<p>To “propagate” a work means to do anything with it that, without
+permission, would make you directly or secondarily liable for
+infringement under applicable copyright law, except executing it on a
+computer or modifying a private copy.  Propagation includes copying,
+distribution (with or without modification), making available to the
+public, and in some countries other activities as well.</p>
+
+<p>To “convey” a work means any kind of propagation that enables other
+parties to make or receive copies.  Mere interaction with a user through
+a computer network, with no transfer of a copy, is not conveying.</p>
+
+<p>An interactive user interface displays “Appropriate Legal Notices”
+to the extent that it includes a convenient and prominently visible
+feature that (1) displays an appropriate copyright notice, and (2)
+tells the user that there is no warranty for the work (except to the
+extent that warranties are provided), that licensees may convey the
+work under this License, and how to view a copy of this License.  If
+the interface presents a list of user commands or options, such as a
+menu, a prominent item in the list meets this criterion.</p>
+
+<h4>1. Source Code.</h4>
+
+<p>The “source code” for a work means the preferred form of the work
+for making modifications to it.  “Object code” means any non-source
+form of a work.</p>
+
+<p>A “Standard Interface” means an interface that either is an official
+standard defined by a recognized standards body, or, in the case of
+interfaces specified for a particular programming language, one that
+is widely used among developers working in that language.</p>
+
+<p>The “System Libraries” of an executable work include anything, other
+than the work as a whole, that (a) is included in the normal form of
+packaging a Major Component, but which is not part of that Major
+Component, and (b) serves only to enable use of the work with that
+Major Component, or to implement a Standard Interface for which an
+implementation is available to the public in source code form.  A
+“Major Component”, in this context, means a major essential component
+(kernel, window system, and so on) of the specific operating system
+(if any) on which the executable work runs, or a compiler used to
+produce the work, or an object code interpreter used to run it.</p>
+
+<p>The “Corresponding Source” for a work in object code form means all
+the source code needed to generate, install, and (for an executable
+work) run the object code and to modify the work, including scripts to
+control those activities.  However, it does not include the work's
+System Libraries, or general-purpose tools or generally available free
+programs which are used unmodified in performing those activities but
+which are not part of the work.  For example, Corresponding Source
+includes interface definition files associated with source files for
+the work, and the source code for shared libraries and dynamically
+linked subprograms that the work is specifically designed to require,
+such as by intimate data communication or control flow between those
+subprograms and other parts of the work.</p>
+
+<p>The Corresponding Source need not include anything that users
+can regenerate automatically from other parts of the Corresponding
+Source.</p>
+
+<p>The Corresponding Source for a work in source code form is that
+same work.</p>
+
+<p><a style="font-weight: bold" href="#pagetop">Jump back to the Scoreboard</a></p>
+
+
+<h4>2. Basic Permissions.</h4>
+
+<p>All rights granted under this License are granted for the term of
+copyright on the Program, and are irrevocable provided the stated
+conditions are met.  This License explicitly affirms your unlimited
+permission to run the unmodified Program.  The output from running a
+covered work is covered by this License only if the output, given its
+content, constitutes a covered work.  This License acknowledges your
+rights of fair use or other equivalent, as provided by copyright law.</p>
+
+<p>You may make, run and propagate covered works that you do not
+convey, without conditions so long as your license otherwise remains
+in force.  You may convey covered works to others for the sole purpose
+of having them make modifications exclusively for you, or provide you
+with facilities for running those works, provided that you comply with
+the terms of this License in conveying all material for which you do
+not control copyright.  Those thus making or running the covered works
+for you must do so exclusively on your behalf, under your direction
+and control, on terms that prohibit them from making any copies of
+your copyrighted material outside their relationship with you.</p>
+
+<p>Conveying under any other circumstances is permitted solely under
+the conditions stated below.  Sublicensing is not allowed; section 10
+makes it unnecessary.</p>
+
+<h4>3. Protecting Users' Legal Rights From Anti-Circumvention Law.</h4>
+
+<p>No covered work shall be deemed part of an effective technological
+measure under any applicable law fulfilling obligations under article
+11 of the WIPO copyright treaty adopted on 20 December 1996, or
+similar laws prohibiting or restricting circumvention of such
+measures.</p>
+
+<p>When you convey a covered work, you waive any legal power to forbid
+circumvention of technological measures to the extent such circumvention
+is effected by exercising rights under this License with respect to
+the covered work, and you disclaim any intention to limit operation or
+modification of the work as a means of enforcing, against the work's
+users, your or third parties' legal rights to forbid circumvention of
+technological measures.</p>
+
+<h4>4. Conveying Verbatim Copies.</h4>
+
+<p>You may convey verbatim copies of the Program's source code as you
+receive it, in any medium, provided that you conspicuously and
+appropriately publish on each copy an appropriate copyright notice;
+keep intact all notices stating that this License and any
+non-permissive terms added in accord with section 7 apply to the code;
+keep intact all notices of the absence of any warranty; and give all
+recipients a copy of this License along with the Program.</p>
+
+<p>You may charge any price or no price for each copy that you convey,
+and you may offer support or warranty protection for a fee.</p>
+
+<h4>5. Conveying Modified Source Versions.</h4>
+
+<p>You may convey a work based on the Program, or the modifications to
+produce it from the Program, in the form of source code under the
+terms of section 4, provided that you also meet all of these conditions:</p>
+
+<ul>
+<li>a) The work must carry prominent notices stating that you modified
+    it, and giving a relevant date.</li>
+
+<li>b) The work must carry prominent notices stating that it is
+    released under this License and any conditions added under section
+    7.  This requirement modifies the requirement in section 4 to
+    “keep intact all notices”.</li>
+
+<li>c) You must license the entire work, as a whole, under this
+    License to anyone who comes into possession of a copy.  This
+    License will therefore apply, along with any applicable section 7
+    additional terms, to the whole of the work, and all its parts,
+    regardless of how they are packaged.  This License gives no
+    permission to license the work in any other way, but it does not
+    invalidate such permission if you have separately received it.</li>
+
+<li>d) If the work has interactive user interfaces, each must display
+    Appropriate Legal Notices; however, if the Program has interactive
+    interfaces that do not display Appropriate Legal Notices, your
+    work need not make them do so.</li>
+
+</ul>
+
+<p><a style="font-weight: bold" href="#pagetop">Jump back to the Scoreboard</a></p>
+
+
+<p>A compilation of a covered work with other separate and independent
+works, which are not by their nature extensions of the covered work,
+and which are not combined with it such as to form a larger program,
+in or on a volume of a storage or distribution medium, is called an
+“aggregate” if the compilation and its resulting copyright are not
+used to limit the access or legal rights of the compilation's users
+beyond what the individual works permit.  Inclusion of a covered work
+in an aggregate does not cause this License to apply to the other
+parts of the aggregate.</p>
+
+<h4>6. Conveying Non-Source Forms.</h4>
+
+<p>You may convey a covered work in object code form under the terms
+of sections 4 and 5, provided that you also convey the
+machine-readable Corresponding Source under the terms of this License,
+in one of these ways:</p>
+
+<ul>
+<li>a) Convey the object code in, or embodied in, a physical product
+    (including a physical distribution medium), accompanied by the
+    Corresponding Source fixed on a durable physical medium
+    customarily used for software interchange.</li>
+
+<li>b) Convey the object code in, or embodied in, a physical product
+    (including a physical distribution medium), accompanied by a
+    written offer, valid for at least three years and valid for as
+    long as you offer spare parts or customer support for that product
+    model, to give anyone who possesses the object code either (1) a
+    copy of the Corresponding Source for all the software in the
+    product that is covered by this License, on a durable physical
+    medium customarily used for software interchange, for a price no
+    more than your reasonable cost of physically performing this
+    conveying of source, or (2) access to copy the
+    Corresponding Source from a network server at no charge.</li>
+
+<li>c) Convey individual copies of the object code with a copy of the
+    written offer to provide the Corresponding Source.  This
+    alternative is allowed only occasionally and noncommercially, and
+    only if you received the object code with such an offer, in accord
+    with subsection 6b.</li>
+
+<li>d) Convey the object code by offering access from a designated
+    place (gratis or for a charge), and offer equivalent access to the
+    Corresponding Source in the same way through the same place at no
+    further charge.  You need not require recipients to copy the
+    Corresponding Source along with the object code.  If the place to
+    copy the object code is a network server, the Corresponding Source
+    may be on a different server (operated by you or a third party)
+    that supports equivalent copying facilities, provided you maintain
+    clear directions next to the object code saying where to find the
+    Corresponding Source.  Regardless of what server hosts the
+    Corresponding Source, you remain obligated to ensure that it is
+    available for as long as needed to satisfy these requirements.</li>
+
+<li>e) Convey the object code using peer-to-peer transmission, provided
+    you inform other peers where the object code and Corresponding
+    Source of the work are being offered to the general public at no
+    charge under subsection 6d.</li>
+</ul>
+
+<p>A separable portion of the object code, whose source code is excluded
+from the Corresponding Source as a System Library, need not be
+included in conveying the object code work.</p>
+
+<p><a style="font-weight: bold" href="#pagetop">Jump back to the Scoreboard</a></p>
+
+
+<p>A “User Product” is either (1) a “consumer product”, which means any
+tangible personal property which is normally used for personal, family,
+or household purposes, or (2) anything designed or sold for incorporation
+into a dwelling.  In determining whether a product is a consumer product,
+doubtful cases shall be resolved in favor of coverage.  For a particular
+product received by a particular user, “normally used” refers to a
+typical or common use of that class of product, regardless of the status
+of the particular user or of the way in which the particular user
+actually uses, or expects or is expected to use, the product.  A product
+is a consumer product regardless of whether the product has substantial
+commercial, industrial or non-consumer uses, unless such uses represent
+the only significant mode of use of the product.</p>
+
+<p>“Installation Information” for a User Product means any methods,
+procedures, authorization keys, or other information required to install
+and execute modified versions of a covered work in that User Product from
+a modified version of its Corresponding Source.  The information must
+suffice to ensure that the continued functioning of the modified object
+code is in no case prevented or interfered with solely because
+modification has been made.</p>
+
+<p>If you convey an object code work under this section in, or with, or
+specifically for use in, a User Product, and the conveying occurs as
+part of a transaction in which the right of possession and use of the
+User Product is transferred to the recipient in perpetuity or for a
+fixed term (regardless of how the transaction is characterized), the
+Corresponding Source conveyed under this section must be accompanied
+by the Installation Information.  But this requirement does not apply
+if neither you nor any third party retains the ability to install
+modified object code on the User Product (for example, the work has
+been installed in ROM).</p>
+
+<p>The requirement to provide Installation Information does not include a
+requirement to continue to provide support service, warranty, or updates
+for a work that has been modified or installed by the recipient, or for
+the User Product in which it has been modified or installed.  Access to a
+network may be denied when the modification itself materially and
+adversely affects the operation of the network or violates the rules and
+protocols for communication across the network.</p>
+
+<p>Corresponding Source conveyed, and Installation Information provided,
+in accord with this section must be in a format that is publicly
+documented (and with an implementation available to the public in
+source code form), and must require no special password or key for
+unpacking, reading or copying.</p>
+
+<h4>7. Additional Terms.</h4>
+
+<p>“Additional permissions” are terms that supplement the terms of this
+License by making exceptions from one or more of its conditions.
+Additional permissions that are applicable to the entire Program shall
+be treated as though they were included in this License, to the extent
+that they are valid under applicable law.  If additional permissions
+apply only to part of the Program, that part may be used separately
+under those permissions, but the entire Program remains governed by
+this License without regard to the additional permissions.</p>
+
+<p>When you convey a copy of a covered work, you may at your option
+remove any additional permissions from that copy, or from any part of
+it.  (Additional permissions may be written to require their own
+removal in certain cases when you modify the work.)  You may place
+additional permissions on material, added by you to a covered work,
+for which you have or can give appropriate copyright permission.</p>
+
+<p>Notwithstanding any other provision of this License, for material you
+add to a covered work, you may (if authorized by the copyright holders of
+that material) supplement the terms of this License with terms:</p>
+
+<ul>
+<li>a) Disclaiming warranty or limiting liability differently from the
+    terms of sections 15 and 16 of this License; or</li>
+
+<li>b) Requiring preservation of specified reasonable legal notices or
+    author attributions in that material or in the Appropriate Legal
+    Notices displayed by works containing it; or</li>
+
+<li>c) Prohibiting misrepresentation of the origin of that material, or
+    requiring that modified versions of such material be marked in
+    reasonable ways as different from the original version; or</li>
+
+<li>d) Limiting the use for publicity purposes of names of licensors or
+    authors of the material; or</li>
+
+<li>e) Declining to grant rights under trademark law for use of some
+    trade names, trademarks, or service marks; or</li>
+
+<li>f) Requiring indemnification of licensors and authors of that
+    material by anyone who conveys the material (or modified versions of
+    it) with contractual assumptions of liability to the recipient, for
+    any liability that these contractual assumptions directly impose on
+    those licensors and authors.</li>
+</ul>
+
+
+<p>All other non-permissive additional terms are considered “further
+restrictions” within the meaning of section 10.  If the Program as you
+received it, or any part of it, contains a notice stating that it is
+governed by this License along with a term that is a further
+restriction, you may remove that term.  If a license document contains
+a further restriction but permits relicensing or conveying under this
+License, you may add to a covered work material governed by the terms
+of that license document, provided that the further restriction does
+not survive such relicensing or conveying.</p>
+
+<p>If you add terms to a covered work in accord with this section, you
+must place, in the relevant source files, a statement of the
+additional terms that apply to those files, or a notice indicating
+where to find the applicable terms.</p>
+
+<p>Additional terms, permissive or non-permissive, may be stated in the
+form of a separately written license, or stated as exceptions;
+the above requirements apply either way.</p>
+
+<p><a style="font-weight: bold" href="#pagetop">Jump back to the Scoreboard</a></p>
+
+
+<h4>8. Termination.</h4>
+
+<p>You may not propagate or modify a covered work except as expressly
+provided under this License.  Any attempt otherwise to propagate or
+modify it is void, and will automatically terminate your rights under
+this License (including any patent licenses granted under the third
+paragraph of section 11).</p>
+
+<p>However, if you cease all violation of this License, then your
+license from a particular copyright holder is reinstated (a)
+provisionally, unless and until the copyright holder explicitly and
+finally terminates your license, and (b) permanently, if the copyright
+holder fails to notify you of the violation by some reasonable means
+prior to 60 days after the cessation.</p>
+
+<p>Moreover, your license from a particular copyright holder is
+reinstated permanently if the copyright holder notifies you of the
+violation by some reasonable means, this is the first time you have
+received notice of violation of this License (for any work) from that
+copyright holder, and you cure the violation prior to 30 days after
+your receipt of the notice.</p>
+
+<p>Termination of your rights under this section does not terminate the
+licenses of parties who have received copies or rights from you under
+this License.  If your rights have been terminated and not permanently
+reinstated, you do not qualify to receive new licenses for the same
+material under section 10.</p>
+
+<h4>9. Acceptance Not Required for Having Copies.</h4>
+
+<p>You are not required to accept this License in order to receive or
+run a copy of the Program.  Ancillary propagation of a covered work
+occurring solely as a consequence of using peer-to-peer transmission
+to receive a copy likewise does not require acceptance.  However,
+nothing other than this License grants you permission to propagate or
+modify any covered work.  These actions infringe copyright if you do
+not accept this License.  Therefore, by modifying or propagating a
+covered work, you indicate your acceptance of this License to do so.</p>
+
+<h4>10. Automatic Licensing of Downstream Recipients.</h4>
+
+<p>Each time you convey a covered work, the recipient automatically
+receives a license from the original licensors, to run, modify and
+propagate that work, subject to this License.  You are not responsible
+for enforcing compliance by third parties with this License.</p>
+
+<p>An “entity transaction” is a transaction transferring control of an
+organization, or substantially all assets of one, or subdividing an
+organization, or merging organizations.  If propagation of a covered
+work results from an entity transaction, each party to that
+transaction who receives a copy of the work also receives whatever
+licenses to the work the party's predecessor in interest had or could
+give under the previous paragraph, plus a right to possession of the
+Corresponding Source of the work from the predecessor in interest, if
+the predecessor has it or can get it with reasonable efforts.</p>
+
+<p>You may not impose any further restrictions on the exercise of the
+rights granted or affirmed under this License.  For example, you may
+not impose a license fee, royalty, or other charge for exercise of
+rights granted under this License, and you may not initiate litigation
+(including a cross-claim or counterclaim in a lawsuit) alleging that
+any patent claim is infringed by making, using, selling, offering for
+sale, or importing the Program or any portion of it.</p>
+
+<p><a style="font-weight: bold" href="#pagetop">Jump back to the Scoreboard</a></p>
+
+
+<h4>11. Patents.</h4>
+
+<p>A “contributor” is a copyright holder who authorizes use under this
+License of the Program or a work on which the Program is based.  The
+work thus licensed is called the contributor's “contributor version”.</p>
+
+<p>A contributor's “essential patent claims” are all patent claims
+owned or controlled by the contributor, whether already acquired or
+hereafter acquired, that would be infringed by some manner, permitted
+by this License, of making, using, or selling its contributor version,
+but do not include claims that would be infringed only as a
+consequence of further modification of the contributor version.  For
+purposes of this definition, “control” includes the right to grant
+patent sublicenses in a manner consistent with the requirements of
+this License.</p>
+
+<p>Each contributor grants you a non-exclusive, worldwide, royalty-free
+patent license under the contributor's essential patent claims, to
+make, use, sell, offer for sale, import and otherwise run, modify and
+propagate the contents of its contributor version.</p>
+
+<p>In the following three paragraphs, a “patent license” is any express
+agreement or commitment, however denominated, not to enforce a patent
+(such as an express permission to practice a patent or covenant not to
+sue for patent infringement).  To “grant” such a patent license to a
+party means to make such an agreement or commitment not to enforce a
+patent against the party.</p>
+
+<p>If you convey a covered work, knowingly relying on a patent license,
+and the Corresponding Source of the work is not available for anyone
+to copy, free of charge and under the terms of this License, through a
+publicly available network server or other readily accessible means,
+then you must either (1) cause the Corresponding Source to be so
+available, or (2) arrange to deprive yourself of the benefit of the
+patent license for this particular work, or (3) arrange, in a manner
+consistent with the requirements of this License, to extend the patent
+license to downstream recipients.  “Knowingly relying” means you have
+actual knowledge that, but for the patent license, your conveying the
+covered work in a country, or your recipient's use of the covered work
+in a country, would infringe one or more identifiable patents in that
+country that you have reason to believe are valid.</p>
+
+
+<p>If, pursuant to or in connection with a single transaction or
+arrangement, you convey, or propagate by procuring conveyance of, a
+covered work, and grant a patent license to some of the parties
+receiving the covered work authorizing them to use, propagate, modify
+or convey a specific copy of the covered work, then the patent license
+you grant is automatically extended to all recipients of the covered
+work and works based on it.</p>
+
+<p>A patent license is “discriminatory” if it does not include within
+the scope of its coverage, prohibits the exercise of, or is
+conditioned on the non-exercise of one or more of the rights that are
+specifically granted under this License.  You may not convey a covered
+work if you are a party to an arrangement with a third party that is
+in the business of distributing software, under which you make payment
+to the third party based on the extent of your activity of conveying
+the work, and under which the third party grants, to any of the
+parties who would receive the covered work from you, a discriminatory
+patent license (a) in connection with copies of the covered work
+conveyed by you (or copies made from those copies), or (b) primarily
+for and in connection with specific products or compilations that
+contain the covered work, unless you entered into that arrangement,
+or that patent license was granted, prior to 28 March 2007.</p>
+
+<p>Nothing in this License shall be construed as excluding or limiting
+any implied license or other defenses to infringement that may
+otherwise be available to you under applicable patent law.</p>
+
+<h4>12. No Surrender of Others' Freedom.</h4>
+
+<p>If conditions are imposed on you (whether by court order, agreement or
+otherwise) that contradict the conditions of this License, they do not
+excuse you from the conditions of this License.  If you cannot convey a
+covered work so as to satisfy simultaneously your obligations under this
+License and any other pertinent obligations, then as a consequence you may
+not convey it at all.  For example, if you agree to terms that obligate you
+to collect a royalty for further conveying from those to whom you convey
+the Program, the only way you could satisfy both those terms and this
+License would be to refrain entirely from conveying the Program.</p>
+
+<p><a style="font-weight: bold" href="#pagetop">Jump back to the Scoreboard</a></p>
+
+
+<h4>13. Use with the GNU Affero General Public License.</h4>
+
+<p>Notwithstanding any other provision of this License, you have
+permission to link or combine any covered work with a work licensed
+under version 3 of the GNU Affero General Public License into a single
+combined work, and to convey the resulting work.  The terms of this
+License will continue to apply to the part which is the covered work,
+but the special requirements of the GNU Affero General Public License,
+section 13, concerning interaction through a network will apply to the
+combination as such.</p>
+
+<h4>14. Revised Versions of this License.</h4>
+
+<p>The Free Software Foundation may publish revised and/or new versions of
+the GNU General Public License from time to time.  Such new versions will
+be similar in spirit to the present version, but may differ in detail to
+address new problems or concerns.</p>
+
+<p>Each version is given a distinguishing version number.  If the
+Program specifies that a certain numbered version of the GNU General
+Public License “or any later version” applies to it, you have the
+option of following the terms and conditions either of that numbered
+version or of any later version published by the Free Software
+Foundation.  If the Program does not specify a version number of the
+GNU General Public License, you may choose any version ever published
+by the Free Software Foundation.</p>
+
+<p>If the Program specifies that a proxy can decide which future
+versions of the GNU General Public License can be used, that proxy's
+public statement of acceptance of a version permanently authorizes you
+to choose that version for the Program.</p>
+
+<p>Later license versions may give you additional or different
+permissions.  However, no additional obligations are imposed on any
+author or copyright holder as a result of your choosing to follow a
+later version.</p>
+
+<h4>15. Disclaimer of Warranty.</h4>
+
+<p>THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
+APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
+HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM “AS IS” WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
+IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
+ALL NECESSARY SERVICING, REPAIR OR CORRECTION.</p>
+
+<h4>16. Limitation of Liability.</h4>
+
+<p>IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES AND/OR CONVEYS
+THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY
+GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE
+USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF
+DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD
+PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS),
+EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES.</p>
+
+<h4>17. Interpretation of Sections 15 and 16.</h4>
+
+<p>If the disclaimer of warranty and limitation of liability provided
+above cannot be given local legal effect according to their terms,
+reviewing courts shall apply local law that most closely approximates
+an absolute waiver of all civil liability in connection with the
+Program, unless a warranty or assumption of liability accompanies a
+copy of the Program in return for a fee.</p>
+
+<p>END OF TERMS AND CONDITIONS</p>
+
+
+</div>
+<table title="&nbsp;" style="width:100%;"><tbody><tr><td><a style="font-weight: bold" href="#pagetop">Jump back to the Scoreboard</a>
+</td>
+<td>Read the full story at: &nbsp; <a style="font-weight: bold" href="http://www.scorejudo.com/" target="_blank">www.ScoreJudo.com (new window)</a>
+</td>
+</tr></tbody></table>
+<div id="bell"><audio id="audiotagbell" src="scorejudo_files/bell.mp3" preload="auto"></audio><audio id="audiotagbuzzer" src="scorejudo_files/buzzer.mp3" preload="auto"></audio><audio id="audiotagsiren" src="scorejudo_files/siren.mp3" preload="auto"></audio><audio id="audiotagchime" src="scorejudo_files/chime.mp3" preload="auto"></audio></div>
+</td>
+</tr>
+</tbody></table>
+<script> masterstopwatch(); </script>
+<script type="text/javascript" src="scorejudo_files/ijf_or_traditional.js">
+</script>
+</body></html>
