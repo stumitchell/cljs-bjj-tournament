@@ -6,27 +6,19 @@
 (defrecord Match
   [guid division p1 p2])
 
-(defn hash->match
-  [args]
-  (merge (Match.) args))
-
-(defn make-match 
+(defn make-match
   [division p1 p2]
   (Match. (uuid/make-random-uuid) division p1 p2))
 
 (defrecord Division
   [guid name filter-fn])
 
-(defn make-division 
+(defn make-division
   [name filter-fn]
   (Division. (uuid/make-random-uuid) name filter-fn))
 
 (defrecord Club
   [name full-name image-url])
-
-(defn hash->club
-  [args]
-  (merge (Club.) args))
 
 (defn make-club
   ([club-name]
@@ -39,7 +31,7 @@
 (defn age-division
   [c]
   (let [age (- 2014 (:yob c))]
-    (cond 
+    (cond
       (< age 35) "M1"
       (< age 40) "M2"
       (< age 45) "M3"
@@ -51,19 +43,15 @@
   Object
   (get-club [_] (get-in @app-db [:clubs club-name]))
   (full-name [_] (str fname " " lname))
-  (full-name-club [this] (str (.full-name this) 
+  (full-name-club [this] (str (.full-name this)
                               " (" (:name (.get-club this)) ")"
                               " " yob
                               " -- " weight "kg"))
-  (url-string [this p] (str p "Name=" (.full-name this) "&" 
+  (url-string [this p] (str p "Name=" (.full-name this) "&"
                             p "Team=" (:full-name (.get-club this)) "&"
                             p "DefaultLogoPath=" (:image-url (.get-club this)) "&"
                             p "DefaultLogoPath=" (:image-url (.get-club this)) "&"))
   (age-div [this] (age-division this)))
-
-(defn hash->competitor
-  [args]
-  (merge (Competitor.) args))
 
 (defn make-competitor
   [fname lname gender yob belt club-name weight]
@@ -74,41 +62,41 @@
   (let [clubs (:clubs @app-db)
         fname (first (clojure.string/split (attrs "Name") #" "))
         lname (last (clojure.string/split (attrs "Name") #" "))
-        gender (attrs "Gender") 
+        gender (attrs "Gender")
         yob (attrs "YOB")
         belt (attrs "Belt")
         club (attrs "Club")
         weight (attrs "Weight")]
     (make-competitor fname lname gender yob belt club weight)))
 
-(defn link-competitors-with-clubs 
+(defn link-competitors-with-clubs
   [competitors clubs]
   (let [;find all clubs that are mentioned
         ;find the new ones
-        new-clubs (filter (complement #(contains? clubs %)) 
+        new-clubs (filter (complement #(contains? clubs %))
                           (map :club-name competitors))
         clubs (into clubs (for [c (map make-club new-clubs)]
                             [(:name c) c]))
         ]
     [competitors clubs]))
 
-(defn read-csv 
+(defn read-csv
   [input]
-  (let [data (map 
-               #(clojure.string/split % #",") 
+  (let [data (map
+               #(clojure.string/split % #",")
                (clojure.string/split-lines input))
         headers (first data)
         data (rest data)]
-    (into [] 
+    (into []
           (for [line data]
-            (into {} 
-                  (for [[k v] 
+            (into {}
+                  (for [[k v]
                         (map list headers line)]
                     [k (clojure.string/trim v)]))))))
 
-(cljs.reader/register-tag-parser! 
-  "cljs-bjj-tournament.model.Match" hash->match)
-(cljs.reader/register-tag-parser! 
-  "cljs-bjj-tournament.model.Competitor" hash->competitor)
-(cljs.reader/register-tag-parser! 
-  "cljs-bjj-tournament.model.Club" hash->club)
+(cljs.reader/register-tag-parser!
+  "cljs-bjj-tournament.model.Match" map->Match)
+(cljs.reader/register-tag-parser!
+  "cljs-bjj-tournament.model.Competitor" map->Competitor)
+(cljs.reader/register-tag-parser!
+  "cljs-bjj-tournament.model.Club" map->Club)

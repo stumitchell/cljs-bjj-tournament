@@ -12,7 +12,7 @@
                                  button
                                  hyperlink-href]
              :refer-macros [handler-fn]]
-            [re-com.util :refer [get-element-by-id 
+            [re-com.util :refer [get-element-by-id
                                  enumerate]]
             [re-frame.core :refer [subscribe
                                    dispatch]]
@@ -53,11 +53,11 @@
         click-msg  (reagent/atom "")
         sort-key   (reagent/atom :fname)
         label-fn   (fn [label-str label-key col-widths]
-                     [h-box 
+                     [h-box
                       :gap "2px"
                       :width (label-key col-widths)
-                      :children 
-                      [[label 
+                      :children
+                      [[label
                         :label label-str]
                        [row-button
                         :md-icon-name "md-sort"
@@ -89,9 +89,9 @@
                                           [label-fn "YOB" :yob col-widths]
                                           [label-fn "Belt" :belt col-widths]
                                           [label-fn "Actions" :actions col-widths]]]
-                              (for [[id row first? last?] (enumerate 
-                                                            (sort-by 
-                                                              (sort-fn @sort-key) 
+                              (for [[id row first? last?] (enumerate
+                                                            (sort-by
+                                                              (sort-fn @sort-key)
                                                               rows))]
                                 ^{:key id} [data-row (:guid row) row first? last? col-widths mouse-over click-msg])]]]])))
 
@@ -100,15 +100,15 @@
   ([text]
    (field-label text nil))
   ([text info]
-   [h-box 
-    :children (concat 
-                [[label 
+   [h-box
+    :children (concat
+                [[label
                   :label text
                   :style {:font-variant "small-caps"}]]
                 (when info
-                  [[gap :size "5px"] 
+                  [[gap :size "5px"]
                    [info-button
-                    :info (if string? info 
+                    :info (if (string? info)
                             [:div info]
                             info)]]))]))
 
@@ -118,7 +118,7 @@
    :gap "10px"
    :children
    [[field-label name]
-    [input-text 
+    [input-text
      :model (field @competitor)
      :on-change #(swap! competitor assoc field %)]]])
 
@@ -126,9 +126,9 @@
   []
   (let [edit-competitor (subscribe [:edit-competitor])
         competitors (subscribe [:competitors])
-        new-competitor (reagent/atom 
-                         (make-competitor "fname" "lname" 
-                                          "gender" "yob" "belt" 
+        new-competitor (reagent/atom
+                         (make-competitor "fname" "lname"
+                                          "gender" "yob" "belt"
                                           "club-name" 0))]
     (fn []
       (let [competitor (if-not (nil? @edit-competitor)
@@ -138,8 +138,8 @@
          :gap "5px"
          :children
          [[title
-           :label (if @edit-competitor 
-                    "Edit Competitor" 
+           :label (if @edit-competitor
+                    "Edit Competitor"
                     "Add competitor ")]
           [competitor-field "First Name" :fname competitor]
           [competitor-field "Last Name" :lname competitor]
@@ -152,9 +152,9 @@
            :on-click (fn []
                        (dispatch [:add-competitor @competitor])
                        (dispatch [:edit-competitor nil])
-                       (reset! new-competitor 
-                               (make-competitor "fname" "lname" 
-                                                "gender" "yob" "belt" 
+                       (reset! new-competitor
+                               (make-competitor "fname" "lname"
+                                                "gender" "yob" "belt"
                                                 "club-name" 0)))]]]))))
 
 (defn- load-file-handler
@@ -178,23 +178,23 @@
   (let [competitors (subscribe [:competitors])
         col-widths {:name "15em" :gender "6em" :club-name "15em" :yob "4em" :belt "4.5em" :actions "4.5em"}]
     (fn []
-      [v-box 
+      [v-box
        :gap "10px"
-       :children 
+       :children
        [[:div "This panel allows you to add, delete and edit competitor
               information in the tool"]
-        [:div "To begin it is advised to load competitor information in 
+        [:div "To begin it is advised to load competitor information in
               from a csv file similar to the one found "
-              [hyperlink-href 
+              [hyperlink-href
                :label "here"
                :target "_blank"
                :href "../resources/sample-competitors.csv"]]
         [line]
         [load-csv-file]
         [line]
-        [title 
+        [title
          :label "Current competitors"]
         [data-table (vals @competitors) col-widths]
-        
+
         [line]
         [add-competitor]]])))

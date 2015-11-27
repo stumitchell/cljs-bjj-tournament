@@ -3,7 +3,7 @@
             [reagent.ratom :refer [atom]]
             [re-com.util :refer [get-element-by-id
                                  enumerate]]
-            [re-com.core :refer [title 
+            [re-com.core :refer [title
                                  v-box h-box
                                  line
                                  selection-list
@@ -50,7 +50,7 @@
                   :background-color (if (or
                                           (= @selected-tab-id (:id tab))
                                           @mouse-over?) "#eaeaea")}
-          
+
           :on-mouse-over (handler-fn (reset! mouse-over? true))
           :on-mouse-out  (handler-fn (reset! mouse-over? false))
           :on-click      (handler-fn (dispatch [:page (:id tab)]))}
@@ -71,20 +71,20 @@
   []
   (let [selected-tab-id (subscribe [:page])]
     (fn []
-      [v-box 
+      [v-box
        :children
        [[gap :size "70px"]
         [left-side-nav-bar selected-tab-id]]])))
 
-(defn intro 
+(defn intro
   []
   [v-box
    :children [
               [:div "Welcome to the Aucklandbjj.com tournament planner."]
-              [:div "This tool will allow you to plan and score your 
+              [:div "This tool will allow you to plan and score your
                     Brazilian Jiu-Jitsu tournament"]
-              [:div "Currently this tool only saves to your local computer so 
-                    please load the files on the computer you are going to 
+              [:div "Currently this tool only saves to your local computer so
+                    please load the files on the computer you are going to
                     use on the day"]
               [:div "First load in the competitiors for the competition"]]])
 
@@ -92,26 +92,30 @@
   []
   (let [initialised (subscribe [:initialised])
         page (subscribe [:page])]
-    (fn 
+    (fn
       []
-      (when @initialised 
-        [h-box 
+      (when @initialised
+        [h-box
          :gap "10px"
          :children
          [[sidebar]
-          [v-box 
-           :children 
-           [[title 
+          [v-box
+           :children
+           [[title
              :label "Aucklandbjj.com tournament planner"
              :level :level1]
             [line]
-            (case @page 
+            (case @page
               :intro [intro]
               :competitors [competitor-panel]
               :matches [match-panel]
               [intro])]]]]))))
 
+(defn mount-gui []
+  (reagent/render [main] (get-element-by-id "app"))
+)
+
 (defn ^:export mount-app
   []
   (dispatch [:initialise])
-  (reagent/render [main] (get-element-by-id "app")))
+  (mount-gui))
