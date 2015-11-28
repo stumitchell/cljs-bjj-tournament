@@ -1,21 +1,23 @@
 (ns cljs-bjj-tournament.state
-  (:require-macros [reagent.ratom :refer [reaction]])  
-  (:require [cljs-bjj-tournament.model :refer [make-competitor
-                                               make-division
-                                               make-match
+  (:require-macros [reagent.ratom :refer [reaction]])
+  (:require [cljs-bjj-tournament.model :refer [make-division
                                                Club
-                                               make-competitor-from-map
-                                               link-competitors-with-clubs]]
+                                               map->Competitor
+                                               map->Club
+                                               map->Match]]
             [re-frame.core :refer [register-sub
                                    register-handler
-                                   path]]
+                                   path
+                                   dispatch]]
             [re-frame.db :refer [app-db]]
-            [alandipert.storage-atom :refer [local-storage]]))
+            [alandipert.storage-atom :refer [local-storage]]
+            [matchbox.core :as matchbox]
+            [cljs-bjj-tournament.firebase :refer [root-db]]))
 
 (enable-console-print!)
 
 (def test-state
-  (let [abjj (Club. "ABJJ" "AucklandBjj.com" 
+  (let [abjj (Club. "ABJJ" "AucklandBjj.com"
                     "resources/club_logos/auckland-bjj.png")
         tukaha (Club. "Tukaha" "Tukaha Brazilian Jiu Jitsu"
                       "resources/club_logos/tukaha-bjj.png")
@@ -24,7 +26,7 @@
         clubs {"ABJJ" abjj
                "Tukaha" tukaha
                "Oliver MMA" oliver-mma
-               "DS Team" (Club. "DS Team" "DS Team" 
+               "DS Team" (Club. "DS Team" "DS Team"
                                "resources/club_logos/DS-team.png")
                "UJC" (Club. "UJC" "University Judo Club"
                             "resources/club_logos/UJC.png")
@@ -32,48 +34,48 @@
                                  "resources/club_logos/city-bjj.png")
                "Zero Gravity" (Club. "Zero Gravity" "Zero Gravity BJJ"
                                      "resources/club_logos/zero-gravity.png")
-               "Clinch" (Club. "Clinch" "Clinch BJJ" 
+               "Clinch" (Club. "Clinch" "Clinch BJJ"
                                "resources/club_logos/clinch.png")}
         divisions [(make-division "ALL" (constantly true))
-                   (make-division "White Belt M1 M2 - Light" 
+                   (make-division "White Belt M1 M2 - Light"
                                   #(and (= (:belt %) "White")
                                         (#{"M1" "M2"} (.age-div %))
                                         (> 74 (:weight %))))
-                   (make-division "White Belt M2 M2 - Medium" 
+                   (make-division "White Belt M2 M2 - Medium"
                                   #(and (= (:belt %) "White")
                                         (#{"M1" "M2"} (.age-div %))
                                         (> 85 (:weight %))
                                         (< 74 (:weight %))))
-                   (make-division "White Belt M2 M2 - Heavy" 
+                   (make-division "White Belt M2 M2 - Heavy"
                                   #(and (= (:belt %) "White")
                                         (#{"M1" "M2"} (.age-div %))
                                         (< 85 (:weight %))))
-                   (make-division "White Belt M3 M4 - Light" 
+                   (make-division "White Belt M3 M4 - Light"
                                   #(and (= (:belt %) "White")
-                                        (or 
+                                        (or
                                           (= (.age-div %) "M3")
                                           (= (.age-div %) "M4"))))
-                   (make-division "Blue Belt M1 M2 - Light" 
-                                  #(and (= (:belt %) "Blue") 
+                   (make-division "Blue Belt M1 M2 - Light"
+                                  #(and (= (:belt %) "Blue")
                                         (#{"M1" "M2" "M3" "M4"} (.age-div %))
                                         (> 95 (:weight %))))
-                   (make-division "Blue Belt M1 M2 - Heavy" 
+                   (make-division "Blue Belt M1 M2 - Heavy"
                                   #(and (= (:belt %) "Blue")
                                         (#{"M1" "M2"} (.age-div %))
                                         (< 95 (:weight %))))
-                   (make-division "Blue Belt M3 M4 - Light" 
+                   (make-division "Blue Belt M3 M4 - Light"
                                   #(and (= (:belt %) "Blue")
-                                        (or 
+                                        (or
                                           (= (.age-div %) "M3")
                                           (= (.age-div %) "M4"))
                                         (> 90 (:weight %))))
-                   (make-division "Blue Belt M3 M4 - Heavy" 
+                   (make-division "Blue Belt M3 M4 - Heavy"
                                   #(and (= (:belt %) "Blue")
-                                        (or 
+                                        (or
                                           (= (.age-div %) "M3")
                                           (= (.age-div %) "M4"))
                                         (< 90 (:weight %))))
-                   (make-division "Blue Belt M5" 
+                   (make-division "Blue Belt M5"
                                   #(and (= (:belt %) "Blue")
                                         (= (.age-div %) "M5")))]
         divisions (into (sorted-map) (for [d divisions]
@@ -83,7 +85,7 @@
      :clubs clubs
      ; :competitors competitors-map
      :divisions divisions
-     ; :matches [(make-match "ALL" (:guid (first (vals competitors-map))) 
+     ; :matches [(make-match "ALL" (:guid (first (vals competitors-map)))
      ;                          (:guid (last (vals competitors-map))))]
      }))
 
@@ -95,30 +97,35 @@
    :divisions {}
    :matches []})
 
-(def persistent-db (local-storage 
+(def persistent-db (atom {}) #_(local-storage
                      (atom {})
                      ::persistent-db))
 
-(defn initialise 
-  [db]
-  (let [db (-> db
-               (merge test-state)
-               (merge @persistent-db))]
+(defn initialise
+  [db [_ new-db]]
+  (let [db (if (nil? new-db)
+             (do
+               (matchbox/deref-in root-db "test-comp"
+                                  #(dispatch [:initialise %]))
+               (-> db
+                   (merge test-state)
+                   (merge @persistent-db)))
+             (merge db new-db))]
     ;space for other initialisation
     db))
 
-(register-handler 
-  :initialise 
+(register-handler
+  :initialise
   initialise)
 
 (defn reg-sub-key
   "given a key register and subscribe to it with
-  simple getters and setters" 
+  simple getters and setters"
   [key & [default]]
-  (register-sub 
-    key 
-    (fn 
-      [db] 
+  (register-sub
+    key
+    (fn
+      [db]
       (reaction (get @db key))))
   (register-handler
     key
@@ -147,23 +154,33 @@
       (fn new-handler
         [db v]
         (let [result (handler db v)]
-          (swap! persistent-db assoc-in p result)
+          #_(swap! persistent-db assoc-in p result)
+          (matchbox/reset-in! root-db (concat [:test-comp] p) result)
           result)))))
 
 (defn register-persistent-sub-key
-  [key]
+  [key translate-fn]
   (register-sub
     key
     (fn [db [_]]
-      (reaction (key @db))))
+      (reaction (->> @db
+                     key
+                     (map (fn [[k v]] [(name k) (translate-fn v)]))
+                     (into {})))))
   (register-handler
     key
     (persistent-path [key])
     (fn [_ [_ value]]
       value)))
 
-(register-persistent-sub-key :matches)
+(register-persistent-sub-key :matches map->Match)
+(register-sub
+  :matches
+  (fn [db [_]]
+    (reaction (->> @db
+                   :matches
+                   (map map->Match)))))
 
-(register-persistent-sub-key :competitors)
+(register-persistent-sub-key :competitors map->Competitor)
 
-(register-persistent-sub-key :clubs)
+(register-persistent-sub-key :clubs map->Club)

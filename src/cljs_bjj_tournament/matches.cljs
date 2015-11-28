@@ -29,12 +29,12 @@
                         :label (str "Start Match -- "
                                     (.full-name-club p1) " Vs "
                                     (.full-name-club p2))
-                        :href (str "scorejudo.html?"
-                                   (.url-string p1 "p1")
-                                   (.url-string p2 "p2"))
-                        ; :href (str "scoreMaster/index.html?"
+                        ; :href (str "scorejudo.html?"
                         ;            (.url-string p1 "p1")
                         ;            (.url-string p2 "p2"))
+                        :href (str "scoreMaster/index.html?"
+                                   (.url-string p1 "p1")
+                                   (.url-string p2 "p2"))
                         :target "_blank"]))
         empty-selection? #(nil? (first %))]
     (fn []
@@ -43,7 +43,7 @@
        [[title
          :label "Matches"
          :level :level2]
-        (for [[id m first? last?] (enumerate (filter #(= (:division %)
+       (for [[id m first? last?] (enumerate (filter #(= (:division %)
                                                          (:name (first @division)))
                                                      @matches))]
           ^{:key id} [match-link m])

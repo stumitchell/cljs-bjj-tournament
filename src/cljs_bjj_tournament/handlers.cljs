@@ -17,8 +17,8 @@
   (fn [matches [_ division p1 p2]]
     (conj matches (make-match division p1 p2))))
 
-(register-handler 
-  :move-competitor-up 
+(register-handler
+  :move-competitor-up
   (persistent-path :competitors)
   (fn [competitors [_ i]]
     (let [j (dec i)
@@ -28,8 +28,8 @@
           (assoc i new)
           (assoc j org)))))
 
-(register-handler 
-  :move-competitor-down 
+(register-handler
+  :move-competitor-down
   (persistent-path :competitors)
   (fn [competitors [_ i]]
     (let [j (inc i)
@@ -50,7 +50,7 @@
   (persistent-path [:competitors])
   (fn [competitors [_ competitors]]
     (let [competitors (map make-competitor-from-map competitors)
-          [competitors clubs] (link-competitors-with-clubs 
+          [competitors clubs] (link-competitors-with-clubs
                                 competitors (:clubs @app-db))
           competitors-map (into {}
                                 (for [c competitors]

@@ -8,7 +8,8 @@
                  [re-com "0.7.0-alpha2"]
                  [re-frame "0.5.0"]
                  [alandipert/storage-atom "1.2.4"]
-                 [com.lucasbradstreet/cljs-uuid-utils "1.0.1"]]
+                 [com.lucasbradstreet/cljs-uuid-utils "1.0.1"]
+                 [matchbox "0.0.8-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "1.1.1"]
             [lein-figwheel    "0.5.0-1"]
@@ -24,13 +25,11 @@
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src"]
                         :figwheel  {:on-jsload "cljs-bjj-tournament.core/mount-gui"}
-                        :compiler {
-                                   :main cljs-bjj-tournament.core
+                        :compiler {:main cljs-bjj-tournament.core
                                    :asset-path "js/compiled/out"
                                    :output-to "resources/public/js/compiled/cljs_bjj_tournament.js"
                                    :output-dir "resources/public/js/compiled/out"
                                    :optimizations :none
-                                   :cache-analysis true
                                    :source-map true}}
                        {:id "release"
                         :source-paths ["src"]
