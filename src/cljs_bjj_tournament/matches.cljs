@@ -10,7 +10,9 @@
                                  label
                                  line
                                  v-box
+                                 gap
                                  hyperlink-href
+                                 hyperlink
                                  radio-button]]))
 (defn match-panel
   []
@@ -25,18 +27,25 @@
                      [m]
                      (let [p1 (@competitors (:p1 m))
                            p2 (@competitors (:p2 m))]
-                       [hyperlink-href
-                        :label (str "Start Match -- "
-                                    (.full-name-club p1) " Vs "
-                                    (.full-name-club p2))
-                        ; :href (str "scorejudo.html?"
-                        ;            (.url-string p1 "p1")
-                        ;            (.url-string p2 "p2"))
-                        :href (str "scoreMaster/index.html?"
-                                   (.url-string p1 "p1")
-                                   (.url-string p2 "p2"))
-                        :target "_blank"]))
+                       [h-box
+                        :children
+                        [[hyperlink-href
+                          :label (str "Start Match -- "
+                                      (.full-name-club p1) " Vs "
+                                      (.full-name-club p2))
+                          ; :href (str "scorejudo.html?"
+                          ;            (.url-string p1 "p1")
+                          ;            (.url-string p2 "p2"))
+                          :href (str "scoreMaster/index.html?"
+                                     (.url-string p1 "p1")
+                                     (.url-string p2 "p2"))
+                          :target "_blank"]
+                         [gap :size "5em"]
+                         [hyperlink
+                          :label "[x]"
+                          :on-click #(dispatch [:delete-match (:guid m)])]]]))
         empty-selection? #(nil? (first %))]
+
     (fn []
       [v-box
        :children

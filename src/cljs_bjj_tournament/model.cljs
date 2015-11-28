@@ -6,16 +6,23 @@
 (defrecord Match
   [guid division p1 p2])
 
+
 (defn make-match
   [division p1 p2]
-  (Match. (str (uuid/make-random-uuid)) division p1 p2))
+  (Match. (-> (uuid/make-random-uuid)
+              str
+              keyword)
+          division p1 p2))
 
 (defrecord Division
   [guid name filter-fn])
 
 (defn make-division
   [name filter-fn]
-  (Division. (str (uuid/make-random-uuid)) name filter-fn))
+  (Division. (-> (uuid/make-random-uuid)
+                 str
+                 keyword)
+             name filter-fn))
 
 (defrecord Club
   [name full-name image-url])
@@ -55,7 +62,10 @@
 
 (defn make-competitor
   [fname lname gender yob belt club-name weight]
-  (Competitor. (str (uuid/make-random-uuid)) fname lname gender (float yob) belt club-name (float weight)))
+  (Competitor. (-> (uuid/make-random-uuid)
+                   str
+                   keyword)
+               fname lname gender (float yob) belt club-name (float weight)))
 
 (defn make-competitor-from-map
   [attrs]

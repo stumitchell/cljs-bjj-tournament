@@ -66,4 +66,12 @@
   (fn [competitors [_ id]]
     (dissoc competitors id)))
 
+(register-handler
+  :delete-match
+  (persistent-path [:matches])
+  (fn [matches [_ id]]
+    (->> matches
+         (remove #(= id (:guid %))))))
+
+
 

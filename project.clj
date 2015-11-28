@@ -31,7 +31,7 @@
                                    :output-dir "resources/public/js/compiled/out"
                                    :optimizations :none
                                    :source-map true}}
-                       {:id "release"
+                       #_{:id "release"
                         :source-paths ["src"]
                         :compiler {
                                    :main cljs-bjj-tournament.core

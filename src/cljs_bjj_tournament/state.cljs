@@ -12,7 +12,7 @@
             [re-frame.db :refer [app-db]]
             [alandipert.storage-atom :refer [local-storage]]
             [matchbox.core :as matchbox]
-            [cljs-bjj-tournament.firebase :refer [root-db]]))
+            [cljs-bjj-tournament.firebase :refer [comp-db]]))
 
 (enable-console-print!)
 
@@ -103,16 +103,22 @@
 
 (defn initialise
   [db [_ new-db]]
-  (let [db (if (nil? new-db)
-             (do
-               (matchbox/deref-in root-db "test-comp"
-                                  #(dispatch [:initialise %]))
-               (-> db
-                   (merge test-state)
-                   (merge @persistent-db)))
-             (merge db new-db))]
+  (matchbox/listen-to comp-db :value
+                      (fn [[k v]]
+                        (dispatch [:sync-db v])))
+  (let [db (-> db
+               (merge test-state)
+               (merge @persistent-db))]
     ;space for other initialisation
     db))
+
+(defn sync-db
+  [db [_ new-db]]
+  (merge db new-db))
+
+(register-handler
+  :sync-db
+  sync-db)
 
 (register-handler
   :initialise
@@ -155,7 +161,7 @@
         [db v]
         (let [result (handler db v)]
           #_(swap! persistent-db assoc-in p result)
-          (matchbox/reset-in! root-db (concat [:test-comp] p) result)
+          (matchbox/reset-in! comp-db p result)
           result)))))
 
 (defn register-persistent-sub-key
@@ -165,7 +171,7 @@
     (fn [db [_]]
       (reaction (->> @db
                      key
-                     (map (fn [[k v]] [(name k) (translate-fn v)]))
+                     (map (fn [[k v]] [k (translate-fn v)]))
                      (into {})))))
   (register-handler
     key
