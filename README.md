@@ -2,7 +2,7 @@
 
 Tournament creation software written in clojurescript
 
-[live app](https://s3-ap-southeast-2.amazonaws.com/cljs-bjj-tournament/index.html)
+[live app](https://s3-ap-southeast-2.amazonaws.com/cljs-bjj-tournament/resources/public/index.html)
 
 ## Overview
 
@@ -15,7 +15,7 @@ At the moment draws are not provided but timekeeping, competitor, club and divis
  * CRUD operations for Divisions
  * CRUD operations for Clubs
  * firebase integration
- 
+
 ## Setup
 
 Subsequent dev builds can use:
@@ -25,10 +25,10 @@ Subsequent dev builds can use:
 Clean project specific out:
 
     lein clean
-     
+
 Optimized builds:
 
-    lein cljsbuild once release     
+    lein cljsbuild once release
 
 For more info on Cljs compilation, read [Waitin'](http://swannodette.github.io/2014/12/22/waitin/).
 
