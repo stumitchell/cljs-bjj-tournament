@@ -71,7 +71,8 @@
   (persistent-path [:matches])
   (fn [matches [_ id]]
     (->> matches
-         (remove #(= id (:guid %))))))
+         (remove #(= id (:guid %)))
+         vec)))
 
 
 

@@ -37,13 +37,17 @@
 
 (defn age-division
   [c]
-  (let [age (- 2014 (:yob c))]
+  (let [age (- 2015 (:yob c))]
     (cond
+      (< age 20) "U19"
+      (< age 30) "U29"
       (< age 35) "M1"
       (< age 40) "M2"
       (< age 45) "M3"
       (< age 50) "M4"
-      :else "M5")))
+      (< age 55) "M5"
+      (< age 60) "M6"
+      :else "M7")))
 
 (defrecord Competitor
   [guid fname lname gender yob belt club-name weight]
@@ -69,8 +73,7 @@
 
 (defn make-competitor-from-map
   [attrs]
-  (let [clubs (:clubs @app-db)
-        fname (first (clojure.string/split (attrs "Name") #" "))
+  (let [fname (first (clojure.string/split (attrs "Name") #" "))
         lname (last (clojure.string/split (attrs "Name") #" "))
         gender (attrs "Gender")
         yob (attrs "YOB")
