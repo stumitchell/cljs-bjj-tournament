@@ -57,8 +57,12 @@
                     [button
                      :label "Show all"
                      :on-click #(reset! division #{})]]]
-       (for [[id m first? last?] (enumerate (filter #(= (:division %)
-                                                         (:name (first @division)))
+        (for [[id m first? last?] (enumerate (filter (fn [m]
+                                                       (let [div (first @division)]
+                                                         (if div
+                                                           (= (:division m)
+                                                              (:name div))
+                                                           true)))
                                                      @matches))]
           ^{:key id} [match-link m id])
         [line]

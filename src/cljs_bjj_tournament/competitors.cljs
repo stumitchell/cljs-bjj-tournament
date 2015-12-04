@@ -31,6 +31,7 @@
                 [label :label (:gender row) :width (:gender col-widths)]
                 [label :label (:club-name row) :width (:club-name col-widths)]
                 [label :label (:yob   row) :width (:yob   col-widths)]
+                [label :label (:weight   row) :width (:weight   col-widths)]
                 [label :label (:belt   row) :width (:belt   col-widths)]
                 [h-box
                  :gap      "2px"
@@ -87,6 +88,7 @@
                                           [label-fn "Gender" :gender col-widths]
                                           [label-fn "Club" :club-name col-widths]
                                           [label-fn "YOB" :yob col-widths]
+                                          [label-fn "Weight" :weight col-widths]
                                           [label-fn "Belt" :belt col-widths]
                                           [label-fn "Actions" :actions col-widths]]]
                               (for [[id row first? last?] (enumerate
@@ -119,7 +121,7 @@
    :children
    [[field-label name]
     [input-text
-     :model (field @competitor)
+     :model (str (field @competitor))
      :on-change #(swap! competitor assoc field %)]]])
 
 (defn add-competitor
@@ -145,6 +147,7 @@
           [competitor-field "Last Name" :lname competitor]
           [competitor-field "Gender" :gender competitor]
           [competitor-field "YOB" :yob competitor]
+          [competitor-field "Weight" :weight competitor]
           [competitor-field "Belt" :belt competitor]
           [competitor-field "Club" :club-name competitor]
           [button
@@ -176,7 +179,8 @@
 (defn competitor-panel
   []
   (let [competitors (subscribe [:competitors])
-        col-widths {:name "15em" :gender "6em" :club-name "15em" :yob "4em" :belt "4.5em" :actions "4.5em"}]
+        col-widths {:name "15em" :gender "6em" :club-name "15em" :yob "4em"
+                    :weight "4.5em" :belt "4.5em" :actions "4.5em"}]
     (fn []
       [v-box
        :gap "10px"
