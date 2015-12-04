@@ -331,9 +331,9 @@ var osaeClockRunning = false;
 mainSeconds = 0;
 mainMinutes = 5;
 globalOsaeSeconds = 0;
-defaultmatch = '5:00';
+defaultmatch = '3:00';
 defaultMainSeconds = 0;
-defaultMainMinutes = 5;
+defaultMainMinutes = 3;
 isGoldenScore = false;
 bell_enabled = true;
 
@@ -1238,7 +1238,6 @@ var rawnames = localStorage.getItem('allplayers');
 //if (rawnames.length < 6){
 rawnames = urlParams['p1Name'].concat('\n', urlParams['p2Name']);
 //}
-console.log(rawnames);
 if (rawnames.length < 6){
 rawnames = 'Player 1<br>Player 2';
 }
@@ -1383,6 +1382,8 @@ for (j = 0; j < names.length; j++){
 optionsb[j] = new Option(names[j], names[j]);
 }
 
+selectb.value = names[1];
+
 
 
 var editTextarea = document.getElementById('playersnames');
@@ -1402,9 +1403,6 @@ localStorage.setItem('allplayers',rawnames);
 
 
 }
-
-
-
 
 
 
@@ -2738,7 +2736,9 @@ copy of the Program in return for a fee.</p>
 </td>
 </tr>
 </tbody></table>
-<script> masterstopwatch(); </script>
+<script>
+resetAll();
+masterstopwatch(); </script>
 <script type="text/javascript" src="scorejudo_files/ijf_or_traditional.js">
 </script>
 </body></html>

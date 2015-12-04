@@ -15,14 +15,26 @@
           division p1 p2))
 
 (defrecord Division
-  [guid name filter-fn])
+  [guid name age-divs belts min-weight max-weight]
+  Object
+  (in-division? [_ c]
+                (and (if age-divs
+                       ((set age-divs) (.age-div c))
+                       true)
+                     (if belts
+                       ((set belts) (:belt c))
+                       true)
+                     (< min-weight (:weight c))
+                     (>= max-weight (:weight c)))))
 
 (defn make-division
-  [name filter-fn]
+  [& {:keys [name age-divs belts min-weight max-weight]
+      :or {min-weight 0
+           max-weight 999}}]
   (Division. (-> (uuid/make-random-uuid)
                  str
                  keyword)
-             name filter-fn))
+             name age-divs belts min-weight max-weight))
 
 (defrecord Club
   [name full-name image-url])
@@ -52,10 +64,10 @@
 (defrecord Competitor
   [guid fname lname gender yob belt club-name weight]
   Object
-  (get-club [_] (get-in @app-db [:clubs club-name]))
+  (get-club [_] (get-in @app-db [:clubs (keyword club-name)]))
   (full-name [_] (str fname " " lname))
   (full-name-club [this] (str (.full-name this)
-                              " (" (:name (.get-club this)) ")"
+                              " (" club-name ")"
                               " " yob
                               " -- " weight "kg"))
   (url-string [this p] (str p "Name=" (.full-name this) "&"

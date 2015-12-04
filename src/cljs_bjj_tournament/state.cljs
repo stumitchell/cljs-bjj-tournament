@@ -45,7 +45,7 @@
 
 
 (def bjj-masters-divisions
-  (let [divisions  [(make-division "ALL" (constantly true))
+  (let [divisions  [(make-division "ALL")
                    (make-division "White Belt M1 M2 - Light"
                                   #(and (= (:belt %) "White")
                                         (#{"M1" "M2"} (.age-div %))
@@ -87,30 +87,16 @@
                                        [(:name d) d]))))
 
 (def judo-masters-divisions
-  (let [divisions [(make-division "ALL" (constantly true))
-                   (make-division "U19" #(#{"U19"} (.age-div %)))
-                   (make-division "U29 - Light" #(and
-                                                   (#{"U29"} (.age-div %))
-                                                   (> 81 (:weight %))))
-                   (make-division "U29 - Heavy" #(and
-                                                   (#{"U29"} (.age-div %))
-                                                   (< 81 (:weight %))))
-                   (make-division "U39 - Light" #(and
-                                                   (#{"M1" "M2"} (.age-div %))
-                                                   (> 81 (:weight %))))
-                   (make-division "U39 - Heavy" #(and
-                                                   (#{"M1" "M2"} (.age-div %))
-                                                   (< 81 (:weight %))))
-                   (make-division "U49 - Light" #(and
-                                                   (#{"M3" "M4"} (.age-div %))
-                                                   (> 81 (:weight %))))
-                   (make-division "U49 - Heavy" #(and
-                                                   (#{"M3" "M4"} (.age-div %))
-                                                   (< 81 (:weight %))))
-                   (make-division "U59" #(#{"M5" "M6"} (.age-div %)))
-                   (make-division "U60+" #(#{"M7"} (.age-div %)))]]
-      (into (sorted-map) (for [d divisions]
-                                       [(:name d) d]))))
+  [(make-division :name "ALL")
+   (make-division :name "U19" :age-divs #{"U19"})
+   (make-division :name "U29 - Light" :age-divs #{"U29"} :max-weight 81)
+   (make-division :name "U29 - Heavy" :age-divs #{"U29"} :min-weight 81)
+   (make-division :name "U39 - Light" :age-divs #{"M1" "M2"} :max-weight 81)
+   (make-division :name "U39 - Heavy" :age-divs #{"M1" "M2"} :min-weight 81)
+   (make-division :name "U49 - Light" :age-divs #{"M3" "M4"} :max-weight 81)
+   (make-division :name "U49 - Heavy" :age-divs #{"M3" "M4"} :min-weight 81)
+   (make-division :name "U59" :age-divs #{"M5" "M6"})
+   (make-division :name "U60+" :age-divs #{"M7"})])
 
 (def test-state
   {:initialised true
@@ -125,12 +111,12 @@
 (def default-persistent-state
   {:clubs {}
    :competitors {}
-   :matches []})
+   :matches []
+   :divisons {}})
 
 (def default-state
   (merge {:initialised true
-          :page :intro
-          :divisons {}}
+          :page :intro}
          default-persistent-state))
 
 (def persistent-db (atom {}) #_(local-storage
@@ -142,7 +128,7 @@
   (matchbox/listen-to comp-db :value
                       (fn [[k v]]
                         (dispatch [:sync-db v])))
-  (dispatch [:clubs (:clubs test-state)])
+  #_(dispatch [:clubs (:clubs test-state)])
   #_(dispatch [:divisions (:divisions test-state)])
   (let [db (-> db
                (merge test-state)
@@ -186,8 +172,6 @@
 
 (reg-sub-key :edit-competitor)
 
-(reg-sub-key :divisions)
-
 (defn persistent-path
   "This middleware will persist the changes in the handler into
   local-storage"
@@ -202,7 +186,7 @@
           (matchbox/reset-in! comp-db p result)
           result)))))
 
-(defn register-persistent-sub-key
+(defn register-persistent-sub-key-map
   [key translate-fn]
   (register-sub
     key
@@ -217,16 +201,24 @@
     (fn [_ [_ value]]
       value)))
 
-(register-persistent-sub-key :matches map->Match)
-(register-sub
-  :matches
-  (fn [db [_]]
-    (reaction (->> @db
-                   :matches
-                   (map map->Match)))))
+(defn register-persistent-sub-key-list
+  [key translate-fn]
+  (register-sub
+    key
+    (fn [db [_]]
+      (reaction (->> @db
+                     key
+                     (map translate-fn)))))
+  (register-handler
+    key
+    (persistent-path [key])
+    (fn [_ [_ value]]
+      value)))
 
-(register-persistent-sub-key :clubs map->Club)
+(register-persistent-sub-key-list :matches map->Match)
 
-(register-persistent-sub-key :competitors map->Competitor)
+(register-persistent-sub-key-map :clubs map->Club)
 
-(register-persistent-sub-key :clubs map->Club)
+(register-persistent-sub-key-map :competitors map->Competitor)
+
+(register-persistent-sub-key-list :divisions map->Division)

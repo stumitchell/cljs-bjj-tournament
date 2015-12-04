@@ -1,7 +1,7 @@
 /// set this to true for traditional,  false for generic or IJF colour scheme
 
 
-startUpInTraditionalRedColourScheme = false;
+startUpInTraditionalRedColourScheme = true;
 
 
 

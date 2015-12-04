@@ -21,7 +21,7 @@
         divisions (subscribe [:divisions])
         choice1 (atom #{})
         choice2 (atom #{})
-        division (atom #{(first (vals @divisions))})
+        division (atom #{(first @divisions)})
         sort-button (atom :weight)
         match-link (fn
                      [m]
@@ -33,12 +33,12 @@
                           :label (str "Start Match -- "
                                       (.full-name-club p1) " Vs "
                                       (.full-name-club p2))
-                          ; :href (str "scorejudo.html?"
-                          ;            (.url-string p1 "p1")
-                          ;            (.url-string p2 "p2"))
-                          :href (str "scoreMaster/index.html?"
+                          :href (str "scorejudo.html?"
                                      (.url-string p1 "p1")
                                      (.url-string p2 "p2"))
+                          ; :href (str "scoreMaster/index.html?"
+                          ;            (.url-string p1 "p1")
+                          ;            (.url-string p2 "p2"))
                           :target "_blank"]
                          [gap :size "5em"]
                          [hyperlink
@@ -49,13 +49,18 @@
     (fn []
       [v-box
        :children
-       [[title
-         :label "Matches"
-         :level :level2]
+       [[h-box
+         :children [
+                    [title
+                     :label "Matches"
+                     :level :level2]
+                    [button
+                     :label "Show all"
+                     :on-click #(reset! division #{})]]]
        (for [[id m first? last?] (enumerate (filter #(= (:division %)
                                                          (:name (first @division)))
                                                      @matches))]
-          ^{:key id} [match-link m])
+          ^{:key id} [match-link m id])
         [line]
         [title
          :label "Choose a division"
@@ -64,7 +69,7 @@
          :model @division
          :on-change #(reset! division %)
          :id-fn identity
-         :choices (vals @divisions)
+         :choices  @divisions
          :label-fn :name
          :multi-select? false]
         [title
@@ -97,27 +102,32 @@
         [h-box
          :gap "10px"
          :children
-         (let [filter-fn (if (nil? (first @division))
+         (let [div       (first @division)
+               filter-fn (if (nil? div)
                            (constantly true)
-                           (:filter-fn (first @division)))
+                           #(.in-division? div %))
                sort-fn (case @sort-button
                          :name #(.full-name %)
                          #(- (float (@sort-button %))))]
            [[selection-list
              :model @choice1
              :on-change #(reset! choice1 %)
-             :choices  (sort-by sort-fn
-                                (filter filter-fn
-                                        (vals @competitors)))
+             :choices  (->> @competitors
+                            vals
+                            (filter filter-fn)
+                            (remove @choice2)
+                            (sort-by sort-fn))
              :label-fn #(.full-name-club %)
              :id-fn identity
              :multi-select? false]
             [selection-list
              :model @choice2
              :on-change #(reset! choice2 %)
-             :choices (sort-by sort-fn
-                               (filter filter-fn
-                                       (vals @competitors)))
+             :choices (->> @competitors
+                            vals
+                            (filter filter-fn)
+                            (remove @choice1)
+                            (sort-by sort-fn))
              :label-fn #(.full-name-club %)
              :id-fn identity
              :multi-select? false]
@@ -126,6 +136,6 @@
              :disabled? (or (empty-selection? @choice1)
                             (empty-selection? @choice2))
              :on-click #(dispatch [:add-match
-                                   (:name (first @division))
+                                   (:name div)
                                    (:guid (first @choice1))
                                    (:guid (first @choice2))])]])]]])))
