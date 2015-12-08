@@ -50,8 +50,8 @@
       [v-box
        :children
        [[h-box
-         :children [
-                    [title
+         :justify :between
+         :children [[title
                      :label "Matches"
                      :level :level2]
                     [button
@@ -76,9 +76,14 @@
          :choices  @divisions
          :label-fn :name
          :multi-select? false]
-        [title
-         :label "Create a match"
-         :level :level2]
+        [h-box
+         :justify :between
+         :children [[title
+                     :label "Create a match"
+                     :level :level2]
+                    [button
+                     :label "Auto create matches"
+                     :on-click #(dispatch [:auto-create-matches (first @division)])]]]
         [h-box
          :gap "5px"
          :children

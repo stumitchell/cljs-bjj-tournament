@@ -82,7 +82,7 @@
    :children [
               [:div "Welcome to the Aucklandbjj.com tournament planner."]
               [:div "This tool will allow you to plan and score your
-                    Brazilian Jiu-Jitsu tournament"]
+                    Judo or Brazilian Jiu-Jitsu tournament"]
               [:div "Currently this tool only saves to your local computer so
                     please load the files on the computer you are going to
                     use on the day"]

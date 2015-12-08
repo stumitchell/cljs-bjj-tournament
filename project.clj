@@ -9,7 +9,8 @@
                  [re-frame "0.5.0"]
                  [alandipert/storage-atom "1.2.4"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.1"]
-                 [matchbox "0.0.8-SNAPSHOT"]]
+                 [matchbox "0.0.8-SNAPSHOT"]
+                 [lonocloud/synthread "1.4.0"]]
 
   :plugins [[lein-cljsbuild "1.1.1"]
             [lein-figwheel    "0.5.0-1"]

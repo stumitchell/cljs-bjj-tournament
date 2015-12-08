@@ -13,7 +13,8 @@
             [re-frame.db :refer [app-db]]
             [alandipert.storage-atom :refer [local-storage]]
             [matchbox.core :as matchbox]
-            [cljs-bjj-tournament.firebase :refer [comp-db]]))
+            [cljs-bjj-tournament.firebase :refer [comp-db]]
+            [lonocloud.synthread :as ->]))
 
 (enable-console-print!)
 
@@ -138,7 +139,13 @@
 
 (defn sync-db
   [db [_ new-db]]
-  (merge db default-persistent-state new-db))
+  (-> db
+      (->/let [new-db (-> new-db
+                          (->/update :competitors
+                                     (->> (map (fn [[k v]]
+                                                 [k (map->Competitor v)]))
+                                          (into {}))))]
+      (merge default-persistent-state new-db))))
 
 (register-handler
   :sync-db

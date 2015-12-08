@@ -4,11 +4,13 @@
                                    dispatch]]
             [re-frame.db :refer [app-db]]
             [cljs-bjj-tournament.model :refer [make-competitor
+                                               map->Competitor
                                                make-club
                                                make-match
                                                make-competitor-from-map
                                                link-competitors-with-clubs]]
-            [cljs-bjj-tournament.state :refer [persistent-path]]))
+            [cljs-bjj-tournament.state :refer [persistent-path]]
+            [lonocloud.synthread :as ->]))
 
 (register-handler
   :add-match
@@ -16,6 +18,28 @@
   (persistent-path [:matches])
   (fn [matches [_ division p1 p2]]
     (conj matches (make-match division p1 p2))))
+
+(register-handler
+  :auto-create-matches
+  ;auto creates matches in the db
+  (persistent-path [:matches])
+  (fn [matches [_ division]]
+    (-> matches
+        (->/let [players (->> @app-db
+                              :competitors
+                              vals
+                              (map map->Competitor)
+                              (filter #(.in-division? division %))
+                              (partition 2)
+                              )
+                 matches (->> players
+                              (map (fn [[p1 p2]]
+                                     (when (some? p2)
+                                       (make-match (:name division)
+                                                   (:guid p1)
+                                                   (:guid p2)))))
+                              (remove nil?))]
+                (concat matches)))))
 
 (register-handler
   :move-competitor-up
