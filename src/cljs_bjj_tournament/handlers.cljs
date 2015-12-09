@@ -23,14 +23,33 @@
   :auto-create-matches
   ;auto creates matches in the db
   (persistent-path [:matches])
-  (fn [matches [_ division]]
+  (fn [matches [_ division sort-button]]
     (-> matches
-        (->/let [players (->> @app-db
+        (->/let [sort-fn (case sort-button
+                           :name #(.full-name %)
+                           #(- (float (sort-button %))))
+                 players (->> @app-db
                               :competitors
                               vals
-                              (filter #(.in-division? division %))
-                              (partition 2 2 nil))
-                 matches (->> players
+                              (sort-by sort-fn)
+                              (filter #(.in-division? division %)))
+                 num-players (count players)
+                 upper-division-size (-> num-players
+                                         (->> (.log js/Math))
+                                         (/ (.log js/Math 2))
+                                         int
+                                         inc
+                                         (->> (.pow js/Math 2)))
+                 remainder (-> upper-division-size
+                               (- num-players)
+                               (->> (- num-players)))
+                 partitioned-players (->> players
+                                          (take remainder)
+                                          (partition 2 2 nil))
+                 byes (->> players
+                          (drop remainder)
+                          (map (fn [p] [p nil])))
+                 matches (->> (concat partitioned-players byes)
                               (map (fn [[p1 p2]]
                                      (make-match (:name division)
                                                  (:guid p1)

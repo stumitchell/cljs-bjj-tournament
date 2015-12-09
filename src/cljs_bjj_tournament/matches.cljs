@@ -57,9 +57,7 @@
        :children
        [[h-box
          :justify :between
-         :children [[title
-                     :label "Matches"
-                     :level :level2]
+         :children [[title :label "Matches" :level :level2]
                     [button
                      :label "Show all"
                      :on-click #(reset! division #{})]]]
@@ -84,36 +82,31 @@
          :multi-select? false]
         [h-box
          :justify :between
-         :children [[title
-                     :label "Create a match"
-                     :level :level2]
+         :children [[title :label "Create a match" :level :level2]
                     [button
                      :label "Auto create matches"
-                     :on-click #(dispatch [:auto-create-matches (first @division)])]]]
+                     :on-click #(dispatch
+                                  [:auto-create-matches (first @division)
+                                   @sort-button])]]]
         [h-box
          :gap "5px"
          :children
-         [[title
-           :label "Sort by:"
-           :level :level3]
+         [[title :label "Sort by:" :level :level3]
           [radio-button
            :model @sort-button
            :value :name
            :on-change #(reset! sort-button :name)]
-          [label
-           :label "Name"]
+          [label :label "Name"]
           [radio-button
            :model @sort-button
            :value :yob
            :on-change #(reset! sort-button :yob)]
-          [label
-           :label "Age"]
+          [label :label "Age"]
           [radio-button
            :model @sort-button
            :value :weight
            :on-change #(reset! sort-button :weight)]
-          [label
-           :label "Weight"]]]
+          [label :label "Weight"]]]
         [h-box
          :gap "10px"
          :children

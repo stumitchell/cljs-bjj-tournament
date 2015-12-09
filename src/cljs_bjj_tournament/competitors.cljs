@@ -38,12 +38,12 @@
                  :width    (:actions col-widths)
                  :align    :center
                  :children [[row-button
-                             :md-icon-name    "md-mode-edit"
+                             :md-icon-name    "zmdi-edit"
                              :mouse-over-row? mouse-over-row?
                              :tooltip         "Edit this line"
                              :on-click        #(dispatch [:edit-competitor id])]
                             [row-button
-                             :md-icon-name    "md-delete"
+                             :md-icon-name    "zmdi-delete"
                              :mouse-over-row? mouse-over-row?
                              :tooltip         "Delete this line"
                              :on-click        #(dispatch [:delete-competitor id])]]]]]))
