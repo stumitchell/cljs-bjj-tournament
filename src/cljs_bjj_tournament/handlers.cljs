@@ -28,15 +28,13 @@
         (->/let [players (->> @app-db
                               :competitors
                               vals
-                              ; (map map->Competitor)
                               (filter #(.in-division? division %))
-                              (partition 2))
+                              (partition 2 2 nil))
                  matches (->> players
                               (map (fn [[p1 p2]]
-                                     (when (some? p2)
-                                       (make-match (:name division)
-                                                   (:guid p1)
-                                                   (:guid p2)))))
+                                     (make-match (:name division)
+                                                 (:guid p1)
+                                                 (:guid p2))))
                               (remove nil?))]
                 (concat matches)))))
 

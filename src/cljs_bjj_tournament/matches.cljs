@@ -13,7 +13,8 @@
                                  gap
                                  hyperlink-href
                                  hyperlink
-                                 radio-button]]))
+                                 radio-button
+                                 md-icon-button]]))
 (defn match-panel
   []
   (let [matches (subscribe [:matches])
@@ -26,23 +27,28 @@
         match-link (fn
                      [m]
                      (let [p1 (@competitors (:p1 m))
-                           p2 (@competitors (:p2 m))]
+                           p2 (@competitors (:p2 m))
+                           name-p1 (.full-name-club p1)
+                           name-p2 (if p2
+                                     (.full-name-club p2)
+                                     "BYE")
+                           url-p1 (.url-string p1 "p1")
+                           url-p2 (if p2
+                                    (.url-string p2 "p2")
+                                    "")]
                        [h-box
+                        :justify :between
                         :children
                         [[hyperlink-href
-                          :label (str "Start Match -- "
-                                      (.full-name-club p1) " Vs "
-                                      (.full-name-club p2))
-                          :href (str "scorejudo.html?"
-                                     (.url-string p1 "p1")
-                                     (.url-string p2 "p2"))
+                          :label (str "Start Match -- " name-p1 " Vs " name-p2)
+                          :href (str "scorejudo.html?" url-p1 url-p2)
                           ; :href (str "scoreMaster/index.html?"
                           ;            (.url-string p1 "p1")
                           ;            (.url-string p2 "p2"))
                           :target "_blank"]
-                         [gap :size "5em"]
-                         [hyperlink
-                          :label "[x]"
+                         [md-icon-button
+                          :size :smaller
+                          :md-icon-name "zmdi-delete"
                           :on-click #(dispatch [:delete-match (:guid m)])]]]))
         empty-selection? #(nil? (first %))]
 
