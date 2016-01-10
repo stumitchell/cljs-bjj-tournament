@@ -25,14 +25,19 @@
         division (atom #{(first @divisions)})
         sort-button (atom :weight)
         match-link (fn
-                     [m]
+                     [m id]
                      (let [p1 (@competitors (:p1 m))
                            p2 (@competitors (:p2 m))
-                           name-p1 (.full-name-club p1)
+                           name-p1 (if p1
+                                     (.full-name-club p1)
+                                     (:p1 m))
                            name-p2 (if p2
                                      (.full-name-club p2)
-                                     "BYE")
-                           url-p1 (.url-string p1 "p1")
+                                      (or (:p2 m)
+                                          "BYE"))
+                           url-p1 (if p1
+                                    (.url-string p1 "p1")
+                                    "")
                            url-p2 (if p2
                                     (.url-string p2 "p2")
                                     "")]
@@ -40,7 +45,10 @@
                         :justify :between
                         :children
                         [[hyperlink-href
-                          :label (str "Start Match -- " name-p1 " Vs " name-p2)
+                          :label (str "Start Match " (if id
+                                                       (inc id)
+                                                       "")
+                                      " -- " name-p1 " Vs " name-p2)
                           :href (str "scorejudo.html?" url-p1 url-p2)
                           ; :href (str "scoreMaster/index.html?"
                           ;            (.url-string p1 "p1")
@@ -68,7 +76,9 @@
                                                               (:name div))
                                                            true)))
                                                      @matches))]
-          ^{:key id} [match-link m id])
+          ^{:key id} (if (first @division)
+                       [match-link m id]
+                       [match-link m]))
         [button
          :label "Clear Matches"
          :on-click #(dispatch [:clear-matches (first @division)])]

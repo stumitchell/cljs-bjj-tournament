@@ -4,7 +4,7 @@
             [re-frame.db :refer [app-db]]))
 
 (defrecord Match
-  [guid division p1 p2])
+  [guid division p1 p2 winner])
 
 
 (defn make-match
@@ -12,7 +12,7 @@
   (Match. (-> (uuid/make-random-uuid)
               str
               keyword)
-          division p1 p2))
+          division p1 p2 nil))
 
 (defrecord Division
   [guid name age-divs belts min-weight max-weight]
