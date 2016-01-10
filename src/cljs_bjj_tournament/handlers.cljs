@@ -20,6 +20,16 @@
     (conj matches (make-match division p1 p2))))
 
 (register-handler
+  :clear-matches
+  ;deletes all the matches in a division
+  (persistent-path [:matches])
+  (fn [matches [_ division]]
+    (let [div-name (:name division)]
+      (if division
+        (remove #(= div-name (:division %)) matches)
+        []))))
+
+(register-handler
   :auto-create-matches
   ;auto creates matches in the db
   (persistent-path [:matches])
@@ -37,8 +47,7 @@
                  upper-division-size (-> num-players
                                          (->> (.log js/Math))
                                          (/ (.log js/Math 2))
-                                         int
-                                         inc
+                                         (->> (.ceil js/Math))
                                          (->> (.pow js/Math 2)))
                  remainder (-> upper-division-size
                                (- num-players)

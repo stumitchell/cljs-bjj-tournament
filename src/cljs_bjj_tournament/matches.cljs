@@ -69,6 +69,9 @@
                                                            true)))
                                                      @matches))]
           ^{:key id} [match-link m id])
+        [button
+         :label "Clear Matches"
+         :on-click #(dispatch [:clear-matches (first @division)])]
         [line]
         [title
          :label "Choose a division"
