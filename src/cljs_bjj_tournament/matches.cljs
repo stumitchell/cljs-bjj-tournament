@@ -60,25 +60,25 @@
                           :on-click #(dispatch [:delete-match (:guid m)])]]]))
         empty-selection? #(nil? (first %))]
 
-    (fn []
-      [v-box
-       :children
-       [[h-box
-         :justify :between
-         :children [[title :label "Matches" :level :level2]
-                    [button
-                     :label "Show all"
-                     :on-click #(reset! division #{})]]]
-        (for [[id m first? last?] (enumerate (filter (fn [m]
-                                                       (let [div (first @division)]
-                                                         (if div
-                                                           (= (:division m)
-                                                              (:name div))
-                                                           true)))
-                                                     @matches))]
-          ^{:key id} (if (first @division)
-                       [match-link m id]
-                       [match-link m]))
+(fn []
+  [v-box
+   :children
+   [[h-box
+     :justify :between
+     :children [[title :label "Matches" :level :level2]
+                [button
+                 :label "Show all"
+                 :on-click #(reset! division #{})]]]
+    (doall (for [[id m first? last?] (enumerate (filter (fn [m]
+                                                          (let [div (first @division)]
+                                                            (if div
+                                                              (= (:division m)
+                                                                 (:name div))
+                                                              true)))
+                                                        @matches))]
+             (if (first @division)
+               ^{:key id} [match-link m id]
+               ^{:key id} [match-link m])))
         [button
          :label "Clear Matches"
          :on-click #(dispatch [:clear-matches (first @division)])]
