@@ -1,18 +1,60 @@
 (ns cljs-bjj-tournament.model
   (:require [cljs.reader]
             [cljs-uuid-utils.core :as uuid]
-            [re-frame.db :refer [app-db]]))
+            [re-frame.db :refer [app-db]]
+            [re-com.core :as re-com]))
 
 (defrecord Match
-  [guid division p1 p2 winner])
+  [guid division p1 p2 match-num leaf1 leaf2]
+  Object
+  (match-href [_ competitors]
+              (let [c1 (competitors p1)
+                    c2 (competitors p2)
+                    name-p1 (if c1
+                              (.full-name-club c1)
+                              p1)
+                    name-p2 (if c2
+                              (.full-name-club c2)
+                              (or p2
+                                  "BYE"))
+                    url-p1 (if c1
+                             (.url-string c1 "p1")
+                             "")
+                    url-p2 (if c2
+                             (.url-string c2 "p2")
+                             "")
+                    label-str (str "Start Match -- "
+                               division
+                               " " match-num
+                               " -- " name-p1 " Vs " name-p2)]
+                (if (and c1 c2)
+                  [re-com/hyperlink-href
+                   :label label-str
+                   :href (str "scorejudo.html?" url-p1 url-p2)
+                   ; :href (str "scoreMaster/index.html?"
+                   ;            (.url-string p1 "p1")
+                   ;            (.url-string p2 "p2"))
+                   :target "_blank"]
+                  [re-com/hyperlink
+                   :label label-str
+                   :disabled? true]))))
 
 
 (defn make-match
-  [division p1 p2]
-  (Match. (-> (uuid/make-random-uuid)
-              str
-              keyword)
-          division p1 p2 nil))
+  ([division p1 p2 match-num]
+   (Match. (-> (uuid/make-random-uuid)
+               str
+               keyword)
+           division p1 p2
+           match-num
+           nil nil))
+  ([division p1 p2 match-num leaf1 leaf2]
+   (Match. (-> (uuid/make-random-uuid)
+               str
+               keyword)
+           division p1 p2
+           match-num
+           leaf1 leaf2)))
 
 (defrecord Division
   [guid name age-divs belts min-weight max-weight]
