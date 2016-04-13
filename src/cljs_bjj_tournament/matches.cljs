@@ -29,24 +29,32 @@
                          #{}))
         sort-button (atom :weight)
         match-link (fn [m]
-                     [h-box
-                        :justify :between
+                     (let [winner (:winner m)]
+                       [v-box
                         :children
                         [(.match-href m @competitors)
-                         [hyperlink
-                          :label "win p1"
-                          :on-click #(dispatch [:match-result
-                                                (:guid m)
-                                               (:p1 m)])]
-                         [hyperlink
-                          :label "win p2"
-                          :on-click #(dispatch [:match-result
-                                                (:guid m)
-                                               (:p2 m)])]
-                         [md-icon-button
-                          :size :smaller
-                          :md-icon-name "zmdi-delete"
-                          :on-click #(dispatch [:delete-match (:guid m)])]]])
+                         [h-box
+                          :justify :between
+                          :children [(when winner
+                                       [:span  (->> (@competitors winner)
+                                                   .full-name
+                                                   (str "Winner: "))])
+                                     (when-not (= winner (:p1 m))
+                                       [hyperlink
+                                        :label "win p1"
+                                        :on-click #(dispatch [:match-result
+                                                              (:guid m)
+                                                              (:p1 m)])])
+                                     (when-not (= winner (:p2 m))
+                                       [hyperlink
+                                        :label "win p2"
+                                        :on-click #(dispatch [:match-result
+                                                              (:guid m)
+                                                              (:p2 m)])])
+                                     [md-icon-button
+                                      :size :smaller
+                                      :md-icon-name "zmdi-delete"
+                                      :on-click #(dispatch [:delete-match (:guid m)])]]]]]))
         empty-selection? #(nil? (first %))
         ]
 
@@ -84,11 +92,18 @@
         [h-box
          :justify :between
          :children [[title :label "Create a match" :level :level2]
-                    [button
-                     :label "Auto create matches"
+                    [v-box
+                     :children
+                     [[button
+                     :label "Create single elimination"
                      :on-click #(dispatch
-                                  [:auto-create-matches (first @division)
-                                   @sort-button])]]]
+                                  [:create-single-elimination (first @division)
+                                   @sort-button])]
+                      [button
+                     :label "Create round robin"
+                     :on-click #(dispatch
+                                  [:create-round-robin (first @division)
+                                   @sort-button])]]]]]
         [h-box
          :gap "5px"
          :children

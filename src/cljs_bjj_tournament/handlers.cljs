@@ -68,7 +68,7 @@
                               next-round)))))
 
 (register-handler
-  :auto-create-matches
+  :create-single-elimination
   ;auto creates matches in the db
   (persistent-path [:matches])
   (fn [matches [_ division sort-button]]
@@ -111,6 +111,62 @@
                 (concat all-rounds)
                 ))))
 
+(defn- index-combinations
+  [n cnt]
+  (lazy-seq
+    (let [c (vec (cons nil (for [j (range 1 (inc n))] (+ j cnt (- (inc n)))))),
+          iter-comb
+          (fn iter-comb [c j]
+            (if (> j n) nil
+              (let [c (assoc c j (dec (c j)))]
+                (if (< (c j) j) [c (inc j)]
+                  (loop [c c, j j]
+                    (if (= j 1) [c j]
+                      (recur (assoc c (dec j) (dec (c j))) (dec j)))))))),
+          step
+          (fn step [c j]
+            (cons (rseq (subvec c 1 (inc n)))
+                  (lazy-seq (let [next-step (iter-comb c j)]
+                              (when next-step (step (next-step 0) (next-step 1)))))))]
+      (step c 1))))
+
+(defn combinations
+  "All the unique ways of taking t different elements from items"
+  [items t]
+  (let [v-items (vec (reverse items))]
+    (if (zero? t) (list ())
+      (let [cnt (count items)]
+        (cond (> t cnt) nil
+              (= t 1) (for [item (distinct items)] (list item))
+              :else (if (= t cnt)
+                      (list (seq items))
+                      (map #(map v-items %) (index-combinations t cnt))))))))
+
+(register-handler
+  :create-round-robin
+  ;auto creates matches in the db
+  (persistent-path [:matches])
+  (fn [matches [_ division sort-button]]
+    (-> matches
+        (->/let [sort-fn (case sort-button
+                           :name #(.full-name %)
+                           #(- (float (sort-button %))))
+                 players (->> @app-db
+                              :competitors
+                              vals
+                              (sort-by sort-fn)
+                              (filter #(.in-division? division %)))
+                 partitioned-players (combinations players 2)
+                 round (->> partitioned-players
+                              (map-indexed (fn [i [p1 p2]]
+                                     (make-match (:name division)
+                                                 (:guid p1)
+                                                 (:guid p2)
+                                                 (inc i))))
+                              (remove nil?))]
+                (concat round)
+                ))))
+
 (register-handler
   :match-result
   (persistent-path [:matches])
@@ -125,6 +181,10 @@
                   (if (= (:leaf2 m)
                          match-guid)
                     (assoc m :p2 winner-guid)
+                    m)))
+           (map (fn [m]
+                  (if (= (:guid m) match-guid)
+                    (assoc m :winner winner-guid)
                     m)))))))
 
 (register-handler
