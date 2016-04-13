@@ -21,7 +21,7 @@
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
   :figwheel {:css-dirs ["resources/public/css"] ;; watch and update CSS
-             }
+             :repl false}
 
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src"]

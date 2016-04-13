@@ -17,12 +17,16 @@
                                  md-icon-button]]))
 (defn match-panel
   []
-  (let [matches (subscribe [:matches])
+  (let [
+        matches (subscribe [:matches])
         competitors (subscribe [:competitors])
         divisions (subscribe [:divisions])
         choice1 (atom #{})
         choice2 (atom #{})
-        division (atom #{(first @divisions)})
+        default-division (first @divisions)
+        division (atom (if default-division
+                         #{default-division}
+                         #{}))
         sort-button (atom :weight)
         match-link (fn [m]
                      [h-box
@@ -43,7 +47,8 @@
                           :size :smaller
                           :md-icon-name "zmdi-delete"
                           :on-click #(dispatch [:delete-match (:guid m)])]]])
-        empty-selection? #(nil? (first %))]
+        empty-selection? #(nil? (first %))
+        ]
 
 (fn []
   [v-box

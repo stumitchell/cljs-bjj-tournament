@@ -30,10 +30,8 @@
                 (if (and c1 c2)
                   [re-com/hyperlink-href
                    :label label-str
-                   :href (str "scorejudo.html?" url-p1 url-p2)
-                   ; :href (str "scoreMaster/index.html?"
-                   ;            (.url-string p1 "p1")
-                   ;            (.url-string p2 "p2"))
+                   ; :href (str "scorejudo.html?" url-p1 url-p2)
+                   :href (str "scoreMaster/index.html?" url-p1 url-p2)
                    :target "_blank"]
                   [re-com/hyperlink
                    :label label-str
@@ -91,7 +89,7 @@
 
 (defn age-division
   [c]
-  (let [age (- 2015 (:yob c))]
+  (let [age (- 2016 (:yob c))]
     (cond
       (< age 20) "U19"
       (< age 30) "U29"
@@ -114,7 +112,6 @@
                               " -- " weight "kg"))
   (url-string [this p] (str p "Name=" (.full-name this) "&"
                             p "Team=" (:full-name (.get-club this)) "&"
-                            p "DefaultLogoPath=" (:image-url (.get-club this)) "&"
                             p "DefaultLogoPath=" (:image-url (.get-club this)) "&"))
   (age-div [this] (age-division this)))
 

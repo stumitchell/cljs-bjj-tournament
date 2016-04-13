@@ -46,46 +46,33 @@
 
 
 (def bjj-masters-divisions
-  (let [divisions  [(make-division "ALL")
-                   (make-division "White Belt M1 M2 - Light"
-                                  #(and (= (:belt %) "White")
-                                        (#{"M1" "M2"} (.age-div %))
-                                        (> 74 (:weight %))))
-                   (make-division "White Belt M2 M2 - Medium"
-                                  #(and (= (:belt %) "White")
-                                        (#{"M1" "M2"} (.age-div %))
-                                        (> 85 (:weight %))
-                                        (< 74 (:weight %))))
-                   (make-division "White Belt M2 M2 - Heavy"
-                                  #(and (= (:belt %) "White")
-                                        (#{"M1" "M2"} (.age-div %))
-                                        (< 85 (:weight %))))
-                   (make-division "White Belt M3 M4 - Light"
-                                  #(and (= (:belt %) "White")
-                                        (or
-                                          (= (.age-div %) "M3")
-                                          (= (.age-div %) "M4"))))
-                   (make-division "Blue Belt M1 M2 - Light"
-                                  #(and (= (:belt %) "Blue")
-                                        (#{"M1" "M2" "M3" "M4"} (.age-div %))
-                                        (> 95 (:weight %))))
-                   (make-division "Blue Belt M1 M2 - Heavy"
-                                  #(and (= (:belt %) "Blue")
-                                        (#{"M1" "M2"} (.age-div %))
-                                        (< 95 (:weight %))))
-                   (make-division "Blue Belt M3 M4 - Light"
-                                  #(and (= (:belt %) "Blue")
-                                        (#{"M3" "M4"} (.age-div %))
-                                        (> 90 (:weight %))))
-                   (make-division "Blue Belt M3 M4 - Heavy"
-                                  #(and (= (:belt %) "Blue")
-                                        (#{"M3" "M4"} (.age-div %))
-                                        (< 90 (:weight %))))
-                   (make-division "Blue Belt M5"
-                                  #(and (= (:belt %) "Blue")
-                                        (= (.age-div %) "M5")))]]
-      (into (sorted-map) (for [d divisions]
-                                       [(:name d) d]))))
+  (let [divisions  [(make-division :name "ALL")
+                   (make-division :name "White Belt M1 M2 - Light"
+                                  :age-divs #{"M1" "M2"}
+                                  :belts #{"White"}
+                                  :max-weight 80)
+                   (make-division :name "White Belt M1 M2 - Heavy"
+                                  :age-divs #{"M1" "M2"}
+                                  :belts #{"White"}
+                                  :min-weight 81)
+                   (make-division :name "White Belt M3 M4"
+                                  :age-divs #{"M3" "M4"}
+                                  :belts #{"White"})
+                   (make-division :name "Blue Belt M1 M2 - Light"
+                                  :age-divs #{"M1" "M2"}
+                                  :belts #{"Blue"}
+                                  :max-weight 90)
+                   (make-division :name "Blue Belt M1 M2 - Heavy"
+                                  :age-divs #{"M1" "M2"}
+                                  :belts #{"Blue"}
+                                  :min-weight 91)
+                   (make-division :name "Blue Belt M3 M4"
+                                  :age-divs #{"M3" "M4"}
+                                  :belts #{"Blue"})
+                   (make-division :name "Blue Belt M5"
+                                  :age-divs #{"M5"}
+                                  :belts #{"Blue"})]]
+      divisions))
 
 (def judo-masters-divisions
   [(make-division :name "ALL")
@@ -104,7 +91,7 @@
    :page :intro
    :clubs judo-clubs
    ; :competitors competitors-map
-   :divisions judo-masters-divisions
+   :divisions bjj-masters-divisions
    ; :matches [(make-match "ALL" (:guid (first (vals competitors-map)))
    ;                          (:guid (last (vals competitors-map))))]
    })
