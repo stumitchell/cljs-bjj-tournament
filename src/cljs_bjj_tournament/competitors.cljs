@@ -17,42 +17,67 @@
             [re-frame.core :refer [subscribe
                                    dispatch]]
             [reagent.core :as reagent]
+            [reagent.ratom :as ratom :refer-macros [reaction]]
             [cljs-bjj-tournament.model :refer [make-competitor
                                                read-csv]]))
+(defn input-field
+  [row col-widths field-key editing? temp-row]
+  (if editing?
+    [input-text
+     :model (field-key @temp-row)
+     :width (field-key col-widths)
+     :on-change #(swap! temp-row assoc field-key %)]
+    [label :label (field-key row) :width (field-key col-widths)]))
+
+(defn editing-buttons
+  [id row editing-row mouse-over col-widths temp-row]
+  (let [editing? (= @editing-row id)
+        mouse-over-row? (= @mouse-over row)]
+    [h-box
+     :gap      "2px"
+     :width    (:actions col-widths)
+     :align    :center
+     :children [[row-button
+                 :md-icon-name    "zmdi-edit"
+                 :mouse-over-row? mouse-over-row?
+                 :tooltip         "Edit this line"
+                 :on-click        (if editing?
+                                    (handler-fn
+                                      (dispatch [:add-competitor @temp-row])
+                                      (reset! editing-row nil))
+                                    #(reset! editing-row id))]
+                [row-button
+                 :md-icon-name    "zmdi-delete"
+                 :mouse-over-row? mouse-over-row?
+                 :tooltip         "Delete this line"
+                 :on-click        #(dispatch [:delete-competitor id])]]]))
 
 (defn data-row
-  [id row first? last? col-widths mouse-over click-msg]
-  (let [mouse-over-row? (identical? @mouse-over row)]
-    [h-box
-     :class    "rc-div-table-row"
-     :attr     {:on-mouse-over (handler-fn (reset! mouse-over row))
-                :on-mouse-out  (handler-fn (reset! mouse-over nil))}
-     :children [[label :label (.full-name row) :width (:name col-widths)]
-                [label :label (:gender row) :width (:gender col-widths)]
-                [label :label (:club-name row) :width (:club-name col-widths)]
-                [label :label (:yob   row) :width (:yob   col-widths)]
-                [label :label (:weight   row) :width (:weight   col-widths)]
-                [label :label (:belt   row) :width (:belt   col-widths)]
-                [h-box
-                 :gap      "2px"
-                 :width    (:actions col-widths)
-                 :align    :center
-                 :children [[row-button
-                             :md-icon-name    "zmdi-edit"
-                             :mouse-over-row? mouse-over-row?
-                             :tooltip         "Edit this line"
-                             :on-click        #(dispatch [:edit-competitor id])]
-                            [row-button
-                             :md-icon-name    "zmdi-delete"
-                             :mouse-over-row? mouse-over-row?
-                             :tooltip         "Delete this line"
-                             :on-click        #(dispatch [:delete-competitor id])]]]]]))
+  [& {:keys [id row first?
+                   last? col-widths mouse-over
+                   click-msg editing-row]}]
+      (let [editing? (= @editing-row id)
+            temp-row (reagent/atom row)]
+        [h-box
+         :class    "rc-div-table-row"
+         :attr     {:on-mouse-over (handler-fn (reset! mouse-over row))
+                    :on-mouse-out  (handler-fn (reset! mouse-over nil))}
+         :children [[input-field row col-widths :fname editing? temp-row]
+                    [input-field row col-widths :lname editing? temp-row]
+                    [input-field row col-widths :gender editing? temp-row]
+                    [input-field row col-widths :club-name editing? temp-row]
+                    [input-field row col-widths :yob editing? temp-row]
+                    [input-field row col-widths :weight editing? temp-row]
+                    [input-field row col-widths :belt editing? temp-row]
+                    [editing-buttons id row editing-row mouse-over col-widths
+                     temp-row]]]))
 
 (defn data-table
   []
   (let [mouse-over (reagent/atom nil)
         click-msg  (reagent/atom "")
         sort-key   (reagent/atom :fname)
+        editing-row (reagent/atom nil)
         label-fn   (fn [label-str label-key col-widths]
                      [h-box
                       :gap "2px"
@@ -79,23 +104,35 @@
       [v-box
        :align    :start
        :gap      "10px"
-       :children [[v-box
-                   :class    "rc-div-table"
-                   :children [^{:key "0"}
-                              [h-box
-                               :class    "rc-div-table-header"
-                               :children [[label-fn "Name" :name col-widths]
-                                          [label-fn "Gender" :gender col-widths]
-                                          [label-fn "Club" :club-name col-widths]
-                                          [label-fn "YOB" :yob col-widths]
-                                          [label-fn "Weight" :weight col-widths]
-                                          [label-fn "Belt" :belt col-widths]
-                                          [label-fn "Actions" :actions col-widths]]]
-                              (for [[id row first? last?] (enumerate
-                                                            (sort-by
-                                                              (sort-fn @sort-key)
-                                                              rows))]
-                                ^{:key id} [data-row (:guid row) row first? last? col-widths mouse-over click-msg])]]]])))
+       :children
+       [[v-box
+         :class    "rc-div-table"
+         :children
+         [^{:key "0"}
+          [h-box
+           :class    "rc-div-table-header"
+           :children
+           [[label-fn "First Name" :fname col-widths]
+            [label-fn "Last Name" :lname col-widths]
+            [label-fn "Gender" :gender col-widths]
+            [label-fn "Club" :club-name col-widths]
+            [label-fn "YOB" :yob col-widths]
+            [label-fn "Weight" :weight col-widths]
+            [label-fn "Belt" :belt col-widths]
+            [label-fn "Actions" :actions col-widths]]]
+          (for [[id row first? last?] (enumerate
+                                        (sort-by
+                                          (sort-fn @sort-key)
+                                          rows))]
+            ^{:key id} [data-row
+                        :id (:guid row)
+                        :row row
+                        :first?  first?
+                        :last? last?
+                        :col-widths col-widths
+                        :mouse-over mouse-over
+                        :click-msg click-msg
+                        :editing-row editing-row])]]]])))
 
 (defn field-label
   ;takes the field label and a text or hiccup help text
@@ -131,7 +168,7 @@
         new-competitor (reagent/atom
                          (make-competitor "fname" "lname"
                                           "gender" "yob" "belt"
-                                          "club-name" 0))]
+                                          "club-name" "0"))]
     (fn []
       (let [competitor (if-not (nil? @edit-competitor)
                          (reagent/atom (@competitors @edit-competitor))
@@ -139,26 +176,27 @@
         [v-box
          :gap "5px"
          :children
-         [[title
-           :label (if @edit-competitor
-                    "Edit Competitor"
-                    "Add competitor ")]
-          [competitor-field "First Name" :fname competitor]
-          [competitor-field "Last Name" :lname competitor]
-          [competitor-field "Gender" :gender competitor]
-          [competitor-field "YOB" :yob competitor]
-          [competitor-field "Weight" :weight competitor]
-          [competitor-field "Belt" :belt competitor]
-          [competitor-field "Club" :club-name competitor]
+         [
+          ; [title
+          ;  :label (if @edit-competitor
+          ;           "Edit Competitor"
+          ;           "Add competitor ")]
+          ; [competitor-field "First Name" :fname competitor]
+          ; [competitor-field "Last Name" :lname competitor]
+          ; [competitor-field "Gender" :gender competitor]
+          ; [competitor-field "YOB" :yob competitor]
+          ; [competitor-field "Weight" :weight competitor]
+          ; [competitor-field "Belt" :belt competitor]
+          ; [competitor-field "Club" :club-name competitor]
           [button
-           :label "Save"
+           :label "Add Competitor"
            :on-click (fn []
                        (dispatch [:add-competitor @competitor])
                        (dispatch [:edit-competitor nil])
                        (reset! new-competitor
                                (make-competitor "fname" "lname"
                                                 "gender" "yob" "belt"
-                                                "club-name" 0)))]]]))))
+                                                "club-name" "0")))]]]))))
 
 (defn- load-file-handler
   []
@@ -179,8 +217,8 @@
 (defn competitor-panel
   []
   (let [competitors (subscribe [:competitors])
-        col-widths {:name "15em" :gender "6em" :club-name "15em" :yob "4em"
-                    :weight "4.5em" :belt "4.5em" :actions "4.5em"}]
+        col-widths {:fname "12em" :lname "12em" :gender "6em" :club-name "10em" :yob "6em"
+                    :weight "6em" :belt "6em" :actions "6em"}]
     (fn []
       [v-box
        :gap "10px"

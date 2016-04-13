@@ -153,6 +153,7 @@
   :add-competitor
   (persistent-path [:competitors])
   (fn [competitors [_ competitor]]
+    (print competitor)
     (assoc competitors (:guid competitor) competitor)))
 
 (register-handler
